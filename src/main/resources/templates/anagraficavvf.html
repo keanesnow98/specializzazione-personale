@@ -1,0 +1,557 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+>
+  <head>
+    <title>Anagrafica</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!-- ICON -->
+    <script src="/js/feather.min.js"></script>
+
+    <!-- CHARTJS -->
+    <script src="/js/chart.min.js"></script>
+
+    <!-- DASHBOARD CSS -->
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/dashboard.rtl.css" />
+
+    <!-- BOOTSTRAP -->
+    <link
+      rel="stylesheet"
+      href="webjars/bootstrap/5.2.2/css/bootstrap.min.css"
+    />
+    <script src="/webjars/bootstrap/5.2.2/js/bootstrap.min.js"></script>
+
+    <!-- JQUERY -->
+    <script src="/webjars/jquery/3.6.1/jquery.min.js"></script>
+
+    <!-- DATATABLE -->
+    <link rel="stylesheet" href="/css/datatable/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="/css/datatable/select.dataTables.min.css" />
+    <script src="/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="/js/datatable/dataTables.select.min.js"></script>
+  </head>
+
+  <body>
+    <header
+      class="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow"
+      style="background-color: #b70000;"
+    >
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/home">
+        <img style="width: 85%;" src="/img/logoTxt.png" />
+      </a>
+      <button
+        class="navbar-toggler position-absolute d-md-none collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#sidebarMenu"
+        aria-controls="sidebarMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"-->
+      <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+          <a class="nav-link px-3" href="/logout">Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row">
+        <!-- NAV MENU -->
+        <div th:remove="tag" th:utext="${menu}"></div>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Anagrafica</h1>
+          </div>
+
+          <!-- FORM DETTAGLIO -->
+          <div class="col-md-6 col-lg-12">
+            <form
+              action="#"
+              id="dettaglio"
+              th:action="@{/anagraficavvf}"
+              th:object="${anagraficaModel}"
+              method="post"
+            >
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label for="qualifica" class="form-label">Qualifica</label>
+                  <select
+                    class="form-select"
+                    th:field="*{qualifica}"
+                    id="qualifica"
+                    required
+                  >
+                    <option
+                      th:value="''"
+                      th:text="'Seleziona qualifica...'"
+                    ></option>
+                    <option
+                      th:value="'Qualifica 1'"
+                      th:text="'Qualifica 1'"
+                    ></option>
+                    <option
+                      th:value="'professore'"
+                      th:text="'professore'"
+                    ></option>
+                    <option th:value="'capo'" th:text="'capo'"></option>
+                    <option
+                      th:value="'pescatore'"
+                      th:text="'pescatore'"
+                    ></option>
+                    <option th:value="'bidello'" th:text="'bidello'"></option>
+                    <option th:value="'bidello'" th:text="'bidello'"></option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Selezionare una qualifica valida.
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="cognome" class="form-label">Cognome</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:field="*{cognome}"
+                    style="text-transform: capitalize;"
+                    onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Inserire cognome.
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="nome" class="form-label">Nome</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:field="*{nome}"
+                    style="text-transform: capitalize;"
+                    onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Inserire nome.
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="ruolo" class="form-label">Ruolo</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    th:field="*{ruolo}"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Inserire ruolo.
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="turno" class="form-label">Turno</label>
+                  <select class="form-select" th:field="*{turno}" required>
+                    <option
+                      th:value="''"
+                      th:text="'Seleziona Turno...'"
+                    ></option>
+                    <option th:value="'Turno A'" th:text="'Turno A'"></option>
+                    <option th:value="'A1'" th:text="'A1'"></option>
+                    <option th:value="'A2'" th:text="'A2'"></option>
+                    <option th:value="'A3'" th:text="'A3'"></option>
+                    <option th:value="'A4'" th:text="'A4'"></option>
+                    <option th:value="'A5'" th:text="'A5'"></option>
+                    <option th:value="'A6'" th:text="'A6'"></option>
+                    <option th:value="'A7'" th:text="'A7'"></option>
+                    <option th:value="'A8'" th:text="'A8'"></option>
+                    <option th:value="'A9'" th:text="'A9'"></option>
+                    <option th:value="'B1'" th:text="'B1'"></option>
+                    <option th:value="'B2'" th:text="'B2'"></option>
+                    <option th:value="'B3'" th:text="'B3'"></option>
+                    <option th:value="'B4'" th:text="'B4'"></option>
+                    <option th:value="'B5'" th:text="'B5'"></option>
+                    <option th:value="'B6'" th:text="'B6'"></option>
+                    <option th:value="'B7'" th:text="'B7'"></option>
+                    <option th:value="'B8'" th:text="'B8'"></option>
+                    <option th:value="'B9'" th:text="'B9'"></option>
+                    <option th:value="'C1'" th:text="'C1'"></option>
+                    <option th:value="'C2'" th:text="'C2'"></option>
+                    <option th:value="'C3'" th:text="'C3'"></option>
+                    <option th:value="'C4'" th:text="'C4'"></option>
+                    <option th:value="'C5'" th:text="'C5'"></option>
+                    <option th:value="'C6'" th:text="'C6'"></option>
+                    <option th:value="'C7'" th:text="'C7'"></option>
+                    <option th:value="'C8'" th:text="'C8'"></option>
+                    <option th:value="'C9'" th:text="'C9'"></option>
+                    <option th:value="'D1'" th:text="'D1'"></option>
+                    <option th:value="'D2'" th:text="'D2'"></option>
+                    <option th:value="'D3'" th:text="'D3'"></option>
+                    <option th:value="'D4'" th:text="'D4'"></option>
+                    <option th:value="'D5'" th:text="'D5'"></option>
+                    <option th:value="'D6'" th:text="'D6'"></option>
+                    <option th:value="'D7'" th:text="'D7'"></option>
+                    <option th:value="'D8'" th:text="'D8'"></option>
+                    <option th:value="'D9'" th:text="'D9'"></option>
+                    <option th:value="'G'" th:text="'G'"></option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Selezionare un turno valido.
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="codiceFiscale" class="form-label">
+                    Codice Fiscale
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:field="*{codiceFiscale}"
+                    style="text-transform: uppercase;"
+                    onchange="this.value = this.value.toUpperCase();"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Inserire codice fiscale.
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="numeroTelefonico" class="form-label">
+                    Numero Telefonico
+                  </label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    th:field="*{numeroTelefonico}"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Inserire numero di telefono.
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <label for="eMail" class="form-label">
+                    Email
+                    <span class="text-muted">(Optional)</span>
+                  </label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    th:field="*{eMail}"
+                    style="text-transform: lowercase;"
+                    onchange="this.value = this.value.toLowerCase();"
+                    placeholder="you@example.com"
+                  />
+                  <div class="invalid-feedback">
+                    Si prega di inserire un indirizzo e-Mail valido.
+                  </div>
+                </div>
+                <hr class="my-4" />
+
+                <!-- BUTTON -->
+                <div class="col-md-2">
+                  <input
+                    type="reset"
+                    value="Pulisci campi"
+                    class="w-100 btn btn-primary btn-lg"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <input
+                    type="submit"
+                    value="Salva"
+                    class="w-100 btn btn-primary btn-lg"
+                    id="savePerson"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <input
+                    type="button"
+                    value="Modifica Persona"
+                    class="w-100 btn btn-primary btn-lg"
+                    id="modifyPerson"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <button
+                    type="button"
+                    class="w-100 btn btn-primary btn-lg"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                  >
+                    Cancella Persona
+                  </button>
+                </div>
+
+                <hr class="my-4" />
+              </div>
+            </form>
+          </div>
+
+          <div th:if="${esito} == 'true'" id="esitoOk">
+            <div class="alert alert-success">
+              Inserimento Effettuato con successo!
+            </div>
+          </div>
+          <div th:if="${esito} == 'false'" id="esitoKo">
+            <div class="alert alert-danger">Errore nel salvataggio!</div>
+          </div>
+
+          <!-- TABELLA DINAMICA -->
+          <script th:inline="javascript">
+            var idOfSel = ''
+
+            $(document).ready(function () {
+              //TABLE PROPERTIES
+              $('#myTableId').DataTable({
+                responsive: true,
+                columnDefs: [
+                  {
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                  },
+                ],
+                select: {
+                  style: 'os',
+                  selector: 'td:first-child',
+                },
+              })
+
+              // var table = $('#myTableId').DataTable()
+              //REMOVE SELECTED ROW
+              $('#deleteRow').click(function () {
+                if (idOfSel !== '') {
+                  var table = $('#myTableId').DataTable()
+                  var sel = table.row('.selected')
+                  // var $data = $sel.nodes()[0].children
+                  $.post(
+                    '/anagraficavvf/remove/' +
+                      // $data[$data.length - 1].textContent,
+                      idOfSel,
+                    () => {
+                      sel.remove().draw()
+                      idOfSel = ''
+                    },
+                  )
+                }
+              })
+
+              $.postJSON = function (url, data, callback) {
+                return jQuery.ajax({
+                  type: 'POST',
+                  url: url,
+                  contentType: 'application/json; charset=utf-8',
+                  data: JSON.stringify(data),
+                  dataType: 'json',
+                  complete: callback,
+                })
+              }
+
+              $('#modifyPerson').click(function () {
+                if (idOfSel !== '' && $('form#dettaglio')[0].checkValidity()) {
+                  var sel = $('#myTableId').DataTable().row('.selected')
+                  var $data = sel.nodes()[0].children
+                  var $inputs = {
+                    qualifica: $('#qualifica').val(),
+                    cognome: $('#cognome').val(),
+                    nome: $('#nome').val(),
+                    ruolo: $('#ruolo').val(),
+                    turno: $('#turno').val(),
+                    codiceFiscale: $('#codiceFiscale').val(),
+                    numeroTelefonico: $('#numeroTelefonico').val(),
+                    eMail: $('#eMail').val(),
+                  }
+                  $.postJSON(
+                    '/anagraficavvf/modify/' +
+                      // $data[$data.length - 1].textContent,
+                      idOfSel,
+                    $inputs,
+                    function () {
+                      $data[1].textContent = $inputs.qualifica
+                      $data[2].textContent = $inputs.cognome
+                      $data[3].textContent = $inputs.nome
+                      $data[4].textContent = $inputs.ruolo
+                      $data[5].textContent = $inputs.turno
+                      $data[6].textContent = $inputs.codiceFiscale
+                      $data[7].textContent = $inputs.numeroTelefonico
+                      $data[8].textContent = $inputs.eMail
+                    },
+                  )
+                }
+              })
+
+              //FADOUT SAVING
+              $('#esitoOk').fadeOut(3000)
+              $('#esitoKo').fadeOut(5000)
+
+              //Click singola riga tabella e logga
+
+              $('#myTableId tbody').on('click', 'tr', function (event) {
+                // console.log($('#myTableId').DataTable().row(event.currentTarget).data())
+                if ($(this).hasClass('selected')) {
+                  $(this).removeClass('selected')
+                  idOfSel = ''
+                } else {
+                  $('#myTableId')
+                    .DataTable()
+                    .$('tr.selected')
+                    .removeClass('selected')
+                  $(this).addClass('selected')
+                  var $data = $(this)[0].children
+                  $('#qualifica').val($data[1].textContent)
+                  $('#cognome').val($data[2].textContent)
+                  $('#cognome').change()
+                  $('#nome').val($data[3].textContent)
+                  $('#nome').change()
+                  $('#ruolo').val($data[4].textContent)
+                  $('#turno').val($data[5].textContent)
+                  $('#codiceFiscale').val($data[6].textContent)
+                  $('#codiceFiscale').change()
+                  $('#numeroTelefonico').val($data[7].textContent)
+                  $('#eMail').val($data[8].textContent)
+                  $('#eMail').change()
+                  idOfSel = $data[9].textContent
+                }
+              })
+
+              //Click su SavePerson per Uppercase testi
+              /* $("#savePerson").on("click", function (e) {
+
+                 	var cognome = document.getElementById("nome").value;
+                 	var nome = document.getElementById("nome").value;
+
+            alert(nome);
+                 	const arr = nome.split(" ");
+
+                 	//loop through each element of the array and capitalize the first letter.
+
+
+                 	for (var i = 0; i < arr.length; i++) {
+                 	    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+
+                 	}
+
+                 	//Join all the elements of the array back into a string
+                 	//using a blankspace as a separator
+                 	const str2 = arr.join(" ");
+                 	alert(str2);
+             		return false;
+             	});*/
+            })
+          </script>
+
+          <table
+            id="myTableId"
+            class="display"
+            style="width: 100%;"
+            dt:table="true"
+          >
+            <thead>
+              <tr>
+                <th></th>
+                <th>Qualifica</th>
+                <th>Cognome</th>
+                <th>Nome</th>
+                <th>Ruolo</th>
+                <th>Turno</th>
+                <th>Codice Fiscale</th>
+                <th>Numero Telefonico</th>
+                <th>e-Mail</th>
+                <th hidden></th>
+                <!-- <th>x</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="person : ${anagrafica}">
+                <td></td>
+                <td th:text="${person?.qualifica}">qualifica</td>
+                <td th:text="${person?.cognome}">cognome</td>
+                <td th:text="${person?.nome}">nome</td>
+                <td th:text="${person?.ruolo}">ruolo</td>
+                <td th:text="${person?.turno}">turno</td>
+                <td th:text="${person?.codiceFiscale}">codiceFiscale</td>
+                <td th:text="${person?.numeroTelefonico}">numeroTelefonico</td>
+                <td th:text="${person?.eMail}">eMail</td>
+                <td hidden th:text="${person?._id}"></td>
+                <!-- <td><a th:href="${'/product/delete/'}">Delete</a></td> -->
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- p th:text="${anagrafica}" -->
+
+          <!-- POPUP MODALE NASCOSTO-->
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    Cancella Persona
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  Sei sicuro di voler eliminare la persona selezionata?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Chiudi
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    id="deleteRow"
+                  >
+                    Rimuovi
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer mt-auto py-3 bg-light">
+      <div class="container" style="text-align: center;">
+        <span class="text-muted">Ft</span>
+      </div>
+    </footer>
+
+    <!-- ICON -->
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
