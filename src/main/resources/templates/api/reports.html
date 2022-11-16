@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Reports
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      content="A fully featured admin theme which can be used to build CRM, CMS, etc."
+      name="description"
+    />
+    <meta content="Coderthemes" name="author" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+
+    <!-- Datatables css -->
+    <link
+      href="../assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="../assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- <link
+      href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    /> -->
+
+    <!-- Theme Config Js -->
+    <script src="../assets/js/hyper-config.js"></script>
+
+    <!-- App css -->
+    <link
+      href="../assets/css/app-saas.min.css"
+      rel="stylesheet"
+      type="text/css"
+      id="app-style"
+    />
+
+    <!-- Icons css -->
+    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <!-- Begin page -->
+    <div class="wrapper">
+      <!-- ========== Topbar Start ========== -->
+      <div
+        class="content-header"
+        th:replace="/api/common/topbar::topbarFragment"
+      ></div>
+      <!-- ========== Topbar End ========== -->
+
+      <!-- ========== Left Sidebar Start ========== -->
+      <div
+        class="content-header"
+        th:replace="/api/common/sidebar::sidebarFragment"
+      ></div>
+      <!-- ========== Left Sidebar End ========== -->
+
+      <!-- ============================================================== -->
+      <!-- Start Page Content here -->
+      <!-- ============================================================== -->
+
+      <div class="content-page">
+        <div class="content">
+          <!-- Start Content-->
+          <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+              <div class="col-12">
+                <div class="page-title-box">
+                  <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                      <!-- <li class="breadcrumb-item">
+                        <a href="javascript: void(0);">Hyper</a>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a href="javascript: void(0);">Forms</a>
+                      </li> -->
+                      <li class="breadcrumb-item active">Reports</li>
+                    </ol>
+                  </div>
+                  <h4 class="page-title">Reports</h4>
+                </div>
+              </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="mt-3 md-3"></div>
+                    <div class="accordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTurnoA">
+                          <button
+                            class="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTurnoA"
+                            aria-expanded="true"
+                            aria-controls="collapseTurnoA"
+                          >
+                            Turno A
+                          </button>
+                        </h2>
+                        <div
+                          id="collapseTurnoA"
+                          class="accordion-collapse collapse show"
+                          aria-labelledby="headingTurnoA"
+                        >
+                          <div class="accordion-body">
+                            <table
+                              class="table table-striped dt-responsive nowrap w-100"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Qualification</th>
+                                  <th>Specialties</th>
+                                  <th>Name</th>
+                                  <th>Fiscal code</th>
+                                  <th>Phone number</th>
+                                  <th>Email</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr th:each="person : ${turnoA}">
+                                  <td th:text="${person.qualification}"></td>
+                                  <td></td>
+                                  <td
+                                    th:text="${person.firstName} + ' ' + ${person.lastName}"
+                                  ></td>
+                                  <td th:text="${person.fiscalCode}"></td>
+                                  <td th:text="${person.phoneNumber}"></td>
+                                  <td th:text="${person.contactEmail}"></td>
+                                </tr>
+                              </tbody>
+                              <tfoot>
+                                <tr>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Qualification"
+                                      />
+                                    </div>
+                                  </th>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Specialties"
+                                      />
+                                    </div>
+                                  </th>
+                                  <th></th>
+                                  <th></th>
+                                  <th></th>
+                                  <th></th>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTurnoB">
+                          <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTurnoB"
+                            aria-expanded="false"
+                            aria-controls="collapseTurnoB"
+                          >
+                            Turno B
+                          </button>
+                        </h2>
+                        <div
+                          id="collapseTurnoB"
+                          class="accordion-collapse collapse show"
+                          aria-labelledby="headingTurnoB"
+                        >
+                          <div class="accordion-body">
+                            <table
+                              class="table table-striped dt-responsive nowrap w-100"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Qualification</th>
+                                  <th>Specialties</th>
+                                  <th>Name</th>
+                                  <th>Fiscal code</th>
+                                  <th>Phone number</th>
+                                  <th>Email</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr th:each="person : ${turnoB}">
+                                  <td th:text="${person.qualification}"></td>
+                                  <td></td>
+                                  <td
+                                    th:text="${person.firstName} + ' ' + ${person.lastName}"
+                                  ></td>
+                                  <td th:text="${person.fiscalCode}"></td>
+                                  <td th:text="${person.phoneNumber}"></td>
+                                  <td th:text="${person.contactEmail}"></td>
+                                </tr>
+                              </tbody>
+                              <tfoot>
+                                <tr>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Qualification"
+                                      />
+                                    </div>
+                                  </th>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Specialties"
+                                      />
+                                    </div>
+                                  </th>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTurnoC">
+                          <button
+                            class="accordion-button collapsed show"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTurnoC"
+                            aria-expanded="false"
+                            aria-controls="collapseTurnoC"
+                          >
+                            Turno C
+                          </button>
+                        </h2>
+                        <div
+                          id="collapseTurnoC"
+                          class="accordion-collapse collapse"
+                          aria-labelledby="headingTurnoC"
+                        >
+                          <div class="accordion-body">
+                            <table
+                              class="table table-striped dt-responsive nowrap w-100"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Qualification</th>
+                                  <th>Specialties</th>
+                                  <th>Name</th>
+                                  <th>Fiscal code</th>
+                                  <th>Phone number</th>
+                                  <th>Email</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr th:each="person : ${turnoC}">
+                                  <td th:text="${person.qualification}"></td>
+                                  <td></td>
+                                  <td
+                                    th:text="${person.firstName} + ' ' + ${person.lastName}"
+                                  ></td>
+                                  <td th:text="${person.fiscalCode}"></td>
+                                  <td th:text="${person.phoneNumber}"></td>
+                                  <td th:text="${person.contactEmail}"></td>
+                                </tr>
+                              </tbody>
+                              <tfoot>
+                                <tr>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Qualification"
+                                      />
+                                    </div>
+                                  </th>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Specialties"
+                                      />
+                                    </div>
+                                  </th>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTurnoD">
+                          <button
+                            class="accordion-button collapsed show"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTurnoD"
+                            aria-expanded="false"
+                            aria-controls="collapseTurnoD"
+                          >
+                            Turno D
+                          </button>
+                        </h2>
+                        <div
+                          id="collapseTurnoD"
+                          class="accordion-collapse collapse"
+                          aria-labelledby="headingTurnoD"
+                        >
+                          <div class="accordion-body">
+                            <table
+                              class="table table-striped dt-responsive nowrap w-100"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Qualification</th>
+                                  <th>Specialties</th>
+                                  <th>Name</th>
+                                  <th>Fiscal code</th>
+                                  <th>Phone number</th>
+                                  <th>Email</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr th:each="person : ${turnoD}">
+                                  <td th:text="${person.qualification}"></td>
+                                  <td></td>
+                                  <td
+                                    th:text="${person.firstName} + ' ' + ${person.lastName}"
+                                  ></td>
+                                  <td th:text="${person.fiscalCode}"></td>
+                                  <td th:text="${person.phoneNumber}"></td>
+                                  <td th:text="${person.contactEmail}"></td>
+                                </tr>
+                              </tbody>
+                              <tfoot>
+                                <tr>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Qualification"
+                                      />
+                                    </div>
+                                  </th>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Specialties"
+                                      />
+                                    </div>
+                                  </th>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTurnoG">
+                          <button
+                            class="accordion-button collapsed show"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTurnoG"
+                            aria-expanded="false"
+                            aria-controls="collapseTurnoG"
+                          >
+                            Turno G
+                          </button>
+                        </h2>
+                        <div
+                          id="collapseTurnoG"
+                          class="accordion-collapse collapse"
+                          aria-labelledby="headingTurnoG"
+                        >
+                          <div class="accordion-body">
+                            <table
+                              class="table table-striped dt-responsive nowrap w-100"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Qualification</th>
+                                  <th>Specialties</th>
+                                  <th>Name</th>
+                                  <th>Fiscal code</th>
+                                  <th>Phone number</th>
+                                  <th>Email</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr th:each="person : ${turnoG}">
+                                  <td th:text="${person.qualification}"></td>
+                                  <td></td>
+                                  <td
+                                    th:text="${person.firstName} + ' ' + ${person.lastName}"
+                                  ></td>
+                                  <td th:text="${person.fiscalCode}"></td>
+                                  <td th:text="${person.phoneNumber}"></td>
+                                  <td th:text="${person.contactEmail}"></td>
+                                </tr>
+                              </tbody>
+
+                              <tfoot>
+                                <tr>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Qualification"
+                                      />
+                                    </div>
+                                  </th>
+                                  <th>
+                                    <div class="input-group mb-2">
+                                      <div class="input-group-text">
+                                        <i class="uil uil-search"></i>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Specialties"
+                                      />
+                                    </div>
+                                  </th>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- container -->
+        </div>
+        <!-- content -->
+
+        <!-- Footer Start -->
+        <div
+          class="content-header"
+          th:replace="/api/common/footer::footerFragment"
+        ></div>
+        <!-- end Footer -->
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Theme Settings -->
+    <div
+      class="content-header"
+      th:replace="/api/common/theme-settings::themeSettingsFragment"
+    ></div>
+
+    <!-- Vendor js -->
+    <script src="../assets/js/vendor.min.js"></script>
+
+    <!-- Code Highlight js -->
+    <script src="../assets/vendor/highlightjs/highlight.pack.min.js"></script>
+    <script src="../assets/js/hyper-syntax.js"></script>
+
+    <!-- Datatables js -->
+    <script src="../assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
+    <script src="../assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="../assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script> -->
+    <script src="../assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="../assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script> -->
+    <script src="../assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script> -->
+    <script src="../assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+
+    <!-- Init -->
+    <script src="../assets/js/pages/api-reports-init.js"></script>
+
+    <!-- App js -->
+    <script src="../assets/js/app.min.js"></script>
+  </body>
+</html>
