@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +18,8 @@ import it.antonio.sp.entity.AuthEntity;
 import it.antonio.sp.entity.UserEntity;
 import it.antonio.sp.repository.AuthRepository;
 import it.antonio.sp.repository.UserRepository;
+import it.antonio.sp.response.Response;
 import it.antonio.sp.util.Constants;
-//import it.antonio.sp.request.LoginRequest;
-//import it.antonio.sp.request.SignUpRequest;
-//import it.antonio.sp.response.Response;
 import it.antonio.sp.util.Generator;
 import reactor.core.publisher.Flux;
 
@@ -37,38 +33,37 @@ public class AuthService {
     AuthRepository authRepository;
 
     public Iterable<UserEntity> findAll() {
-    	List<String> roles = new ArrayList<>();
-    	roles.add("ADMIN");
-    	roles.add("CLIENT");
-    	return userRepository.findAllByRole(roles).toIterable();
+    	return userRepository.findAll().filter(result -> !result.getRole().equals("MANAGER")).toIterable();
     }
     
-    public Flux<Boolean> login(UserEntity user, HttpServletRequest req) {
+    public Flux<Response> login(UserEntity user, HttpServletRequest req) {
     	return userRepository.findByEmail(user.getEmail()).map(result -> {
     		if (result.getPassword().equals(Generator.generatePassword(user.getPassword()))) {
-    			HttpSession session = req.getSession();
-    			session.setAttribute("auth-token", addAuthToken(result.getId()));
-    			return true;
+    			if (result.getActive()) {
+	    			HttpSession session = req.getSession();
+	    			session.setAttribute("auth-token", addAuthToken(result.getId()));
+	    			return Response.Success();
+    			} else return Response.Error("This account is currently not allowed");
     		}
-    		return false;
-    	}).defaultIfEmpty(false).onErrorReturn(false);
+    		return Response.Error("Password is incorrect");
+    	}).defaultIfEmpty(Response.Error("Email not found")).onErrorReturn(Response.Error());
     }
 
-    public Flux<Boolean> register(UserEntity user) {
+    public Flux<Response> register(UserEntity user) {
         user.setId(Generator.generateUserId());
         user.setPassword(Generator.generatePassword(user.getPassword()));
-        user.setRole(Constants.ROLE_CLIENT);
+        user.setRole(Constants.ROLE_USER);
         user.setCreatedAt(new Date());
 
         return userRepository
                 .findByEmail(user.getEmail())
                 .map(result -> {
-                	return false;
+                	return Response.Error("Email already registered by other user");
                 })
                 .switchIfEmpty(userRepository
                         .save(user)
                         .map(result -> {
-                        	return true;
+                        	return Response.Success();
                         }));
     }
 
@@ -115,7 +110,7 @@ public class AuthService {
     }
     
     String getTokenFromSession(HttpSession session) {
-    	var token = session.getAttribute("auth-token");
+    	Object token = session.getAttribute("auth-token");
     	if (token == null)
     		token = "";
     	return (String) token;

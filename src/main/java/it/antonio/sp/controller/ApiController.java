@@ -26,10 +26,11 @@ import it.antonio.sp.service.AnagraphicService;
 import it.antonio.sp.service.AuthService;
 import it.antonio.sp.service.QualificationService;
 import it.antonio.sp.service.SpecialtyService;
+import it.antonio.sp.util.Constants;
 import it.antonio.sp.util.Generator;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping(Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_API)
 public class ApiController {
 
 	@Autowired
@@ -44,15 +45,15 @@ public class ApiController {
 	@Autowired
 	QualificationService qualificationService;
 	
-	@GetMapping("/dashboard")
+	@GetMapping(Constants.URI_DASHBOARD)
 	public String dashboardPage(HttpServletRequest req, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
-		
+
 		List<String> specialtyNames = specialtyService.getEnabledNames();
 		model.addAttribute("specialtyLabels", specialtyNames);
 		model.addAttribute("specialtyCounts", anagraphicService.getSpecialtyCounts(specialtyNames));
@@ -65,14 +66,14 @@ public class ApiController {
 		model.addAttribute("turnoBCounts", anagraphicService.getTurnoBCounts());
 		model.addAttribute("turnoCCounts", anagraphicService.getTurnoCCounts());
 		model.addAttribute("turnoDCounts", anagraphicService.getTurnoDCounts());
-		return "/api/dashboard";
+		return Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_API + Constants.URI_DASHBOARD;
 	}
 	
-	@GetMapping("/anagraphic")
+	@GetMapping(Constants.URI_ANAGRAPHIC)
 	public String anagraphicPage(HttpServletRequest req, @ModelAttribute AnagraphicEntity anagrapihcEntity, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
@@ -82,14 +83,14 @@ public class ApiController {
 		model.addAttribute("anagraphics", anagraphicService.findAll());
 		model.addAttribute("qualifications", qualificationService.findAllEnabled());
 		model.addAttribute("specialties", specialtyService.findAllEnabled());
-		return "api/anagraphic";
+		return Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_API + Constants.URI_ANAGRAPHIC;
 	}
 	
-	@PostMapping("/anagraphic")
+	@PostMapping(Constants.URI_ANAGRAPHIC)
 	public String saveAnagraphic(HttpServletRequest req, @ModelAttribute AnagraphicEntity anagraphicEntity, @RequestParam List<String> formSpecialties, @RequestParam List<String> formAchievedDates, @RequestParam List<Integer> formValidationMonths, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
@@ -108,11 +109,11 @@ public class ApiController {
 		return anagraphicPage(req, anagraphicEntity, model);
 	}
 
-	@PostMapping("/anagraphic/remove/{id}")
+	@PostMapping(Constants.URI_ANAGRAPHIC + "/remove/{id}")
 	public String deleteAnagraphic(HttpServletRequest req, @PathVariable String id, @ModelAttribute AnagraphicEntity anagraphicEntity, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
@@ -122,11 +123,11 @@ public class ApiController {
 		return anagraphicPage(req, anagraphicEntity, model);
 	}
 
-	@GetMapping("/reports")
+	@GetMapping(Constants.URI_REPORTS)
 	public String reportsPage(HttpServletRequest req, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
@@ -136,28 +137,28 @@ public class ApiController {
 		model.addAttribute("turnoC", anagraphicService.getFilteredByTurnoC());
 		model.addAttribute("turnoD", anagraphicService.getFilteredByTurnoD());
 		model.addAttribute("turnoG", anagraphicService.getFilteredByTurnoG());
-		return "/api/reports";
+		return Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_API + Constants.URI_REPORTS;
 	}
 	
-	@GetMapping("/specialties")
+	@GetMapping(Constants.URI_SPECIALTIES)
 	public String specialtyManagementPage(HttpServletRequest req, @ModelAttribute TextRequest textRequest, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
 		
 		model.addAttribute("specialties", specialtyService.findAll());
 		model.addAttribute("textRequest", textRequest);
-		return "/api/specialties";
+		return Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_API + Constants.URI_SPECIALTIES;
 	}
 	
-	@PostMapping("/specialties")
+	@PostMapping(Constants.URI_SPECIALTIES)
 	public String saveSpecialty(HttpServletRequest req, @ModelAttribute TextRequest textRequest, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
@@ -167,11 +168,11 @@ public class ApiController {
 		return specialtyManagementPage(req, textRequest, model);
 	}
 	
-	@PostMapping("/specialties/modify/{id}")
+	@PostMapping(Constants.URI_SPECIALTIES + "/modify/{id}")
 	public String modifySpecialtyById(HttpServletRequest req, @PathVariable String id, @RequestBody Document document, @ModelAttribute TextRequest textRequest, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
@@ -181,25 +182,25 @@ public class ApiController {
 	    return specialtyManagementPage(req, textRequest, model);
 	}
 	
-	@GetMapping("/qualifications")
+	@GetMapping(Constants.URI_QUALIFICATIONS)
 	public String qualificationManagementPage(HttpServletRequest req, @ModelAttribute TextRequest textRequest, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
 		
 		model.addAttribute("qualifications", qualificationService.findAll());
 		model.addAttribute("textRequest", textRequest);
-		return "/api/qualifications";
+		return Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_API + Constants.URI_QUALIFICATIONS;
 	}
 	
-	@PostMapping("/qualifications")
+	@PostMapping(Constants.URI_QUALIFICATIONS)
 	public String saveQualification(HttpServletRequest req, @ModelAttribute TextRequest textRequest, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
@@ -209,11 +210,11 @@ public class ApiController {
 		return qualificationManagementPage(req, textRequest, model);
 	}
 	
-	@PostMapping("/qualifications/modify/{id}")
+	@PostMapping(Constants.URI_QUALIFICATIONS + "/modify/{id}")
 	public String modifyQualificationById(HttpServletRequest req, @PathVariable String id, @RequestBody Document document, @ModelAttribute TextRequest textRequest, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
@@ -223,24 +224,24 @@ public class ApiController {
 	    return qualificationManagementPage(req, textRequest, model);
 	}
 	
-	@GetMapping("/users")
+	@GetMapping(Constants.URI_USERS)
 	public String userManagementPage(HttpServletRequest req, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);
 		
 		model.addAttribute("users", authService.findAll());
-		return "/api/users";
+		return Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_API + Constants.URI_USERS;
 	}
 	
-	@PostMapping("/users/modify/{id}")
+	@PostMapping(Constants.URI_USERS + "/modify/{id}")
 	public String modifyUserById(HttpServletRequest req, @PathVariable String id, @RequestBody Document document, Model model) {
 		UserEntity user = authService.verifyToken(req).blockFirst();
 		if (user == null)
-			return "redirect:/api/auth/login";
+			return "redirect:" + Constants.URI_SPECIALIZZAZIONEVVF + Constants.URI_AUTH + Constants.URI_LOGIN;
 		else if (!user.getActive())
 			return "redirect:/";
 		customizeUserProfile(user, model);

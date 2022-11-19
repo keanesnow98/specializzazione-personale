@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Dashboard
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      content="A fully featured admin theme which can be used to build CRM, CMS, etc."
+      name="description"
+    />
+    <meta content="Coderthemes" name="author" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+
+    <!-- Theme Config Js -->
+    <script src="../assets/js/hyper-config.js"></script>
+
+    <!-- App css -->
+    <link
+      href="../assets/css/app-saas.min.css"
+      rel="stylesheet"
+      type="text/css"
+      id="app-style"
+    />
+
+    <!-- App Custom css -->
+    <link
+      href="../assets/css/specializzazionevvf/app-custom.min.css"
+      rel="stylesheet"
+      type="text/css"
+      id="app-style"
+    />
+
+    <!-- Icons css -->
+    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <!-- Begin page -->
+    <div class="wrapper">
+      <!-- ========== Topbar Start ========== -->
+      <div
+        class="content-header"
+        th:replace="/specializzazionevvf/api/common/topbar::topbarFragment"
+      ></div>
+      <!-- ========== Topbar End ========== -->
+
+      <!-- ========== Left Sidebar Start ========== -->
+      <div
+        class="content-header"
+        th:replace="/specializzazionevvf/api/common/sidebar::sidebarFragment"
+      ></div>
+      <!-- ========== Left Sidebar End ========== -->
+
+      <!-- ============================================================== -->
+      <!-- Start Page Content here -->
+      <!-- ============================================================== -->
+
+      <div class="content-page">
+        <div class="content">
+          <!-- Start Content-->
+          <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+              <div class="col-12">
+                <div class="page-title-box">
+                  <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                      <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                  </div>
+                  <h4 class="page-title">Dashboard</h4>
+                </div>
+              </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+              <div class="col-xl-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="header-title mb-3">Specialties</h4>
+                    <div dir="ltr">
+                      <canvas
+                        id="specialties-radar"
+                        class="apex-charts"
+                      ></canvas>
+                    </div>
+                  </div>
+                  <!-- end card body-->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col-->
+            </div>
+
+            <div class="row">
+              <div class="col-xl-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="header-title">Qualifications</h4>
+                    <div dir="ltr">
+                      <canvas
+                        id="qualifications-bar"
+                        class="apex-charts"
+                      ></canvas>
+                    </div>
+                  </div>
+                  <!-- end card body-->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col-->
+            </div>
+
+            <div class="row">
+              <div class="col-xl-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="header-title mb-4">Turno A</h4>
+                    <div dir="ltr">
+                      <canvas id="turnoA-doughnut" class="apex-charts"></canvas>
+                    </div>
+                  </div>
+                  <!-- end card body-->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col-->
+
+              <div class="col-xl-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="header-title mb-4">Turno B</h4>
+                    <div dir="ltr">
+                      <canvas id="turnoB-doughnut" class="apex-charts"></canvas>
+                    </div>
+                  </div>
+                  <!-- end card body-->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col-->
+            </div>
+
+            <div class="row">
+              <div class="col-xl-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="header-title mb-4">Turno C</h4>
+                    <div dir="ltr">
+                      <canvas id="turnoC-doughnut" class="apex-charts"></canvas>
+                    </div>
+                  </div>
+                  <!-- end card body-->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col-->
+
+              <div class="col-xl-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="header-title mb-4">Turno D</h4>
+                    <div dir="ltr">
+                      <canvas id="turnoD-doughnut" class="apex-charts"></canvas>
+                    </div>
+                  </div>
+                  <!-- end card body-->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col-->
+            </div>
+
+            <div
+              id="specialty-labels"
+              th:data-length="${#lists.size(specialtyLabels)}"
+              hidden
+            >
+              <p
+                th:each="individual : ${specialtyLabels}"
+                th:text="${individual}"
+              ></p>
+            </div>
+
+            <div
+              id="specialty-counts"
+              th:data-length="${#lists.size(specialtyCounts)}"
+              hidden
+            >
+              <p
+                th:each="individual : ${specialtyCounts}"
+                th:text="${individual}"
+              ></p>
+            </div>
+
+            <div
+              id="qualification-labels"
+              th:data-length="${#lists.size(qualificationLabels)}"
+              hidden
+            >
+              <p
+                th:each="individual : ${qualificationLabels}"
+                th:text="${individual}"
+              ></p>
+            </div>
+
+            <div
+              id="qualification-counts"
+              th:data-length="${#lists.size(qualificationCounts)}"
+              hidden
+            >
+              <p
+                th:each="individual : ${qualificationCounts}"
+                th:text="${individual}"
+              ></p>
+            </div>
+
+            <div id="turnoA-data" hidden>
+              <p
+                th:each="individual : ${turnoACounts}"
+                th:text="${individual}"
+              ></p>
+            </div>
+            <div id="turnoB-data" hidden>
+              <p
+                th:each="individual : ${turnoBCounts}"
+                th:text="${individual}"
+              ></p>
+            </div>
+            <div id="turnoC-data" hidden>
+              <p
+                th:each="individual : ${turnoCCounts}"
+                th:text="${individual}"
+              ></p>
+            </div>
+            <div id="turnoD-data" hidden>
+              <p
+                th:each="individual : ${turnoDCounts}"
+                th:text="${individual}"
+              ></p>
+            </div>
+          </div>
+          <!-- container -->
+        </div>
+        <!-- content -->
+
+        <!-- Footer Start -->
+        <div
+          class="content-header"
+          th:replace="/specializzazionevvf/api/common/footer::footerFragment"
+        ></div>
+        <!-- end Footer -->
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Theme Settings -->
+    <div
+      class="content-header"
+      th:replace="/specializzazionevvf/api/common/theme-settings::themeSettingsFragment"
+    ></div>
+
+    <!-- Vendor js -->
+    <script src="../assets/js/vendor.min.js"></script>
+
+    <!-- Init -->
+    <script src="../assets/js/pages/api-dashboard-init.js"></script>
+
+    <!-- App js -->
+    <script src="../assets/js/app.min.js"></script>
+  </body>
+</html>
