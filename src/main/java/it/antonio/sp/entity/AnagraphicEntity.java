@@ -2,6 +2,7 @@ package it.antonio.sp.entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -51,15 +52,22 @@ public class AnagraphicEntity {
 	
 	@Id
   	ObjectId id;
+	String photo = "default.jpg";
+	String firstName;
+	String lastName;
+	String ruolo;
+	String fiscalCode;
 	String qualification;
-    String lastName;
-    String firstName;
     String turno;
-    String fiscalCode;
     String phoneNumber;
     String contactEmail = "";
+    String note = "";
     
     List<SpecialtyExpiration> specialtyExpirations = new ArrayList<>();
+    
+    Date lastModifiedAt;
+    String lastModifiedBy;
+    Boolean deleted = false;
     
     public ObjectId getId() {
 		return id;
@@ -69,12 +77,20 @@ public class AnagraphicEntity {
 		this.id = id;
 	}
     
-    public String getQualification() {
-		return qualification;
+    public String getPhoto() {
+		return photo;
 	}
     
-    public void setQualification(String qualification) {
-		this.qualification = qualification;
+    public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+    
+    public String getFirstName() {
+		return firstName;
+	}
+    
+    public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
     
     public String getLastName() {
@@ -85,12 +101,20 @@ public class AnagraphicEntity {
 		this.lastName = lastName;
 	}
     
-    public String getFirstName() {
-		return firstName;
+    public String getRuolo() {
+		return ruolo;
 	}
     
-    public void setFirstName(String firstName) {
-		this.firstName = firstName;
+    public void setRuolo(String ruolo) {
+		this.ruolo = ruolo;
+	}
+    
+    public String getQualification() {
+		return qualification;
+	}
+    
+    public void setQualification(String qualification) {
+		this.qualification = qualification;
 	}
     
     public String getTurno() {
@@ -125,11 +149,43 @@ public class AnagraphicEntity {
 		this.contactEmail = contactEmail;
 	}
     
+    public String getNote() {
+		return note;
+	}
+    
+    public void setNote(String note) {
+		this.note = note;
+	}
+    
     public List<SpecialtyExpiration> getSpecialtyExpirations() {
 		return specialtyExpirations;
 	}
 
     public void setSpecialtyExpirations(List<SpecialtyExpiration> specialtyExpirations) {
 		this.specialtyExpirations = specialtyExpirations;
+	}
+    
+    public Date getLastModifiedAt() {
+		return lastModifiedAt;
+	}
+    
+    public void setLastModifiedAt(Date lastModifiedAt) {
+		this.lastModifiedAt = lastModifiedAt;
+	}
+    
+    public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+    
+    public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+    
+    public Boolean getDeleted() {
+		return deleted;
+	}
+    
+    public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 }

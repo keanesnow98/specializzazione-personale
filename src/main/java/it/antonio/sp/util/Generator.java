@@ -3,19 +3,8 @@ package it.antonio.sp.util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
-import org.springframework.util.DigestUtils;
 
 public class Generator {
-
-    public static String generateUserId() {
-        return UUID.randomUUID().toString();
-    }
-
-    public static String generatePassword(String password) {
-        return DigestUtils.md5DigestAsHex(password.getBytes());
-    }
-    
     public static String hex(byte[] array) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < array.length; ++i)

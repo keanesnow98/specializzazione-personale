@@ -9,8 +9,6 @@ public class QualificationEntity {
 	String qualificationId;
 
     String qualificationName;
-
-    Boolean disabled = false;
     
     public String getQualificationId() {
 		return qualificationId;
@@ -26,13 +24,5 @@ public class QualificationEntity {
     
     public void setQualificationName(String qualificationName) {
 		this.qualificationName = qualificationName;
-	}
-    
-    public Boolean getDisabled() {
-		return disabled;
-	}
-    
-    public void setDisabled(Boolean disabled) {
-		this.disabled = disabled;
 	}
 }

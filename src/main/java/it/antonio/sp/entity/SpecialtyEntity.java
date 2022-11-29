@@ -10,7 +10,7 @@ public class SpecialtyEntity {
             
     String specialtyName;
 
-    Boolean disabled = false;
+    Boolean requiresValidationMonths = false;
     
     public String getSpecialtyId() {
 		return specialtyId;
@@ -28,11 +28,11 @@ public class SpecialtyEntity {
 		this.specialtyName = specialtyName;
 	}
     
-    public Boolean getDisabled() {
-		return disabled;
+    public Boolean getRequiresValidationMonths() {
+		return requiresValidationMonths;
 	}
     
-    public void setDisabled(Boolean disabled) {
-		this.disabled = disabled;
+    public void setRequiresValidationMonths(Boolean requiresValidationMonths) {
+		this.requiresValidationMonths = requiresValidationMonths;
 	}
 }

@@ -3,7 +3,9 @@ package it.antonio.sp.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Document(collection = "user")
 public class UserEntity {
@@ -11,9 +13,18 @@ public class UserEntity {
 	String id;
     String email;
     String password;
-    String role;
-    Boolean active = false;
-    Date createdAt;
+    List<String> roles;
+    Boolean active;
+    
+    public UserEntity() {
+    	roles = new ArrayList<String>();
+    	active = false;
+    }
+    
+    public UserEntity(String ...roles) {
+    	this.roles = Arrays.asList(roles);
+    	active = false;
+    }
 
     public String getId() {
 		return id;
@@ -39,12 +50,12 @@ public class UserEntity {
         this.password = password;
     }
     
-    public String getRole() {
-		return role;
+    public List<String> getRoles() {
+		return roles;
 	}
     
-    public void setRole(String role) {
-		this.role = role;
+    public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
     
     public Boolean getActive() {
@@ -54,12 +65,4 @@ public class UserEntity {
     public void setActive(Boolean active) {
 		this.active = active;
 	}
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }

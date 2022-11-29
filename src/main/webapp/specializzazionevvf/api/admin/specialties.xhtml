@@ -1,0 +1,53 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:p="http://primefaces.org/ui"
+>
+  <h:head>
+  	<link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css" />
+	<link rel="stylesheet" href="https://unpkg.com/primeflex/themes/saga-blue.css" />
+  	<h:outputStylesheet library="javax.faces.resource" name="css/layout/layout.css" />
+  </h:head>
+
+  <h:body>
+	<h:form id="form">
+		<p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="New" icon="pi pi-plus" process="@this" action="#{specialtiesView.addNew()}"
+                	oncomplete="PF('specialties').addRow();" styleClass="ui-button-success" style="margin-right: .5rem" />
+            </p:toolbarGroup>
+        </p:toolbar>
+	
+		<p:growl id="msg" showDetail="true" />
+		
+	    <div class="card">
+	        <p:dataTable widgetVar="specialties" var="specialty" editable="true" editMode="cell" value="#{specialtiesView.specialties}">
+	        	<p:ajax event="cellEdit" listener="#{specialtiesView.onCellEdit}" update=":form:msg" />
+	            
+	            <p:column headerText="Name">
+		            <p:cellEditor>
+	                    <f:facet name="output">
+	                        <h:outputText value="#{specialty.specialtyName}" />
+	                    </f:facet>
+	                    <f:facet name="input">
+	                        <p:inputText value="#{specialty.specialtyName}" style="width:100%"/>
+	                    </f:facet>
+	                </p:cellEditor>
+	            </p:column>
+	            
+	            <p:column headerText="Requires validation months">
+		            <p:cellEditor>
+	                    <f:facet name="output">
+	                        <h:outputText value="#{specialty.requiresValidationMonths ? 'Yes' : 'No'}"/>
+	                    </f:facet>
+	                    <f:facet name="input">
+	                        <p:toggleSwitch value="#{specialty.requiresValidationMonths}" />
+	                    </f:facet>
+	                </p:cellEditor>
+		        </p:column>
+	        </p:dataTable>
+	    </div>
+	</h:form>
+  </h:body>
+</html>

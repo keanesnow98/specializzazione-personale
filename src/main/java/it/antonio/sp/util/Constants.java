@@ -1,23 +1,23 @@
 package it.antonio.sp.util;
 
 public class Constants {
-	// URI constant variables
-	public static final String URI_SPECIALIZZAZIONEVVF = "/specializzazionevvf";
-	public static final String URI_API = "/api";
-	public static final String URI_AUTH = "/auth";
-	public static final String URI_DASHBOARD = "/dashboard";
-	public static final String URI_ANAGRAPHIC = "/anagraphic";
-	public static final String URI_REPORTS = "/reports";
-	public static final String URI_SPECIALTIES = "/specialties";
-	public static final String URI_QUALIFICATIONS = "/qualifications";
-	public static final String URI_USERS = "/users";
-	public static final String URI_LOGIN = "/login";
-	public static final String URI_REGISTER = "/register";
-	public static final String URI_LOGOUT = "/logout";
-	
-	// User role constant variables
-	public static final String ROLE_ADMIN = "ADMIN";
-	public static final String ROLE_USER = "USER";
-	public static final String ROLE_USER_ONLY_READ = "USER ONLY READ";
-	public static final String ROLE_USER_ONLY_READ_AND_DONT_SEE_SPECIALTY = "USER ONLY READ ADND DONT SEE SPECIALTY";
+	// Role constant variables
+	public static final String ROLE_ADMIN = "ROLE_ADMIN";
+	public static final String ROLE_ADMIN_SPECIALTIES_ALL = "ROLE_ADMIN_SPECIALTIES_ALL";
+	public static final String ROLE_ADMIN_QUALIFICATIONS_ALL = "ROLE_ADMIN_QUALIFICATIONS_ALL";
+	public static final String ROLE_ADMIN_USER_MANAGEMENT_ALL = "ROLE_ADMIN_USER_MANAGEMENT_ALL";
+
+	public static final String ROLE_USER_DASHBOARD_VIEW = "ROLE_USER_DASHBOARD_VIEW";
+	public static final String ROLE_USER_REPORTS_BY_SPECIALTIES_ALL = "ROLE_USER_REPORTS_BY_SPECIALTIES_ALL";
+	public static final String ROLE_USER_REPORTS_BY_TURNO_ALL = "ROLE_USER_REPORTS_BY_TURNO_ALL";
+
+	public static final String ROLE_USER_ANAGRAPHICVVF_VIEW = "ROLE_USER_ANAGRAPHICVVF_VIEW";
+	public static final String ROLE_USER_ANAGRAPHICVVF_INSERT = "ROLE_USER_ANAGRAPHICVVF_INSERT";
+	public static final String ROLE_USER_ANAGRAPHICVVF_EDIT = "ROLE_USER_ANAGRAPHICVVF_EDIT";
+	public static final String ROLE_USER_ANAGRAPHICVVF_DELETE = "ROLE_USER_ANAGRAPHICVVF_DELETE";
+
+	public static final String ROLE_USER_SPECIALTY_VIEW = "ROLE_USER_SPECIALTY_VIEW";
+	public static final String ROLE_USER_SPECIALTY_INSERT = "ROLE_USER_SPECIALTY_INSERT";
+	public static final String ROLE_USER_SPECIALTY_EDIT = "ROLE_USER_SPECIALTY_EDIT";
+	public static final String ROLE_USER_SPECIALTY_DELETE = "ROLE_USER_SPECIALTY_DELETE";
 }
