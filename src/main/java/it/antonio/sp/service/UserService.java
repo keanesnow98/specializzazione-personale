@@ -29,7 +29,12 @@ public class UserService {
 
     public Flux<Response> register(String email, String password) {
     	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    	UserEntity user = new UserEntity(Constants.ROLE_ADMIN);
+    	UserEntity user = userRepository.findAll().blockFirst() == null ? new UserEntity(
+    			Constants.ROLE_ADMIN,
+    			Constants.ROLE_ADMIN_QUALIFICATIONS_ALL,
+    			Constants.ROLE_ADMIN_SPECIALTIES_ALL,
+    			Constants.ROLE_ADMIN_USER_MANAGEMENT_ALL
+    		) : new UserEntity();
     	user.setEmail(email);
         user.setPassword(encoder.encode(password));
         user.setActive(true);

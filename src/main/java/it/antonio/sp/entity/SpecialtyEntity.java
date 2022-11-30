@@ -10,7 +10,7 @@ public class SpecialtyEntity {
             
     String specialtyName;
 
-    Boolean requiresValidationMonths = false;
+    Boolean requiresValidationMonths = true;
     
     public String getSpecialtyId() {
 		return specialtyId;

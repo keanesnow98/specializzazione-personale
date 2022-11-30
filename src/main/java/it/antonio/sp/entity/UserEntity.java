@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Document(collection = "user")
+@Document(collection = "userList")
 public class UserEntity {
 	@Id
 	String id;

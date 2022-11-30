@@ -2,7 +2,6 @@ package it.antonio.sp.entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -16,13 +15,7 @@ public class AnagraphicEntity {
 		Integer validationMonths;
 		
 		public SpecialtyExpiration() {
-			validationMonths = 6;
-		}
-		
-		public SpecialtyExpiration(String specialty, LocalDate achievedDate, Integer validationMonths) {
-			this.specialty = specialty;
-			this.achievedDate = achievedDate;
-			this.validationMonths = validationMonths;
+			validationMonths = 0;
 		}
 		
 		public String getSpecialty() {
@@ -52,10 +45,10 @@ public class AnagraphicEntity {
 	
 	@Id
   	ObjectId id;
-	String photo = "default.jpg";
+	String photo = "default.png";
 	String firstName;
 	String lastName;
-	String ruolo;
+	Integer ruolo;
 	String fiscalCode;
 	String qualification;
     String turno;
@@ -65,7 +58,7 @@ public class AnagraphicEntity {
     
     List<SpecialtyExpiration> specialtyExpirations = new ArrayList<>();
     
-    Date lastModifiedAt;
+    LocalDate lastModifiedAt;
     String lastModifiedBy;
     Boolean deleted = false;
     
@@ -101,11 +94,11 @@ public class AnagraphicEntity {
 		this.lastName = lastName;
 	}
     
-    public String getRuolo() {
+    public Integer getRuolo() {
 		return ruolo;
 	}
     
-    public void setRuolo(String ruolo) {
+    public void setRuolo(Integer ruolo) {
 		this.ruolo = ruolo;
 	}
     
@@ -165,11 +158,11 @@ public class AnagraphicEntity {
 		this.specialtyExpirations = specialtyExpirations;
 	}
     
-    public Date getLastModifiedAt() {
+    public LocalDate getLastModifiedAt() {
 		return lastModifiedAt;
 	}
     
-    public void setLastModifiedAt(Date lastModifiedAt) {
+    public void setLastModifiedAt(LocalDate lastModifiedAt) {
 		this.lastModifiedAt = lastModifiedAt;
 	}
     
