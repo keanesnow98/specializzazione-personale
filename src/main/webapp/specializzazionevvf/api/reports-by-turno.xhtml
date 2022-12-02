@@ -1,0 +1,260 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="title">
+        Reports
+    </ui:define>
+
+	<ui:define name="implementation">
+		<h:form>
+			<div class="flex justify-content-between">
+			   <div class="flex justify-content-between align-items-center">
+			   		By Turno
+			   </div>
+			   <div>
+			      <p:commandButton value="XLSX" styleClass="mr-2 mb-2" >
+			          <!-- <p:dataExporter type="xlsxstream" target="products" fileName="visible" visibleOnly="true"/> -->
+			      </p:commandButton>
+			
+			      <p:commandButton value="PDF" styleClass="mr-2 mb-2" >
+			          <!-- <p:dataExporter type="pdf" target="products" fileName="visible" visibleOnly="true"/> -->
+			      </p:commandButton>
+			   </div>
+			</div>
+			
+		    <p:dataTable id="turnoA" var="anagraphic" value="#{reportsByTurnoView.turnoA}" styleClass="mb-3">
+		        <f:facet name="header">
+		            <div class="flex justify-content-between align-items-center">
+		            	TurnoA
+		                <div>
+		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                    <p:columnToggler datasource="turnoA" trigger="toggler">
+		                        <p:ajax />
+		                    </p:columnToggler>
+		                </div>
+		            </div>
+		        </f:facet>
+		
+		        <p:column headerText="Last name">
+		            <h:outputText value="#{anagraphic.lastName}" />
+		        </p:column>
+		
+		        <p:column headerText="First name">
+		            <h:outputText value="#{anagraphic.firstName}" />
+		        </p:column>
+		
+		        <p:column headerText="Qualification">
+		            <h:outputText value="#{anagraphic.qualification}" />
+		        </p:column>
+		
+		        <p:column headerText="Ruolo">
+		            <h:outputText value="#{anagraphic.ruolo}" />
+		        </p:column>
+		        
+		        <p:column headerText="Fiscal Code">
+		            <h:outputText value="#{anagraphic.fiscalCode}" />
+		        </p:column>
+		        
+		        <p:column headerText="Phone number">
+		            <h:outputText value="#{anagraphic.phoneNumber}" />
+		        </p:column>
+		        
+		        <p:column headerText="Email">
+		            <h:outputText value="#{anagraphic.contactEmail}" />
+		        </p:column>
+		        
+		        <p:column headerText="Note">
+		            <h:outputText value="#{anagraphic.note}" />
+		        </p:column>
+		    </p:dataTable>
+		    
+		    <p:dataTable id="turnoB" var="anagraphic" value="#{reportsByTurnoView.turnoB}" styleClass="mb-3">
+		        <f:facet name="header">
+		            <div class="flex justify-content-between align-items-center">
+		            	TurnoB
+		                <div>
+		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                    <p:columnToggler datasource="turnoB" trigger="toggler">
+		                        <p:ajax />
+		                    </p:columnToggler>
+		                </div>
+		            </div>
+		        </f:facet>
+		
+		        <p:column headerText="Last name">
+		            <h:outputText value="#{anagraphic.lastName}" />
+		        </p:column>
+		
+		        <p:column headerText="First name">
+		            <h:outputText value="#{anagraphic.firstName}" />
+		        </p:column>
+		
+		        <p:column headerText="Qualification">
+		            <h:outputText value="#{anagraphic.qualification}" />
+		        </p:column>
+		
+		        <p:column headerText="Ruolo">
+		            <h:outputText value="#{anagraphic.ruolo}" />
+		        </p:column>
+		        
+		        <p:column headerText="Fiscal Code">
+		            <h:outputText value="#{anagraphic.fiscalCode}" />
+		        </p:column>
+		        
+		        <p:column headerText="Phone number">
+		            <h:outputText value="#{anagraphic.phoneNumber}" />
+		        </p:column>
+		        
+		        <p:column headerText="Email">
+		            <h:outputText value="#{anagraphic.contactEmail}" />
+		        </p:column>
+		        
+		        <p:column headerText="Note">
+		            <h:outputText value="#{anagraphic.note}" />
+		        </p:column>
+		    </p:dataTable>
+		    
+		    <p:dataTable id="turnoC" var="anagraphic" value="#{reportsByTurnoView.turnoC}" styleClass="mb-3">
+		        <f:facet name="header">
+		            <div class="flex justify-content-between align-items-center">
+		            	TurnoC
+		                <div>
+		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                    <p:columnToggler datasource="turnoC" trigger="toggler">
+		                        <p:ajax />
+		                    </p:columnToggler>
+		                </div>
+		            </div>
+		        </f:facet>
+		
+		        <p:column headerText="Last name">
+		            <h:outputText value="#{anagraphic.lastName}" />
+		        </p:column>
+		
+		        <p:column headerText="First name">
+		            <h:outputText value="#{anagraphic.firstName}" />
+		        </p:column>
+		
+		        <p:column headerText="Qualification">
+		            <h:outputText value="#{anagraphic.qualification}" />
+		        </p:column>
+		
+		        <p:column headerText="Ruolo">
+		            <h:outputText value="#{anagraphic.ruolo}" />
+		        </p:column>
+		        
+		        <p:column headerText="Fiscal Code">
+		            <h:outputText value="#{anagraphic.fiscalCode}" />
+		        </p:column>
+		        
+		        <p:column headerText="Phone number">
+		            <h:outputText value="#{anagraphic.phoneNumber}" />
+		        </p:column>
+		        
+		        <p:column headerText="Email">
+		            <h:outputText value="#{anagraphic.contactEmail}" />
+		        </p:column>
+		        
+		        <p:column headerText="Note">
+		            <h:outputText value="#{anagraphic.note}" />
+		        </p:column>
+		    </p:dataTable>
+		    
+		    <p:dataTable id="turnoD" var="anagraphic" value="#{reportsByTurnoView.turnoD}" styleClass="mb-3">
+		        <f:facet name="header">
+		            <div class="flex justify-content-between align-items-center">
+		            	TurnoD
+		                <div>
+		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                    <p:columnToggler datasource="turnoD" trigger="toggler">
+		                        <p:ajax />
+		                    </p:columnToggler>
+		                </div>
+		            </div>
+		        </f:facet>
+		
+		        <p:column headerText="Last name">
+		            <h:outputText value="#{anagraphic.lastName}" />
+		        </p:column>
+		
+		        <p:column headerText="First name">
+		            <h:outputText value="#{anagraphic.firstName}" />
+		        </p:column>
+		
+		        <p:column headerText="Qualification">
+		            <h:outputText value="#{anagraphic.qualification}" />
+		        </p:column>
+		
+		        <p:column headerText="Ruolo">
+		            <h:outputText value="#{anagraphic.ruolo}" />
+		        </p:column>
+		        
+		        <p:column headerText="Fiscal Code">
+		            <h:outputText value="#{anagraphic.fiscalCode}" />
+		        </p:column>
+		        
+		        <p:column headerText="Phone number">
+		            <h:outputText value="#{anagraphic.phoneNumber}" />
+		        </p:column>
+		        
+		        <p:column headerText="Email">
+		            <h:outputText value="#{anagraphic.contactEmail}" />
+		        </p:column>
+		        
+		        <p:column headerText="Note">
+		            <h:outputText value="#{anagraphic.note}" />
+		        </p:column>
+		    </p:dataTable>
+		    
+		    <p:dataTable id="turnoG" var="anagraphic" value="#{reportsByTurnoView.turnoG}" styleClass="mb-3">
+		        <f:facet name="header">
+		            <div class="flex justify-content-between align-items-center">
+		            	TurnoG
+		                <div>
+		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                    <p:columnToggler datasource="turnoG" trigger="toggler">
+		                        <p:ajax />
+		                    </p:columnToggler>
+		                </div>
+		            </div>
+		        </f:facet>
+		
+		        <p:column headerText="Last name">
+		            <h:outputText value="#{anagraphic.lastName}" />
+		        </p:column>
+		
+		        <p:column headerText="First name">
+		            <h:outputText value="#{anagraphic.firstName}" />
+		        </p:column>
+		
+		        <p:column headerText="Qualification">
+		            <h:outputText value="#{anagraphic.qualification}" />
+		        </p:column>
+		
+		        <p:column headerText="Ruolo">
+		            <h:outputText value="#{anagraphic.ruolo}" />
+		        </p:column>
+		        
+		        <p:column headerText="Fiscal Code">
+		            <h:outputText value="#{anagraphic.fiscalCode}" />
+		        </p:column>
+		        
+		        <p:column headerText="Phone number">
+		            <h:outputText value="#{anagraphic.phoneNumber}" />
+		        </p:column>
+		        
+		        <p:column headerText="Email">
+		            <h:outputText value="#{anagraphic.contactEmail}" />
+		        </p:column>
+		        
+		        <p:column headerText="Note">
+		            <h:outputText value="#{anagraphic.note}" />
+		        </p:column>
+		    </p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

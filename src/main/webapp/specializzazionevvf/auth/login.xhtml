@@ -3,53 +3,65 @@
   xmlns:f="http://java.sun.com/jsf/core"
   xmlns:p="http://primefaces.org/ui">
   <h:head>
-  	<title>Login</title>
-	<link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css" />
-	<link rel="stylesheet" href="https://unpkg.com/primeflex/themes/saga-blue.css" />
-  	<h:outputStylesheet library="javax.faces.resource" name="css/layout/layout.css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="#{resource['specializzazionevvf/images/favicon.ico']}" rel="icon" type="image/png" sizes="48x48"/>
+    <title>Specializzazione Personale</title>
+    
+    <!-- <link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/saga-blue.css" />
+    <h:outputStylesheet library="javax.faces.resource" name="css/layout/layout.css" /> -->
+    
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/components.css" />
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/primefaces-babylon-pink/theme.css" />
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/css/layout-pink.css" />
+    
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/css/primeicons.css" />
   </h:head>
 
-  <h:body>
-    <div class="flex align-items-center justify-content-center px-4 py-8 md:px-6 lg:px-8">
-      <div class="surface-card p-4 shadow-2 border-round w-full sm:w-4 lg:w-4">
-      	<h:form prependId="false">
-      		<div class="text-center mb-5">
-	          <p:graphicImage  name="images/favicon.ico" library="specializzazionevvf" alt="Image" height="50" styleClass="mb-3" />
-	          <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
-	          <span class="text-600 font-medium line-height-3">
-	            Don't have an account?
-	          </span>
-	          <p:link
-	          	href="/specializzazionevvf/auth/register.xhtml"
-	          	styleClass="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
-	          	Create today!
-	          </p:link>
-	        </div>
+  <h:body styleClass="login-body">
+  
+  	<div class="login-panel"></div>
+  	
+  	<div class="login-content">
+  		<h:form prependId="false">
+	  		<p:graphicImage name="babylon/javax.faces.resource/babylon-layout/images/logo-black.png" library="javax.faces.resource"></p:graphicImage>
+	
+	  		<h1><span>LOG IN</span> TO SPECIALIZZAZIONE PERSONALE</h1>
+	        <p>
+	        	Don't have an account?
+	        	<p:link href="/specializzazionevvf/auth/register.xhtml">
+	          		Create today!
+	            </p:link>
+	        </p>
 	        
-	        <div class="flex flex-wrap justify-content-center">
+	        <div style="margin-bottom:18px;">
 	        	<p:staticMessage severity="error" summary="FAILED" detail="Email or password incorrect!" rendered="${param['error']}" />
 	        </div>
 	
-	        <div>
-	          <h:outputLabel for="email" value="Email" styleClass="block text-900 font-medium mb-2" />
-	          <p:inputText id="email" styleClass="w-full mb-3" required="true" />
-	
-	          <h:outputLabel for="password" value="Password" styleClass="block text-900 font-medium mb-2" />
-	          <p:inputText id="password" type="password" styleClass="w-full mb-3" required="true" />
-	          
-	          <div class="flex align-items-center justify-content-between mb-6">
-                <!-- <div class="flex align-items-center">
-                    <p:selectBooleanCheckbox id="remember-me" styleClass="mr-2"/>
-                    <label for="remember-me">Remember me</label>
-                </div> -->
-                <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a>
-              </div>
-	
-	          <p:commandButton value="Log In" ajax="false" icon="pi pi-unlock" styleClass="w-full" />
+	        <div class="login-input-wrapper">
+	          <p:inputText id="email" required="true" />
+	          <i class="pi pi-user"></i>
 	        </div>
-      	</h:form>
-      </div>
-    </div>
+	
+	        <div class="login-input-wrapper">
+	          	<p:inputText id="password" type="password" required="true" />
+	            <i class="pi pi-lock"></i>
+	        </div>
+	        
+	        <!-- <div class="login-input-wrapper">
+	            <p:selectBooleanCheckbox id="remember-me" />
+	            <label for="remember-me">Remember me</label>
+            </div> -->
+	        
+	        <p:commandButton value="Log In" ajax="false" icon="pi pi-unlock" />
+        </h:form>
+  	</div>
   </h:body>
-  <!-- <h:outputScript library="javax.faces.resource" name="script/layout.js" /> -->
+  <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/jquery/jquery.js" />
+  <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/core.js" />
+  <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/components.js" />
+  <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/jquery/jquery-plugins.js" />
 </html>

@@ -2,7 +2,6 @@ package it.antonio.sp.view;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
@@ -27,6 +26,8 @@ public class AnagraphicView {
 	private List<AnagraphicEntity> anagraphics;
 	private AnagraphicEntity selectedAnagraphic;
 	private SpecialtyExpiration selectedSpecialtyExpiration;
+	private List<String> qualificationNames;
+	private List<String> specialtyNames;
 	
 	@Autowired
 	AnagraphicService anagraphicService;
@@ -36,9 +37,6 @@ public class AnagraphicView {
 	
 	@Autowired
 	SpecialtyService specialtyService;
-	
-	private List<String> qualificationNames;
-	private List<String> specialtieNames;
 	
 	public List<AnagraphicEntity> getAnagraphics() {
 		return anagraphics;
@@ -63,24 +61,30 @@ public class AnagraphicView {
 	public void setSelectedSpecialtyExpiration(SpecialtyExpiration selectedSpecialtyExpiration) {
 		this.selectedSpecialtyExpiration = selectedSpecialtyExpiration;
 	}
-		
+	
+	public List<String> getQualificationNames() {
+		return qualificationNames;
+	}
+	
+	public void setQualificationNames(List<String> qualificationNames) {
+		this.qualificationNames = qualificationNames;
+	}
+	
+	public List<String> getSpecialtyNames() {
+		return specialtyNames;
+	}
+	
+	public void setSpecialtyNames(List<String> specialtyNames) {
+		this.specialtyNames = specialtyNames;
+	}
+
 	@PostConstruct
 	public void init() {
 		selectedAnagraphic = new AnagraphicEntity();
 		anagraphics = anagraphicService.findAll();
 		qualificationNames = qualificationService.getQualificationNames();
-		specialtieNames = specialtyService.getSpecialtyNames();
+		specialtyNames = specialtyService.getSpecialtyNames();
 	}
-	
-	public List<String> completeQualification(String query) {
-        String queryLowerCase = query.toLowerCase();
-        return qualificationNames.stream().filter(t -> t.toLowerCase().contains(queryLowerCase)).collect(Collectors.toList());
-    }
-	
-	public List<String> completeSpecialty(String query) {
-        String queryLowerCase = query.toLowerCase();
-        return specialtieNames.stream().filter(t -> t.toLowerCase().contains(queryLowerCase)).collect(Collectors.toList());
-    }
 	
 	public void saveAnagraphic() {
         if (selectedAnagraphic.getId() == null) {

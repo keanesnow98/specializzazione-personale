@@ -1,92 +1,71 @@
-<html
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:p="http://primefaces.org/ui"
->
-  <h:head>
-  	<link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css" />
-	<link rel="stylesheet" href="https://unpkg.com/primeflex/themes/saga-blue.css" />
-  	<h:outputStylesheet library="javax.faces.resource" name="css/layout/layout.css" />
-  </h:head>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="head">
+		<h:outputStylesheet name="css/custom-layout.css" library="specializzazionevvf"/>
+	</ui:define>
+	
+	<ui:define name="title">
+        User Management
+    </ui:define>
 
-  <h:body>
-  	<style>
-	  	.product-badge.status-active {
-	  		background: #c8e6c9;
-	    	color: #256029;
-	  	}
+	<ui:define name="implementation">
+	  	<style>
+	  		.product .product-grid-item .product-grid-item-top {
+			   flex-wrap: wrap;
+			}
+			.product-category-icons {
+				width: -webkit-fill-available;
+			}
+		  	.product-badge.status-active {
+		  		background: #c8e6c9;
+		    	color: #256029;
+		  	}
+		  	.product-badge.status-inactive {
+		  		background: #e9ecef;
+		  		color: #6c757d;
+		  	}
+		  	#form button.ui-button {
+			    margin-right: 0.5rem;
+			}
+			.ui-widget-content.ui-picklist-list {
+				width: 360px;
+			}
+	  	</style>
+		<div class="product crud-demo">
+		    <h:form id="form">
+		        <p:messages id="messages"/>
+		
+		        <p:dataView id="dv-users" var="user" value="#{usersView.users}" multiViewState="true" rows="12"
+		                    paginator="true"
+		                    rowsPerPageTemplate="6,12,16"
+		                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                    gridIcon="pi pi-th-large" listIcon="pi pi-bars">
 
-	  	.product-badge.status-inactive {
-	  		background: #e9ecef;
-	  		color: #6c757d;
-	  	}
-	  	#form button.ui-button {
-		    margin-right: 0.5rem;
-		}
-		.ui-widget-content.ui-picklist-list {
-			width: 360px;
-		}
-  	</style>
-	<div class="product card crud-demo">
-	    <h:form id="form">
-	        <p:messages id="messages"/>
-	
-	        <p:dataView id="dv-users" var="user" value="#{usersView.users}" multiViewState="true" rows="12"
-	                    paginator="true"
-	                    rowsPerPageTemplate="6,12,16"
-	                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-	                    gridIcon="pi pi-th-large" listIcon="pi pi-bars">
-	
-	            <p:dataViewGridItem>
-	                <div class="product-grid-item card border-1">
-		                <div class="product-grid-item-top">
-		                	<p:repeat value="#{user.roles}" var="role">
-		                        <div>
-		                            <i class="pi pi-tag product-category-icon"/>
-		                            <span class="product-category">#{role}</span>
-		                        </div>
-	                        </p:repeat>
-	                        <span class="product-badge status-#{user.active? 'active' : 'inactive'}">#{user.active? 'Activated' : 'Deactived'}</span>
-	                    </div>
-	                    <div class="product-grid-item-content">
-	                    	<p:graphicImage url="#{usersView.getGravatarURI(user.email)}" />
-	                        <div class="product-name">#{user.email}</div>
-	                        <div class="product-description">#{user.roles.contains('ROLE_ADMIN') ? 'Admin Privileged' : 'User Privileged'}</div>
-	                    </div>
-	                    <div class="product-grid-item-bottom">
-	                        <p:commandButton icon="pi pi-user-edit" update=":dialogs:modify-user-content"
-	                        				 oncomplete="PF('modifyUserDialog').show()"
-			                    			 styleClass="rounded-button ui-button-success" process="@this"
-			                    			 action="#{usersView.setSelectedUserRoles(user.roles)}">
-			                	<f:setPropertyActionListener value="#{user}" target="#{usersView.selectedUser}" />
-			                    <p:resetInput target=":dialogs:modify-user-content" />
-							</p:commandButton>
-			                <p:commandButton styleClass="ui-button-warning rounded-button" icon="pi pi-trash"
-			                                 process="@this"
-			                                 oncomplete="PF('deleteUserDialog').show()">
-			                    <f:setPropertyActionListener value="#{user}" target="#{usersView.selectedUser}" />
-			                </p:commandButton>
-                    	</div>
-	                </div>
-	            </p:dataViewGridItem>
-	
-	            <p:dataViewListItem>
-	                <div class="product-list-item">
-	                	<p:graphicImage url="#{usersView.getGravatarURI(user.email)}" />
-	                    <div class="product-list-detail">
-	                        <div class="product-name">#{user.email}</div>
-	                        <div class="product-description">#{user.roles.contains('ROLE_ADMIN') ? 'Admin Privileged' : 'User Privileged'}</div>
-	                        <p:repeat value="#{user.roles}" var="role">
-		                        <i class="pi pi-tag product-category-icon"/>
-		                        <span class="product-category">#{role}</span>
-	                        </p:repeat>
-	                    </div>
-	                    <div class="product-list-action">
-	                    	<div>
+		            <p:dataViewGridItem>
+		                <div class="product-grid-item card border-1">
+			                <div class="product-grid-item-top">
+			                	<p:repeat value="#{user.roles}" var="role">
+			                        <div class="product-category-icons">
+			                            <i class="pi pi-tag product-category-icon"/>
+			                            <span class="product-category">#{role}</span>
+			                        </div>
+		                        </p:repeat>
+		                        <span class="product-badge status-#{user.active? 'active' : 'inactive'}">#{user.active? 'Activated' : 'Deactived'}</span>
+		                    </div>
+		                    <div class="product-grid-item-content">
+		                    	<p:graphicImage url="#{usersView.getGravatarURI(user.email)}" />
+		                        <div class="product-name">#{user.email}</div>
+		                        <div class="product-description">#{user.roles.contains('ROLE_ADMIN') ? 'Admin Privileged' : 'User Privileged'}</div>
+		                    </div>
+		                    <div class="product-grid-item-bottom">
 		                        <p:commandButton icon="pi pi-user-edit" update=":dialogs:modify-user-content"
 		                        				 oncomplete="PF('modifyUserDialog').show()"
-				                    			 styleClass="rounded-button ui-button ui-button-success" process="@this"
+				                    			 styleClass="rounded-button ui-button-success" process="@this"
 				                    			 action="#{usersView.setSelectedUserRoles(user.roles)}">
 				                	<f:setPropertyActionListener value="#{user}" target="#{usersView.selectedUser}" />
 				                    <p:resetInput target=":dialogs:modify-user-content" />
@@ -96,57 +75,86 @@
 				                                 oncomplete="PF('deleteUserDialog').show()">
 				                    <f:setPropertyActionListener value="#{user}" target="#{usersView.selectedUser}" />
 				                </p:commandButton>
-				            </div>
-	                        <span class="product-badge status-#{user.active? 'active' : 'inactive'}">#{user.active? 'Activated' : 'Deactived'}</span>
-	                    </div>
-	                </div>
-	            </p:dataViewListItem>
-	        </p:dataView>
-	    </h:form>
-	    
-	    <h:form id="dialogs">
-	        <p:dialog header="User Details" width="840" showEffect="fade" modal="true" widgetVar="modifyUserDialog" responsive="true">
-	            <p:outputPanel id="modify-user-content" styleClass="ui-fluid">
-	                <p:outputPanel rendered="#{not empty usersView.selectedUser}">
-	                    <p:graphicImage url="#{usersView.getGravatarURI(usersView.selectedUser.email)}" styleClass="product-image" />
-	                    <div class="field">
-	                        <p:outputLabel for="email">Email</p:outputLabel>
-	                        <p:inputText id="email" value="#{usersView.selectedUser.email}" required="true" />
-	                    </div>
-	                    <div class="field">
-	                    	<h6>User RoleList</h6>
-        					<p:pickList value="#{usersView.selectedUserRoles}" var="role" itemLabel="#{role}" itemValue="#{role}"
-        								transferOnCheckboxClick="true" showCheckbox="true" showSourceControls="false" showTargetControls="false" />
-	                    </div>
-	                    <div class="field">
-	                        <h6>Active?</h6>
-	                        <p:toggleSwitch value="#{usersView.selectedUser.active}" />
-	                    </div>
-	                </p:outputPanel>
-	            </p:outputPanel>
-	
-	            <f:facet name="footer">
-	                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{usersView.saveUser}"
-	                    update="modify-user-content" process="modify-user-content @this" />
-	                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('modifyUserDialog').hide()"
-	                    styleClass="ui-button-secondary" />
-	            </f:facet>
-	        </p:dialog>
-	
-	        <p:confirmDialog widgetVar="deleteUserDialog" showEffect="fade" width="300"
-	            message="Delete the user?" header="Confirm" severity="warn">
-	            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{usersView.deleteUser}"
-	                process="@this" oncomplete="PF('deleteUserDialog').hide()" />
-	            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-	                onclick="PF('deleteUserDialog').hide()" />
-	        </p:confirmDialog>
-	
-	        <p:confirmDialog global="true" showEffect="fade" width="300">
-	            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-	            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
-	                icon="pi pi-times" />
-	        </p:confirmDialog>
-	    </h:form>
-	</div>
-  </h:body>
-</html>
+	                    	</div>
+		                </div>
+		            </p:dataViewGridItem>
+		
+		            <p:dataViewListItem>
+		                <div class="product-list-item">
+		                	<p:graphicImage url="#{usersView.getGravatarURI(user.email)}" />
+		                    <div class="product-list-detail">
+		                        <div class="product-name">#{user.email}</div>
+		                        <div class="product-description">#{user.roles.contains('ROLE_ADMIN') ? 'Admin Privileged' : 'User Privileged'}</div>
+		                        <p:repeat value="#{user.roles}" var="role">
+			                        <i class="pi pi-tag product-category-icon"/>
+			                        <span class="product-category">#{role}</span>
+		                        </p:repeat>
+		                    </div>
+		                    <div class="product-list-action">
+		                    	<div>
+			                        <p:commandButton icon="pi pi-user-edit" update=":dialogs:modify-user-content"
+			                        				 oncomplete="PF('modifyUserDialog').show()"
+					                    			 styleClass="rounded-button ui-button ui-button-success" process="@this"
+					                    			 action="#{usersView.setSelectedUserRoles(user.roles)}">
+					                	<f:setPropertyActionListener value="#{user}" target="#{usersView.selectedUser}" />
+					                    <p:resetInput target=":dialogs:modify-user-content" />
+									</p:commandButton>
+					                <p:commandButton styleClass="ui-button-warning rounded-button" icon="pi pi-trash"
+					                                 process="@this"
+					                                 oncomplete="PF('deleteUserDialog').show()">
+					                    <f:setPropertyActionListener value="#{user}" target="#{usersView.selectedUser}" />
+					                </p:commandButton>
+					            </div>
+		                        <span class="product-badge status-#{user.active? 'active' : 'inactive'}">#{user.active? 'Activated' : 'Deactived'}</span>
+		                    </div>
+		                </div>
+		            </p:dataViewListItem>
+		        </p:dataView>
+		    </h:form>
+		    
+		    <h:form id="dialogs">
+		        <p:dialog header="User Details" width="840" showEffect="fade" modal="true" widgetVar="modifyUserDialog" responsive="true">
+		            <p:outputPanel id="modify-user-content" styleClass="ui-fluid">
+		                <p:outputPanel rendered="#{not empty usersView.selectedUser}">
+		                    <p:graphicImage url="#{usersView.getGravatarURI(usersView.selectedUser.email)}" styleClass="product-image" />
+		                    <div class="field">
+		                        <p:outputLabel for="email">Email</p:outputLabel>
+		                        <p:inputText id="email" value="#{usersView.selectedUser.email}" required="true" />
+		                    </div>
+		                    <div class="field">
+		                    	<h6>User RoleList</h6>
+	        					<p:pickList value="#{usersView.selectedUserRoles}" var="role" itemLabel="#{role}" itemValue="#{role}"
+	        								transferOnCheckboxClick="true" showCheckbox="true" showSourceControls="false" showTargetControls="false" />
+		                    </div>
+		                    <div class="field">
+		                        <h6>Active?</h6>
+		                        <p:toggleSwitch value="#{usersView.selectedUser.active}" />
+		                    </div>
+		                </p:outputPanel>
+		            </p:outputPanel>
+		
+		            <f:facet name="footer">
+		                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{usersView.saveUser}"
+		                    update="modify-user-content" process="modify-user-content @this" />
+		                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('modifyUserDialog').hide()"
+		                    styleClass="ui-button-secondary" />
+		            </f:facet>
+		        </p:dialog>
+		
+		        <p:confirmDialog widgetVar="deleteUserDialog" showEffect="fade" width="300"
+		            message="Delete the user?" header="Confirm" severity="warn">
+		            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{usersView.deleteUser}"
+		                process="@this" oncomplete="PF('deleteUserDialog').hide()" />
+		            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+		                onclick="PF('deleteUserDialog').hide()" />
+		        </p:confirmDialog>
+		
+		        <p:confirmDialog global="true" showEffect="fade" width="300">
+		            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+		            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+		                icon="pi pi-times" />
+		        </p:confirmDialog>
+		    </h:form>
+		</div>
+	</ui:define>
+</ui:composition>

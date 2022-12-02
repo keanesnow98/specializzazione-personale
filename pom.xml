@@ -92,12 +92,6 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
         </dependency>
-        
-        <dependency>
-		    <groupId>org.primefaces.extensions</groupId>
-		    <artifactId>all-themes</artifactId>
-		    <version>1.0.8</version>
-		</dependency>
 		        
         <dependency>
             <groupId>com.sun.faces</groupId>

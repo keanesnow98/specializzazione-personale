@@ -2,6 +2,7 @@ package it.antonio.sp.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,10 +74,28 @@ public class AnagraphicService {
 		return filteredResult;
 	}
 	
+	public List<AnagraphicEntity> getFilteredByTurnoA(String specialty) {
+		List<AnagraphicEntity> filteredResult = new ArrayList<>();
+		anagraphicRepository.findAll().toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().startsWith("A"))
+				filteredResult.add(result);
+		});
+		return filteredResult;
+	}
+	
 	public List<AnagraphicEntity> getFilteredByTurnoB() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
 		anagraphicRepository.findAll().toIterable().forEach(result -> {
 			if (result.getTurno().startsWith("B"))
+				filteredResult.add(result);
+		});
+		return filteredResult;
+	}
+	
+	public List<AnagraphicEntity> getFilteredByTurnoB(String specialty) {
+		List<AnagraphicEntity> filteredResult = new ArrayList<>();
+		anagraphicRepository.findAll().toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().startsWith("B"))
 				filteredResult.add(result);
 		});
 		return filteredResult;
@@ -91,6 +110,15 @@ public class AnagraphicService {
 		return filteredResult;
 	}
 	
+	public List<AnagraphicEntity> getFilteredByTurnoC(String specialty) {
+		List<AnagraphicEntity> filteredResult = new ArrayList<>();
+		anagraphicRepository.findAll().toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().startsWith("C"))
+				filteredResult.add(result);
+		});
+		return filteredResult;
+	}
+	
 	public List<AnagraphicEntity> getFilteredByTurnoD() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
 		anagraphicRepository.findAll().toIterable().forEach(result -> {
@@ -100,10 +128,28 @@ public class AnagraphicService {
 		return filteredResult;
 	}
 	
+	public List<AnagraphicEntity> getFilteredByTurnoD(String specialty) {
+		List<AnagraphicEntity> filteredResult = new ArrayList<>();
+		anagraphicRepository.findAll().toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().startsWith("D"))
+				filteredResult.add(result);
+		});
+		return filteredResult;
+	}
+	
 	public List<AnagraphicEntity> getFilteredByTurnoG() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
 		anagraphicRepository.findAll().toIterable().forEach(result -> {
 			if (result.getTurno().equals("G"))
+				filteredResult.add(result);
+		});
+		return filteredResult;
+	}
+	
+	public List<AnagraphicEntity> getFilteredByTurnoG(String specialty) {
+		List<AnagraphicEntity> filteredResult = new ArrayList<>();
+		anagraphicRepository.findAll().toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().equals("G"))
 				filteredResult.add(result);
 		});
 		return filteredResult;

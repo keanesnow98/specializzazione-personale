@@ -73,8 +73,8 @@ public class UsersView {
 		rolesSource.add(Constants.ROLE_ADMIN_QUALIFICATIONS_ALL);
 		rolesSource.add(Constants.ROLE_ADMIN_USER_MANAGEMENT_ALL);
 		
-		rolesSource.add(Constants.ROLE_USER_DASHBOARD_VIEW);
-		rolesSource.add(Constants.ROLE_USER_REPORTS_BY_SPECIALTIES_ALL);
+		rolesSource.add(Constants.ROLE_USER_DASHBOARD_ALL);
+		rolesSource.add(Constants.ROLE_USER_REPORTS_BY_SPECIALTY_ALL);
 		rolesSource.add(Constants.ROLE_USER_REPORTS_BY_TURNO_ALL);
 		
 		rolesSource.add(Constants.ROLE_USER_ANAGRAPHICVVF_VIEW);

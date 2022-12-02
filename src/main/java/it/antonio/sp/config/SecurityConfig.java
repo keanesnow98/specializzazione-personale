@@ -12,6 +12,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import it.antonio.sp.service.UserService;
+import it.antonio.sp.util.Constants;
 
 @Configuration
 @EnableWebSecurity
@@ -25,18 +26,24 @@ public class SecurityConfig {
 			http.csrf().disable();
 			http
 				.authorizeRequests()
-				.antMatchers("/").permitAll()
-				.antMatchers("/**.xhtml").permitAll()
-				.antMatchers("/javax.faces.resource/**").permitAll()
+				.antMatchers("/javax.faces.resource/**/**.xhtml").permitAll()
+				.antMatchers("/specializzazionevvf/**.xhtml").permitAll()
 				.antMatchers("/specializzazionevvf/auth/**.xhtml").permitAll()
-				.antMatchers("/specializzazionevvf/api/admin/**.xhtml").hasRole("ADMIN")
+				.antMatchers("/specializzazionevvf/api/admin/").hasRole("ADMIN")
+				.antMatchers("/specializzazionevvf/api/admin/specialties.xhtml").hasAuthority(Constants.ROLE_ADMIN_SPECIALTIES_ALL)
+				.antMatchers("/specializzazionevvf/api/admin/qualifications.xhtml").hasAuthority(Constants.ROLE_ADMIN_QUALIFICATIONS_ALL)
+				.antMatchers("/specializzazionevvf/api/admin/users.xhtml").hasAuthority(Constants.ROLE_ADMIN_USER_MANAGEMENT_ALL)
+				.antMatchers("/specializzazionevvf/api/dashboard.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_DASHBOARD_ALL)
+				.antMatchers("/specializzazionevvf/api/anagraphic.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_DASHBOARD_ALL)
+				.antMatchers("/specializzazionevvf/api/reports-by-turno.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_REPORTS_BY_TURNO_ALL)
+				.antMatchers("/specializzazionevvf/api/reports-by-specialty.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_REPORTS_BY_SPECIALTY_ALL)
 				.anyRequest().authenticated()
 				.and()
 				.formLogin()
 				.usernameParameter("email")
 				.loginPage("/specializzazionevvf/auth/login.xhtml").permitAll()
 				.failureUrl("/specializzazionevvf/auth/login.xhtml?error=true")
-				.defaultSuccessUrl("/specializzazionevvf/api/helloworld.xhtml")
+				.defaultSuccessUrl("/specializzazionevvf/test.xhtml")
 				.and()
 				.logout()
 				.logoutSuccessUrl("/specializzazionevvf/auth/login.xhtml");
@@ -48,7 +55,7 @@ public class SecurityConfig {
 	}
 	
 	public void configure(WebSecurity web) throws Exception {
-	    web.ignoring().antMatchers("/specializzazionevvf/auth/register.xhtml");
+	    web.ignoring().antMatchers("/specializzazionevvf/auth/register.xhtml", "/specializzazionevvf/test.xhtml");
 	}
 
 

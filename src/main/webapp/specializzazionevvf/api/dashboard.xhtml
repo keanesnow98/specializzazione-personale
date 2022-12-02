@@ -1,66 +1,81 @@
-<html
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:p="http://primefaces.org/ui"
->
-  <h:head>
-  	<link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css" />
-	<link rel="stylesheet" href="https://unpkg.com/primeflex/themes/saga-blue.css" />
-  	<h:outputStylesheet library="javax.faces.resource" name="css/layout/layout.css" />
-  </h:head>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="title">
+        Dashboard
+    </ui:define>
 
-  <h:body>
-    <script>
-      //<![CDATA[
-	    function exportChart(chartName) {
-	      //export image
-	      $('#output').empty().append(PF(chartName).exportAsImage());
+	<ui:define name="implementation">
+	    <script>
+	      //<![CDATA[
+		    function exportChart(chartName) {
+		      //export image
+		      $('#output').empty().append(PF(chartName).exportAsImage());
+	
+		      //show the dialog
+	          PF('dlg').show();
+		    }
+		  //]]>
+		</script>
+		
+		<p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-6, ui-grid-col-12" layout="grid">
+ 			<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6">
+				<div class="card">
+			      <p:barChart model="#{chartsView.specialtiesBar}" widgetVar="chart1" style="width: 100%; display: block; box-sizing: border-box;" />
+			      <br/>
+			      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart1')" styleClass="mr-2 mb-2" />
+			    </div>
+			</p:column>
+			
+			<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6">
+				<div class="card">
+			      <p:lineChart model="#{chartsView.qualificationsLine}" widgetVar="chart2" style="width: 100%; display: block; box-sizing: border-box;" />
+			      <br/>
+			      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart2')" styleClass="mr-2 mb-2" />
+			    </div>
+			</p:column>
+			
+			<p:row>
+				<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3">
+					<div class="card">
+				      <p:pieChart model="#{chartsView.turnoAPie}" widgetVar="chart3" style="width: 100%; display: block; box-sizing: border-box;" />
+				      <br/>
+				      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart3')" styleClass="mr-2 mb-2" />
+				    </div>
+				</p:column>
+				
+	 			<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3">
+					<div class="card">
+				      <p:pieChart model="#{chartsView.turnoBPie}" widgetVar="chart4" style="width: 100%; display: block; box-sizing: border-box;" />
+				      <br/>
+				      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart4')" styleClass="mr-2 mb-2" />
+				    </div>
+				</p:column>
+				
+				<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3">
+					<div class="card">
+				      <p:pieChart model="#{chartsView.turnoCPie}" widgetVar="chart5" style="width: 100%; display: block; box-sizing: border-box;" />
+				      <br/>
+				      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart5')" styleClass="mr-2 mb-2" />
+				    </div>
+				</p:column>
+				
+				<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3">
+					<div class="card">
+				      <p:pieChart model="#{chartsView.turnoDPie}" widgetVar="chart6" style="width: 100%; display: block; box-sizing: border-box;" />
+				      <br/>
+				      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart6')" styleClass="mr-2 mb-2" />
+				    </div>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
 
-	      //show the dialog
-          PF('dlg').show();
-	    }
-	  //]]>
-	</script>
-
-  	<div class="card">
-      <p:barChart model="#{chartsView.specialtiesBar}" widgetVar="chart1" />
-      <br/>
-      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart1')" styleClass="mr-2 mb-2" />
-    </div>
-    
-    <div class="card">
-      <p:lineChart model="#{chartsView.qualificationsLine}" widgetVar="chart2" />
-      <br/>
-      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart2')" styleClass="mr-2 mb-2" />
-    </div>
-    
-    <div class="card">
-      <p:pieChart model="#{chartsView.turnoAPie}" widgetVar="chart3" />
-      <br/>
-      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart3')" styleClass="mr-2 mb-2" />
-    </div>
-    
-    <div class="card">
-      <p:pieChart model="#{chartsView.turnoBPie}" widgetVar="chart4" />
-      <br/>
-      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart4')" styleClass="mr-2 mb-2" />
-    </div>
-    
-    <div class="card">
-      <p:pieChart model="#{chartsView.turnoCPie}" widgetVar="chart5" />
-      <br/>
-      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart5')" styleClass="mr-2 mb-2" />
-    </div>
-    
-    <div class="card">
-      <p:pieChart model="#{chartsView.turnoDPie}" widgetVar="chart6" />
-      <br/>
-      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart6')" styleClass="mr-2 mb-2" />
-    </div>
-    
-    <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
-      <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>
-    </p:dialog>
-  </h:body>
-</html>
+	    <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
+	      <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>
+	    </p:dialog>
+	</ui:define>
+</ui:composition>

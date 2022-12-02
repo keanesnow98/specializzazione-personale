@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+<h:head>
+	<f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <link href="#{resource['specializzazionevvf/images/favicon.ico']}" rel="icon" type="image/png" sizes="48x48"/>
+    </f:facet>
+    <title>Specializzazione Personale</title>
+    
+    <!-- <link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/saga-blue.css" />
+    <h:outputStylesheet library="javax.faces.resource" name="css/layout/layout.css" /> -->
+    
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/components.css" />
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/primefaces-babylon-pink/theme.css" />
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/css/layout-pink.css" />
+    
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/inputswitch/inputswitch.css" />
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/css/primeicons.css" />
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/css/primeflex.min.css" />
+    
+    <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/demo/css/demo.css" />
+    
+    <ui:insert name="head"/>
+</h:head>
+
+<h:body>
+    <div class="layout-wrapper layout-static layout-menu-light">
+
+    	<ui:include src="./topbar.xhtml"></ui:include>
+    	<ui:include src="./menu.xhtml"></ui:include>
+    	<div class="layout-mask"></div>
+
+        <div class="layout-main">
+            <!-- <div class="route-bar">
+                <div class="route-bar-breadcrumb">
+                    <i class="pi pi-home"></i>
+                    <span>/ </span>
+                    <li><a href="/specializzazionevvf/api/dashboard.xhtml" class="ui-link ui-widget">Dashboard</a></li>
+                </div>
+            </div> -->
+            <div class="layout-content">
+            	<div class="grid">
+            		<div class="col">
+            			<div class="card">
+            				<h5><ui:insert name="title"></ui:insert></h5>
+              				<ui:insert name="implementation"></ui:insert>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            <ui:include src="./footer.xhtml"></ui:include>
+        </div>
+    </div>
+</h:body>
+    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/jquery/jquery.js" />
+    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/core.js" />
+    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/components.js" />
+    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/inputswitch/inputswitch.js" />
+    <h:outputScript library="javax.faces.resource" name="touch/touchswipe.js" />
+    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/jquery/jquery-plugins.js" />
+	<h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/js/prism.js" />
+    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/js/layout.js" />
+    
+    <script id="menuform:j_idt34_s"
+        type="text/javascript">$(function () { PrimeFaces.cw("Babylon", "babylonMenuWidget", { id: "menuform:j_idt34", statefulScroll: true }); });</script>
+    <script id="menuform:j_idt34_s"
+        type="text/javascript">PrimeFaces.cw("Babylon", "babylonMenuWidget", { id: "menuform:j_idt34", statefulScroll: true, pathname: "/specializzazionevvf/api/dashboard.xhtml" });</script>
+</html>

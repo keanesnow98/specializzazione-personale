@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<div class="layout-topbar">
+		<h:link styleClass="layout-topbar-logo" outcome="/specailzzazionevvf/api/dashboard.xhtml">
+            <p:graphicImage name="babylon/javax.faces.resource/babylon-layout/images/logo-white.png" library="javax.faces.resource"></p:graphicImage>
+        </h:link>
+    	<!-- <a id="toplogolink" href="/specializzazionevvf/api/dashboard.xhtml" class="layout-topbar-logo">
+        	<p:graphicImage name="babylon/javax.faces.resource/babylon-layout/images/logo-white.png" library="javax.faces.resource"></p:graphicImage>
+        </a> -->
+
+        <a class="layout-menu-button" href="#">
+            <i class="pi pi-bars"></i>
+        </a>
+
+        <a id="topbar-menu-button" href="#">
+            <i class="pi pi-ellipsis-v"></i>
+        </a>
+
+        <ul class="topbar-menu fadeInDown">
+            <li class="user-profile">
+                <a href="#">
+                	<p:avatar styleClass="mr-2" size="large" shape="circle">
+                		<p:graphicImage url="#{topbarView.getGravatarURI()}"></p:graphicImage>
+                	</p:avatar>
+                    <span class="topbar-item-name">#{topbarView.getEmail()}</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/logout">
+                            <i class="pi pi-sign-out"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</ui:composition>
