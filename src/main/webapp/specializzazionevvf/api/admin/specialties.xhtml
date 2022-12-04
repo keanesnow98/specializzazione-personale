@@ -31,21 +31,10 @@
 		                        <h:outputText value="#{specialty.specialtyName}" />
 		                    </f:facet>
 		                    <f:facet name="input">
-		                        <p:inputText value="#{specialty.specialtyName}" style="width:100%"/>
+		                        <p:inputText value="#{specialty.specialtyName}" style="width:100%; margin-top:8px; margin-bottom:8px;"/>
 		                    </f:facet>
 		                </p:cellEditor>
 		            </p:column>
-		            
-		            <p:column headerText="Requires validation months">
-			            <p:cellEditor>
-		                    <f:facet name="output">
-		                        <h:outputText value="#{specialty.requiresValidationMonths ? 'Yes' : 'No'}"/>
-		                    </f:facet>
-		                    <f:facet name="input">
-		                        <p:toggleSwitch value="#{specialty.requiresValidationMonths}" />
-		                    </f:facet>
-		                </p:cellEditor>
-			        </p:column>
 		        </p:dataTable>
 		    </div>
 		</h:form>

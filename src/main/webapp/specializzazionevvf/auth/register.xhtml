@@ -19,45 +19,73 @@
     <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/css/layout-pink.css" />
     
     <h:outputStylesheet library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/css/primeicons.css" />
+    
+    <h:outputStylesheet name="css/custom-layout.css" library="specializzazionevvf"/>
   </h:head>
 
   <h:body styleClass="login-body">
-  
-  	<div class="login-panel"></div>
+  	<style>
+  		.login-body .login-content .login-input-wrapper {
+  			width: inherit;
+  		}
+  	</style>
   	
-  	<div class="login-content">
+  	<div class="login-panel" style="left:0%; -moz-border-radius:0%; -webkit-border-radius:0%; border-radius:0%;"></div>
+  	
+  	<div class="login-content" style="display:flex; justify-content:center; opacity:0.85;">
   		<h:form prependId="false">
-	  		<p:graphicImage name="babylon/javax.faces.resource/babylon-layout/images/logo-black.png" library="javax.faces.resource"></p:graphicImage>
+  			<div class="card" style="padding:50px;">
+  				<div style="display:flex; justify-content:center;">
+	  				<p:graphicImage name="images/favicon.ico" library="specializzazionevvf" alt="Specializzazione Personale"
+	  					height="50" style="margin-bottom: 14px; width:50px;" />
+	  			</div>
 	
-	  		<h1><span>REGISTER</span> TO SPECIALIZZAZIONE PERSONALE</h1>
-	        <p>
-	        	Already have account?
-	        	<p:link href="/specializzazionevvf/auth/login.xhtml">
-	          		Log in now!
-	          </p:link>
-	        </p>
-	
-	        <div class="login-input-wrapper">
-	          <p:inputText id="email" value="#{registerView.email}" required="true" />
-	          <i class="pi pi-user"></i>
-	        </div>
-	
-	        <div class="login-input-wrapper">
-	          	<p:password id="password" match="confirmPassword" value="#{registerView.password}" required="true" />
-	            <i class="pi pi-key"></i>
-	        </div>
-	        
-	        <div class="login-input-wrapper">
-	          	<p:password id="confirmPassword" value="#{registerView.confirmPassword}" required="true" />
-	            <i class="pi pi-key"></i>
-	        </div>
-	        
-	        <p:commandButton value="Register" ajax="false" update="messages" action="#{registerView.register}" icon="pi pi-user" />
-	        
-	        <p:messages id="messages" showDetail="true">
-	        	<p:autoUpdate/>
-	        </p:messages>
+		  		<h1><span>REGISTER</span> TO SPECIALIZZAZIONE PERSONALE</h1>
+		        <p>
+		        	Already have account?
+		        	<p:link href="/specializzazionevvf/auth/login.xhtml">
+		          		Log in now!
+		          </p:link>
+		        </p>
+		
+		        <div class="login-input-wrapper">
+		          <p:inputText id="email" value="#{registerView.email}" required="true" />
+		          <i class="pi pi-user"></i>
+		        </div>
+		
+		        <div class="login-input-wrapper">
+		          	<p:password id="password" match="confirmPassword" value="#{registerView.password}" required="true" />
+		            <i class="pi pi-key"></i>
+		        </div>
+		        
+		        <div class="login-input-wrapper">
+		          	<p:password id="confirmPassword" value="#{registerView.confirmPassword}" required="true" />
+		            <i class="pi pi-key"></i>
+		        </div>
+		        
+		        <p:commandButton value="Register" ajax="false" update="messages" action="#{registerView.register}" icon="pi pi-user"
+		        	 style="width: 100%;" />
+		        
+		        <p:messages id="messages" showDetail="true">
+		        	<p:autoUpdate/>
+		        </p:messages>
+		    </div>
         </h:form>
+  	</div>
+  	<div class="crud-demo">
+  		<h:form id="dialogs">
+	        <p:confirmDialog widgetVar="registerSuccessDialog" showEffect="fade" width="300"
+	            message="Proceed to login page?" header="Register Success" severity="warn">
+	            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{registerView.proceed}" process="@this" />
+	            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+	                onclick="PF('registerSuccessDialog').hide()" />
+	        </p:confirmDialog>
+	        
+	        <p:confirmDialog global="true" showEffect="fade" width="300">
+	            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+	            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+	        </p:confirmDialog>
+	    </h:form>
   	</div>
   </h:body>
   <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/jquery/jquery.js" />

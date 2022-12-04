@@ -10,6 +10,11 @@ import it.antonio.sp.util.Generator;
 @ManagedBean
 @RequestScope
 public class TopbarView {
+	
+	public Boolean hasNoAuthority() {
+		return SecurityContextHolder.getContext().getAuthentication().getAuthorities().isEmpty();
+	}
+	
 	public String getEmail() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}

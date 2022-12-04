@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="title">
+        Reports
+    </ui:define>
+
+	<ui:define name="implementation">
+		<h:form>
+			<div class="flex justify-content-between">
+			   <div class="flex justify-content-between align-items-center">
+			   		By Detail
+			   </div>
+			   <div>
+			      <p:commandButton value="XLSX" styleClass="mr-2 mb-2" >
+			          <!-- <p:dataExporter type="xlsxstream" target="products" fileName="visible" visibleOnly="true"/> -->
+			      </p:commandButton>
+			
+			      <p:commandButton value="PDF" styleClass="mr-2 mb-2" >
+			          <!-- <p:dataExporter type="pdf" target="products" fileName="visible" visibleOnly="true"/> -->
+			      </p:commandButton>
+			   </div>
+			</div>
+			
+		    <p:dataTable id="anagraphics" var="anagraphic" value="#{reportsByDetailView.anagraphics}" styleClass="mb-3" rowKey="#{product.id}">
+		        <f:facet name="header">
+		            <div class="flex justify-content-between align-items-center">
+		            	Anagraphics Detail
+		                <div>
+		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                    <p:columnToggler datasource="anagraphics" trigger="toggler">
+		                        <p:ajax />
+		                    </p:columnToggler>
+		                </div>
+		            </div>
+		        </f:facet>
+		        
+		        <p:column style="width:2rem">
+	                <p:rowToggler/>
+	            </p:column>
+		
+		        <p:column headerText="Last name">
+		            <h:outputText value="#{anagraphic.lastName}" />
+		        </p:column>
+		
+		        <p:column headerText="First name">
+		            <h:outputText value="#{anagraphic.firstName}" />
+		        </p:column>
+		
+		        <p:column headerText="Qualification">
+		            <h:outputText value="#{anagraphic.qualification}" />
+		        </p:column>
+		        
+		        <p:column headerText="Turno">
+	                <h:outputText value="#{anagraphic.turno}" />
+	            </p:column>
+		
+		        <p:column headerText="Ruolo">
+		            <h:outputText value="#{anagraphic.ruolo}" />
+		        </p:column>
+		        
+		        <p:column headerText="Fiscal Code">
+		            <h:outputText value="#{anagraphic.fiscalCode}" />
+		        </p:column>
+		        
+		        <p:column headerText="Phone number">
+		            <h:outputText value="#{anagraphic.phoneNumber}" />
+		        </p:column>
+		        
+		        <p:column headerText="Email">
+		            <h:outputText value="#{anagraphic.contactEmail}" />
+		        </p:column>
+		        
+		        <p:column headerText="Note">
+		            <h:outputText value="#{anagraphic.note}" />
+		        </p:column>
+		        
+		        <p:rowExpansion>
+	                <p:dataTable var="specialtyExp" value="#{anagraphic.specialtyExpirations}">
+			            <p:column headerText="Specialty">
+			                <h:outputText value="#{specialtyExp.specialty}" />
+			            </p:column>
+			
+			            <p:column headerText="Achieved date">
+			                <h:outputText value="#{specialtyExp.achievedDate}" />
+			            </p:column>
+			
+			            <p:column headerText="Validation months">
+			                <h:outputText value="#{specialtyExp.validationMonths}" />
+			            </p:column>
+			
+			            <p:column headerText="Status">
+			                <h:outputText value="#{specialtyExp.isValid() ? 'Valid' : 'Expired'}" />
+			            </p:column>
+			        </p:dataTable>
+	            </p:rowExpansion>
+		    </p:dataTable>
+		    
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -6,6 +6,7 @@ import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -47,16 +48,19 @@ public class RegisterView {
 	}
 	
 	public void register() {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
 		Response response = userService.register(email, password).blockFirst();
 		if (response.ok) {
-			try {
-				facesContext.getExternalContext().redirect("login.xhtml");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			PrimeFaces.current().executeScript("PF('registerSuccessDialog').show()");
 		} else {
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Exist", response.errorMessage));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Exist", response.errorMessage));
+		}
+	}
+	
+	public void proceed() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

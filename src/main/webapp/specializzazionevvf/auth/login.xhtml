@@ -22,41 +22,52 @@
   </h:head>
 
   <h:body styleClass="login-body">
+  	<style>
+  		.login-body .login-content .login-input-wrapper {
+  			width: inherit;
+  		}
+  	</style>
   
-  	<div class="login-panel"></div>
+  	<div class="login-panel" style="left:0%; -moz-border-radius:0%; -webkit-border-radius:0%; border-radius:0%;"></div>
   	
-  	<div class="login-content">
+  	<div class="login-content" style="display:flex; justify-content:center; opacity:0.85;">
   		<h:form prependId="false">
-	  		<p:graphicImage name="babylon/javax.faces.resource/babylon-layout/images/logo-black.png" library="javax.faces.resource"></p:graphicImage>
-	
-	  		<h1><span>LOG IN</span> TO SPECIALIZZAZIONE PERSONALE</h1>
-	        <p>
-	        	Don't have an account?
-	        	<p:link href="/specializzazionevvf/auth/register.xhtml">
-	          		Create today!
-	            </p:link>
-	        </p>
-	        
-	        <div style="margin-bottom:18px;">
-	        	<p:staticMessage severity="error" summary="FAILED" detail="Email or password incorrect!" rendered="${param['error']}" />
-	        </div>
-	
-	        <div class="login-input-wrapper">
-	          <p:inputText id="email" required="true" />
-	          <i class="pi pi-user"></i>
-	        </div>
-	
-	        <div class="login-input-wrapper">
-	          	<p:inputText id="password" type="password" required="true" />
-	            <i class="pi pi-lock"></i>
-	        </div>
-	        
-	        <!-- <div class="login-input-wrapper">
-	            <p:selectBooleanCheckbox id="remember-me" />
-	            <label for="remember-me">Remember me</label>
-            </div> -->
-	        
-	        <p:commandButton value="Log In" ajax="false" icon="pi pi-unlock" />
+  			<div class="card" style="padding:50px;">
+  				<div style="display:flex; justify-content:center;">
+	  				<p:graphicImage name="images/favicon.ico" library="specializzazionevvf" alt="Specializzazione Personale"
+	  					height="50" style="margin-bottom: 14px; width:50px;" />
+	  			</div>
+
+		  		<h1><span>LOG IN</span> TO SPECIALIZZAZIONE PERSONALE</h1>
+		        <p>
+		        	Don't have an account?
+		        	<p:link href="/specializzazionevvf/auth/register.xhtml">
+		          		Create today!
+		            </p:link>
+		        </p>
+		        
+		        <div style="margin-bottom:18px;">
+		        	<p:staticMessage severity="error" summary="FAILED" detail="Email or password incorrect!" rendered="${param['error']}"
+		        		style="margin-left:0px; width:100%;" />
+		        </div>
+		
+		        <div class="login-input-wrapper">
+		          <p:inputText id="email" required="true" />
+		          <i class="pi pi-user"></i>
+		        </div>
+		
+		        <div class="login-input-wrapper">
+		          	<p:inputText id="password" type="password" required="true" />
+		            <i class="pi pi-lock"></i>
+		        </div>
+		        
+		        <!-- <div class="login-input-wrapper">
+		            <p:selectBooleanCheckbox id="remember-me" />
+		            <label for="remember-me">Remember me</label>
+	            </div> -->
+		        
+		        <p:commandButton value="Log In" ajax="false" icon="pi pi-unlock" style="width: 100%;" />
+		    </div>
         </h:form>
   	</div>
   </h:body>

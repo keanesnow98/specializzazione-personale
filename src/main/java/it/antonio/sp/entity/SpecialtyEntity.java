@@ -10,7 +10,6 @@ public class SpecialtyEntity {
             
     String specialtyName;
 
-    Boolean requiresValidationMonths = true;
     
     public String getSpecialtyId() {
 		return specialtyId;
@@ -26,13 +25,5 @@ public class SpecialtyEntity {
     
     public void setSpecialtyName(String specialtyName) {
 		this.specialtyName = specialtyName;
-	}
-    
-    public Boolean getRequiresValidationMonths() {
-		return requiresValidationMonths;
-	}
-    
-    public void setRequiresValidationMonths(Boolean requiresValidationMonths) {
-		this.requiresValidationMonths = requiresValidationMonths;
 	}
 }

@@ -33,6 +33,24 @@
 </h:head>
 
 <h:body>
+	<style>
+		body .ui-growl .ui-growl-item-container.ui-growl-info {
+		    background: rgb(107, 215, 0);
+		    border: 1px solid rgb(0, 176, 0);
+		    color: rgb(0, 128, 0);
+		    border-width: 0 0 0 6px;
+		}
+		
+		body .ui-growl .ui-growl-item-container.ui-growl-info .ui-growl-image {
+		    font-family: "primeicons" !important;
+		    font-style: normal;
+		    font-weight: normal;
+		    display: inline-block;
+		    background: none;
+		    font-size: 2rem;
+		    color: rgb(0, 128, 0);
+		}
+	</style>
     <div class="layout-wrapper layout-static layout-menu-light">
 
     	<ui:include src="./topbar.xhtml"></ui:include>
@@ -62,13 +80,16 @@
     </div>
 </h:body>
     <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/jquery/jquery.js" />
+    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/jquery/jquery-plugins.js" />
     <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/core.js" />
     <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/components.js" />
     <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/inputswitch/inputswitch.js" />
-    <h:outputScript library="javax.faces.resource" name="touch/touchswipe.js" />
-    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/jquery/jquery-plugins.js" />
-	<h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/js/prism.js" />
+
+    <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/js/prism.js" />
     <h:outputScript library="javax.faces.resource" name="babylon/javax.faces.resource/babylon-layout/js/layout.js" />
+
+    <h:outputScript library="javax.faces.resource" name="touch/touchswipe.js" />
+    <ui:insert name="script"/>
     
     <script id="menuform:j_idt34_s"
         type="text/javascript">$(function () { PrimeFaces.cw("Babylon", "babylonMenuWidget", { id: "menuform:j_idt34", statefulScroll: true }); });</script>

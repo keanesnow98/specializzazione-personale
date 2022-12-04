@@ -50,8 +50,6 @@ public class SpecialtiesView {
         	
         	if (headerText.equals("Name")) {
         		selectedSpecialty.setSpecialtyName((String) newValue);
-        	} else if (headerText.equals("Requires validation months")) {
-        		selectedSpecialty.setRequiresValidationMonths((Boolean) newValue);
         	}
     		specialtyService.saveSpecialty(selectedSpecialty);
         	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Specialty successfully saved"));

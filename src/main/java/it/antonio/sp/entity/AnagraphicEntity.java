@@ -1,10 +1,16 @@
 package it.antonio.sp.entity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.springframework.data.annotation.Id;
 
 public class AnagraphicEntity {
@@ -41,11 +47,16 @@ public class AnagraphicEntity {
 		public void setValidationMonths(Integer validationMonths) {
 			this.validationMonths = validationMonths;
 		}
+		
+		// Custom functions
+		public Boolean isValid() {
+			return !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now());
+		}
 	}
 	
 	@Id
   	ObjectId id;
-	String photo = "default.png";
+	String photo;
 	String firstName;
 	String lastName;
 	Integer ruolo;
@@ -53,14 +64,22 @@ public class AnagraphicEntity {
 	String qualification;
     String turno;
     String phoneNumber;
-    String contactEmail = "";
-    String note = "";
+    String contactEmail;
+    String note;
     
-    List<SpecialtyExpiration> specialtyExpirations = new ArrayList<>();
+    List<SpecialtyExpiration> specialtyExpirations;
     
     LocalDate lastModifiedAt;
     String lastModifiedBy;
-    Boolean deleted = false;
+    Boolean deleted;
+    
+    public AnagraphicEntity() {
+    	photo = "default.png";
+    	contactEmail = "";
+    	note = "";
+    	specialtyExpirations = new ArrayList<AnagraphicEntity.SpecialtyExpiration>();
+    	deleted = false;
+    }
     
     public ObjectId getId() {
 		return id;
@@ -181,4 +200,24 @@ public class AnagraphicEntity {
     public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
+    
+    // Custom functions
+    public StreamedContent getImage() {
+		if (Files.notExists(Paths.get("E:/uploads/photo", photo)))
+			photo = "default.png";
+		
+		final String finalPhotoName = photo;
+		
+		return DefaultStreamedContent.builder()
+	        .contentType("image/png")
+	        .stream(() -> {
+	            try {
+	            	return new FileInputStream(new File("E:/uploads/photo", finalPhotoName));
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	                return null;
+	            }
+	        })
+	        .build();
+    }
 }
