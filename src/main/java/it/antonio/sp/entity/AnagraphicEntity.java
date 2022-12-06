@@ -56,7 +56,7 @@ public class AnagraphicEntity {
 	String fiscalCode;
 	String qualification;
     String turno;
-    Integer phoneNumber;
+    String phoneNumber;
     String contactEmail;
     String note;
     
@@ -138,11 +138,11 @@ public class AnagraphicEntity {
 		this.fiscalCode = fiscalCode;
 	}
     
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
 		return phoneNumber;
 	}
     
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
     

@@ -2,8 +2,6 @@ package it.antonio.sp.view;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,19 +14,15 @@ import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.annotation.SessionScope;
-
 import it.antonio.sp.entity.AnagraphicEntity;
 import it.antonio.sp.entity.AnagraphicEntity.SpecialtyExpiration;
 import it.antonio.sp.service.AnagraphicService;
@@ -36,7 +30,7 @@ import it.antonio.sp.service.QualificationService;
 import it.antonio.sp.service.SpecialtyService;
 
 @ManagedBean
-@SessionScope
+@ViewScoped
 public class AnagraphicView {
 	private List<AnagraphicEntity> anagraphics;
 	private AnagraphicEntity selectedAnagraphic;
@@ -45,6 +39,7 @@ public class AnagraphicView {
 	private List<String> specialtyNames;
 	
 	private UploadedFile imageFile;
+	private String uploadedImageName;
 	
 	@Autowired
 	AnagraphicService anagraphicService;
@@ -98,12 +93,17 @@ public class AnagraphicView {
 	public UploadedFile getImageFile() {
 		return imageFile;
 	}
+	
+	public String getUploadedImageName() {
+		return uploadedImageName;
+	}
 
 	@PostConstruct
 	public void init() {
-		if (selectedAnagraphic == null)
-			selectedAnagraphic = new AnagraphicEntity();
-		fetch();
+		selectedAnagraphic = new AnagraphicEntity();
+		anagraphics = anagraphicService.findAll();
+		qualificationNames = qualificationService.getQualificationNames();
+		specialtyNames = specialtyService.getSpecialtyNames();
 	}
 	
 	public void saveAnagraphic() {
@@ -140,7 +140,7 @@ public class AnagraphicView {
         anagraphics = anagraphicService.findAll();
         selectedSpecialtyExpiration = null;
         clearImageFile();
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics", "inputs:anagraphic-photo");
     }
 
     public void deleteAnagraphic() {
@@ -150,12 +150,14 @@ public class AnagraphicView {
 	        selectedAnagraphic = new AnagraphicEntity();
 	        selectedSpecialtyExpiration = null;
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anagraphic Removed"));
-	        PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics");
+	        PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics", "inputs:anagraphic-photo");
     	}
     }
     
     public void clearSelection() {
     	selectedAnagraphic = new AnagraphicEntity();
+    	clearImageFile();
+    	PrimeFaces.current().ajax().update("inputs:anagraphic-photo");
     }
     
     public void addNewSpecialtyExp() {
@@ -202,47 +204,25 @@ public class AnagraphicView {
     	imageFile = null;
     }
 
-    public StreamedContent getImage() {
-        return DefaultStreamedContent.builder()
-            .contentType(imageFile == null ? null : imageFile.getContentType())
-            .stream(() -> {
-                if (imageFile == null
-                    || imageFile.getContent() == null
-                    || imageFile.getContent().length == 0) {
-                    return null;
-                }
-
-                try {
-                    return new ByteArrayInputStream(imageFile.getContent());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            })
-            .build();
-    }
-    
-    public StreamedContent getImageById()
-    {
-    	String photoName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("photo-name");
-    	
-    	if (Files.notExists(Paths.get(photoName.startsWith("sp-temp-") ? "C:/uploads/temp" : "C:/uploads/photo", photoName)))
-    		photoName = "default.png";
-    	
-    	final String finalPhotoName = photoName;
-		
-    	return DefaultStreamedContent.builder()
-	        .contentType("image/png")
-	        .stream(() -> {
-	            try {
-	            	return new FileInputStream(new File(finalPhotoName.startsWith("sp-temp-") ? "C:/uploads/temp" : "C:/uploads/photo", finalPhotoName));
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	                return null;
-	            }
-	        })
-	        .build();
-    }
+//    public StreamedContent getImage() {
+//        return DefaultStreamedContent.builder()
+//            .contentType(imageFile == null ? null : imageFile.getContentType())
+//            .stream(() -> {
+//                if (imageFile == null
+//                    || imageFile.getContent() == null
+//                    || imageFile.getContent().length == 0) {
+//                    return null;
+//                }
+//
+//                try {
+//                    return new ByteArrayInputStream(imageFile.getContent());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    return null;
+//                }
+//            })
+//            .build();
+//    }
 
     public void changeImage() {
     	if (imageFile == null
@@ -269,16 +249,5 @@ public class AnagraphicView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-    }
-    
-    public void fetch() {
-    	anagraphics = anagraphicService.findAll();
-		qualificationNames = qualificationService.getQualificationNames();
-		specialtyNames = specialtyService.getSpecialtyNames();
-    }
-    
-    public void onAnagraphicSelect(SelectEvent<Object> event) {
-    	fetch();
     }
 }
