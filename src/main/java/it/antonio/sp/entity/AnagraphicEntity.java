@@ -1,20 +1,13 @@
 package it.antonio.sp.entity;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.springframework.data.annotation.Id;
 
 public class AnagraphicEntity {
-	
 	public static class SpecialtyExpiration {
 		String specialty;
 		LocalDate achievedDate;
@@ -63,7 +56,7 @@ public class AnagraphicEntity {
 	String fiscalCode;
 	String qualification;
     String turno;
-    String phoneNumber;
+    Integer phoneNumber;
     String contactEmail;
     String note;
     
@@ -145,11 +138,11 @@ public class AnagraphicEntity {
 		this.fiscalCode = fiscalCode;
 	}
     
-    public String getPhoneNumber() {
+    public Integer getPhoneNumber() {
 		return phoneNumber;
 	}
     
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(Integer phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
     
@@ -200,24 +193,4 @@ public class AnagraphicEntity {
     public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
-    
-    // Custom functions
-    public StreamedContent getImage() {
-		if (Files.notExists(Paths.get("E:/uploads/photo", photo)))
-			photo = "default.png";
-		
-		final String finalPhotoName = photo;
-		
-		return DefaultStreamedContent.builder()
-	        .contentType("image/png")
-	        .stream(() -> {
-	            try {
-	            	return new FileInputStream(new File("E:/uploads/photo", finalPhotoName));
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	                return null;
-	            }
-	        })
-	        .build();
-    }
 }

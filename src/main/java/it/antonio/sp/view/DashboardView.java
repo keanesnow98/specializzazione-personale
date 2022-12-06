@@ -23,7 +23,7 @@ import it.antonio.sp.service.SpecialtyService;
 
 @ManagedBean
 @RequestScope
-public class ChartsView {
+public class DashboardView {
 	private BarChartModel specialtiesBar;
 	private LineChartModel qualificationsLine;
 	private PieChartModel turnoAPie;
@@ -120,6 +120,22 @@ public class ChartsView {
 		createTurnoBPie();
 		createTurnoCPie();
 		createTurnoDPie();
+	}
+	
+	public Integer getAnagraphicsTotal() {
+		return anagraphicService.findAll().size();
+	}
+	
+	public Integer getAnagraphicsWithSpecialtyValid() {
+		return anagraphicService.findAllSpecialtyValid().size();
+	}
+	
+	public Integer getAnagraphicsWithSpecialtyExpired() {
+		return anagraphicService.findAllSpecialtyExpired().size();
+	}
+	
+	public Integer getAnagraphicsWithSpecialtyEmpty() {
+		return anagraphicService.findAllSpecialtyEmpty().size();
 	}
 	
 	public void createSpecialtiesBar() {

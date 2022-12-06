@@ -10,6 +10,20 @@
     </ui:define>
 
 	<ui:define name="implementation">
+		<style>
+			.box1 {
+				background-color: #42A5F5;
+			}
+			.box2 {
+				background-color: #66BB6A;
+			}
+			.box3 {
+				background-color: #d32f2f;
+			}
+			.box4 {
+				background-color: #FFB300;
+			}
+		</style>
 	    <script>
 	      //<![CDATA[
 		    function exportChart(chartName) {
@@ -22,57 +36,127 @@
 		  //]]>
 		</script>
 		
-		<p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-6, ui-grid-col-12" layout="grid">
- 			<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6">
-				<div class="card">
-			      <p:barChart model="#{chartsView.specialtiesBar}" widgetVar="chart1" style="width: 100%; display: block; box-sizing: border-box;" />
-			      <br/>
-			      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart1')" styleClass="mr-2 mb-2" />
-			    </div>
-			</p:column>
+		<div class="layout-dashboard" style="background-color:whitesmoke;">
+			<div class="grid" style="margin-left:0;margin-right:0;">
+				<div class="col-12 lg:col-6 xl:col-3">
+		            <div class="overview-box box1">
+		                <i class="overview-icon pi pi-users"></i>
+		                <p:link outcome="anagraphic.xhtml" style="color:white;">
+			                <span class="overview-title">Anagraphics Total</span>
+		                </p:link>
+		                <i class="overview-arrow pi pi-chevron-circle-up"></i>
+		                <div class="overview-numbers">
+		                    #{dashboardView.anagraphicsTotal}
+		                </div>
+		                <div class="overview-subinfo">
+		                </div>
+		            </div>
+		        </div>
+		        <div class="col-12 lg:col-6 xl:col-3">
+		            <div class="overview-box box2">
+		                <i class="overview-icon pi pi-users"></i>
+		                <p:link outcome="anagraphic.xhtml" style="color:white;">
+			                <span class="overview-title">With Specialty Valid</span>
+		                </p:link>
+		                <i class="overview-arrow pi pi-chevron-circle-up"></i>
+		                <div class="overview-numbers">
+		                    #{dashboardView.anagraphicsWithSpecialtyValid}
+		                </div>
+		                <div class="overview-subinfo">
+		                    
+		                </div>
+		            </div>
+		        </div>
+		        <div class="col-12 lg:col-6 xl:col-3">
+		            <div class="overview-box box3">
+		                <i class="overview-icon pi pi-users"></i>
+		                <p:link outcome="reports-by-expired-specialty.xhtml" style="color:white;">
+			                <span class="overview-title">With Specialty Expired</span>
+		                </p:link>
+		                <i class="overview-arrow pi pi-chevron-circle-up"></i>
+		                <div class="overview-numbers">
+		                    #{dashboardView.anagraphicsWithSpecialtyExpired}
+		                </div>
+		                <div class="overview-subinfo">
+		                    
+		                </div>
+		            </div>
+		        </div>
+		        <div class="col-12 lg:col-6 xl:col-3">
+		            <div class="overview-box box4">
+		                <i class="overview-icon pi pi-users"></i>
+		                <p:link outcome="anagraphic.xhtml" style="color:white;">
+			                <span class="overview-title">With Specialty Empty</span>
+		                </p:link>
+		                <i class="overview-arrow pi pi-chevron-circle-up"></i>
+		                <div class="overview-numbers">
+		                    #{dashboardView.anagraphicsWithSpecialtyEmpty}
+		                </div>
+		                <div class="overview-subinfo">
+		                    
+		                </div>
+		            </div>
+	            </div>
+			</div>
 			
-			<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6">
-				<div class="card">
-			      <p:lineChart model="#{chartsView.qualificationsLine}" widgetVar="chart2" style="width: 100%; display: block; box-sizing: border-box;" />
-			      <br/>
-			      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart2')" styleClass="mr-2 mb-2" />
-			    </div>
-			</p:column>
-			
-			<p:row>
-				<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3">
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-6, ui-grid-col-12" layout="grid" style="background-color:whitesmoke;">
+	 			<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
 					<div class="card">
-				      <p:pieChart model="#{chartsView.turnoAPie}" widgetVar="chart3" style="width: 100%; display: block; box-sizing: border-box;" />
-				      <br/>
-				      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart3')" styleClass="mr-2 mb-2" />
+						<h5>Specialties</h5>
+				      	<p:barChart model="#{dashboardView.specialtiesBar}" widgetVar="chart1" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart1')" styleClass="mr-2 mb-2" />
 				    </div>
 				</p:column>
 				
-	 			<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3">
+				<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
 					<div class="card">
-				      <p:pieChart model="#{chartsView.turnoBPie}" widgetVar="chart4" style="width: 100%; display: block; box-sizing: border-box;" />
-				      <br/>
-				      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart4')" styleClass="mr-2 mb-2" />
+						<h5>Qualifications</h5>
+				      	<p:lineChart model="#{dashboardView.qualificationsLine}" widgetVar="chart2" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart2')" styleClass="mr-2 mb-2" />
 				    </div>
 				</p:column>
 				
-				<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3">
-					<div class="card">
-				      <p:pieChart model="#{chartsView.turnoCPie}" widgetVar="chart5" style="width: 100%; display: block; box-sizing: border-box;" />
-				      <br/>
-				      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart5')" styleClass="mr-2 mb-2" />
-				    </div>
-				</p:column>
-				
-				<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3">
-					<div class="card">
-				      <p:pieChart model="#{chartsView.turnoDPie}" widgetVar="chart6" style="width: 100%; display: block; box-sizing: border-box;" />
-				      <br/>
-				      <p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart6')" styleClass="mr-2 mb-2" />
-				    </div>
-				</p:column>
-			</p:row>
-		</p:panelGrid>
+				<p:row>
+					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
+						<div class="card">
+							<h5>Turno A</h5>
+					      	<p:pieChart model="#{dashboardView.turnoAPie}" widgetVar="chart3" style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart3')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+					
+		 			<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
+						<div class="card">
+							<h5>Turno B</h5>
+					      	<p:pieChart model="#{dashboardView.turnoBPie}" widgetVar="chart4" style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart4')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+					
+					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
+						<div class="card">
+							<h5>Turno C</h5>
+					      	<p:pieChart model="#{dashboardView.turnoCPie}" widgetVar="chart5" style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart5')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+					
+					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
+						<div class="card">
+							<h5>Turno D</h5>
+					      	<p:pieChart model="#{dashboardView.turnoDPie}" widgetVar="chart6" style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart6')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</div>
 
 	    <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
 	      <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>

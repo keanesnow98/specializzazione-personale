@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.antonio.sp.entity.AnagraphicEntity;
+import it.antonio.sp.entity.AnagraphicEntity.SpecialtyExpiration;
 import it.antonio.sp.repository.AnagraphicRepository;
 
 @Service
@@ -19,6 +20,41 @@ public class AnagraphicService {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
 		anagraphicRepository.findAll().toIterable().forEach(anagraphic -> {
 			if (!anagraphic.getDeleted())
+				anagraphics.add(anagraphic);
+		});
+		return anagraphics;
+	}
+	
+	public List<AnagraphicEntity> findAllSpecialtyValid() {
+		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
+		anagraphicRepository.findAll().toIterable().forEach(anagraphic -> {
+			if (!anagraphic.getDeleted() && anagraphic.getSpecialtyExpirations().stream().allMatch(specialtyExp -> specialtyExp.isValid()))
+				anagraphics.add(anagraphic);
+		});
+		return anagraphics;
+	}
+	
+	public List<AnagraphicEntity> findAllSpecialtyExpired() {
+		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
+		anagraphicRepository.findAll().toIterable().forEach(anagraphic -> {
+			if (!anagraphic.getDeleted()) {
+				List<SpecialtyExpiration> newSpecialtyExpirations = new ArrayList<SpecialtyExpiration>();
+				anagraphic.getSpecialtyExpirations().forEach(specialtyExpiration -> {
+					if (!specialtyExpiration.isValid())
+						newSpecialtyExpirations.add(specialtyExpiration);
+				});
+				anagraphic.setSpecialtyExpirations(newSpecialtyExpirations);
+				if (!newSpecialtyExpirations.isEmpty())
+					anagraphics.add(anagraphic);
+			}
+		});
+		return anagraphics;
+	}
+	
+	public List<AnagraphicEntity> findAllSpecialtyEmpty() {
+		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
+		anagraphicRepository.findAll().toIterable().forEach(anagraphic -> {
+			if (!anagraphic.getDeleted() && anagraphic.getSpecialtyExpirations().isEmpty())
 				anagraphics.add(anagraphic);
 		});
 		return anagraphics;

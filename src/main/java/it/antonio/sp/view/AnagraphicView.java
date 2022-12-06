@@ -2,6 +2,8 @@ package it.antonio.sp.view;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,7 +22,6 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.CroppedImage;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
@@ -43,8 +44,7 @@ public class AnagraphicView {
 	private List<String> qualificationNames;
 	private List<String> specialtyNames;
 	
-	private UploadedFile originalImageFile;
-	private CroppedImage croppedImage;
+	private UploadedFile imageFile;
 	
 	@Autowired
 	AnagraphicService anagraphicService;
@@ -95,24 +95,15 @@ public class AnagraphicView {
 		this.specialtyNames = specialtyNames;
 	}
 	
-	public UploadedFile getOriginalImageFile() {
-		return originalImageFile;
-	}
-
-	public CroppedImage getCroppedImage() {
-		return croppedImage;
-	}
-	
-	public void setCroppedImage(CroppedImage croppedImage) {
-		this.croppedImage = croppedImage;
+	public UploadedFile getImageFile() {
+		return imageFile;
 	}
 
 	@PostConstruct
 	public void init() {
-		selectedAnagraphic = new AnagraphicEntity();
-		anagraphics = anagraphicService.findAll();
-		qualificationNames = qualificationService.getQualificationNames();
-		specialtyNames = specialtyService.getSpecialtyNames();
+		if (selectedAnagraphic == null)
+			selectedAnagraphic = new AnagraphicEntity();
+		fetch();
 	}
 	
 	public void saveAnagraphic() {
@@ -125,24 +116,30 @@ public class AnagraphicView {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anagraphic Updated"));
         }
         
-        String photoName = selectedAnagraphic.getPhoto(), newPhotoName = null;
-		if (Files.notExists(Paths.get("E:/uploads/temp", photoName)))
+        String photoName = selectedAnagraphic.getPhoto(), newPhotoName = photoName;
+		if (Files.notExists(Paths.get(photoName.startsWith("sp-temp-") ? "C:/uploads/temp" : "C:/uploads/photo", photoName)))
 			newPhotoName = "default.png";
-		if (!photoName.equals("default.png")) {
+		if (photoName.startsWith("sp-temp-")) {
 	        try {
 	        	newPhotoName = UUID.randomUUID().toString().replace("-", "") + ".png";
-	        	Files.move(Paths.get("E:/uploads/temp/", photoName), Paths.get("E:/uploads/photo/", newPhotoName));
+	        	Files.move(Paths.get("C:/uploads/temp/", photoName), Paths.get("C:/uploads/photo/", newPhotoName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
         
         selectedAnagraphic.setPhoto(newPhotoName);
+        if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null || selectedSpecialtyExpiration.getValidationMonths() == 0)) {
+        	List<SpecialtyExpiration> specialtyExpirations = selectedAnagraphic.getSpecialtyExpirations();
+        	specialtyExpirations.remove(specialtyExpirations.size() - 1);
+        	selectedAnagraphic.setSpecialtyExpirations(specialtyExpirations);
+        }
         anagraphicService.saveAnagraphic(selectedAnagraphic);
 
         selectedAnagraphic = new AnagraphicEntity();
         anagraphics = anagraphicService.findAll();
         selectedSpecialtyExpiration = null;
+        clearImageFile();
         PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics");
     }
 
@@ -191,33 +188,32 @@ public class AnagraphicView {
     }
     
     public void handleFileUpload(FileUploadEvent event) {
-        originalImageFile = null;
-        croppedImage = null;
+    	clearImageFile();
         UploadedFile file = event.getFile();
         if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
-            originalImageFile = file;
-            FacesMessage msg = new FacesMessage("Successful", originalImageFile.getFileName() + " is uploaded.");
+            imageFile = file;
+            FacesMessage msg = new FacesMessage("Successful", imageFile.getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            PrimeFaces.current().ajax().update("dialogs:uploadPanel");
         }
     }
     
-    public void crop() {
-        if (croppedImage == null || croppedImage.getBytes() == null || croppedImage.getBytes().length == 0)
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Cropping failed."));
+    public void clearImageFile() {
+    	imageFile = null;
     }
 
     public StreamedContent getImage() {
         return DefaultStreamedContent.builder()
-            .contentType(originalImageFile == null ? null : originalImageFile.getContentType())
+            .contentType(imageFile == null ? null : imageFile.getContentType())
             .stream(() -> {
-                if (originalImageFile == null
-                    || originalImageFile.getContent() == null
-                    || originalImageFile.getContent().length == 0) {
+                if (imageFile == null
+                    || imageFile.getContent() == null
+                    || imageFile.getContent().length == 0) {
                     return null;
                 }
 
                 try {
-                    return new ByteArrayInputStream(originalImageFile.getContent());
+                    return new ByteArrayInputStream(imageFile.getContent());
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -225,39 +221,41 @@ public class AnagraphicView {
             })
             .build();
     }
-
-    public StreamedContent getCropped() {
-        return DefaultStreamedContent.builder()
-            .contentType(originalImageFile == null ? null : originalImageFile.getContentType())
-            .stream(() -> {
-                if (croppedImage == null
-                    || croppedImage.getBytes() == null
-                    || croppedImage.getBytes().length == 0) {
-                    return null;
-                }
-
-                try {
-                    return new ByteArrayInputStream(croppedImage.getBytes());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            })
-            .build();
+    
+    public StreamedContent getImageById()
+    {
+    	String photoName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("photo-name");
+    	
+    	if (Files.notExists(Paths.get(photoName.startsWith("sp-temp-") ? "C:/uploads/temp" : "C:/uploads/photo", photoName)))
+    		photoName = "default.png";
+    	
+    	final String finalPhotoName = photoName;
+		
+    	return DefaultStreamedContent.builder()
+	        .contentType("image/png")
+	        .stream(() -> {
+	            try {
+	            	return new FileInputStream(new File(finalPhotoName.startsWith("sp-temp-") ? "C:/uploads/temp" : "C:/uploads/photo", finalPhotoName));
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	                return null;
+	            }
+	        })
+	        .build();
     }
 
     public void changeImage() {
-    	if (croppedImage == null
-            || croppedImage.getBytes() == null
-            || croppedImage.getBytes().length == 0) {
+    	if (imageFile == null
+            || imageFile.getContent() == null
+            || imageFile.getContent().length == 0) {
             return;
         }
 
         try {
-            BufferedImage dest = ImageIO.read(new ByteArrayInputStream(croppedImage.getBytes()));
+            BufferedImage dest = ImageIO.read(new ByteArrayInputStream(imageFile.getContent()));
 
             String filename = "sp-temp";
-            Path file = Files.createFile(Paths.get("E:/uploads/temp", filename + "-" + UUID.randomUUID().toString().replace("-", "") + ".png"));
+            Path file = Files.createFile(Paths.get("C:/uploads/temp", filename + "-" + UUID.randomUUID().toString().replace("-", "") + ".png"));
             ImageIO.write(dest, "png", file.toFile());
             
             if (selectedAnagraphic.getPhoto().equals("default.png"))
@@ -265,18 +263,22 @@ public class AnagraphicView {
             else FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo changed"));
             
             selectedAnagraphic.setPhoto(file.getFileName().toString());
-            originalImageFile = null;
-            croppedImage = null;
             PrimeFaces.current().executeScript("PF('imageChangeDialog').hide()");
             PrimeFaces.current().ajax().update(":inputs:anagraphic-photo");
+            clearImageFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
         
     }
     
-    public void onAnagraphicSelect(SelectEvent<Object> event) {
+    public void fetch() {
     	anagraphics = anagraphicService.findAll();
-    	selectedSpecialtyExpiration = null;
+		qualificationNames = qualificationService.getQualificationNames();
+		specialtyNames = specialtyService.getSpecialtyNames();
+    }
+    
+    public void onAnagraphicSelect(SelectEvent<Object> event) {
+    	fetch();
     }
 }

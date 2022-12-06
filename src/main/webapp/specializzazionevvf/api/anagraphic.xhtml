@@ -14,7 +14,6 @@
 	</ui:define>
 	
 	<ui:define name="script">
-		<h:outputScript library="javax.faces.resource" name="inputmask/inputmask.js" />
 		<h:outputScript library="javax.faces.resource" name="inputnumber/inputnumber.js" />
 		<h:outputScript library="javax.faces.resource" name="datepicker/datepicker.js" />
 		<h:outputScript library="javax.faces.resource" name="fileupload/fileupload.js" />
@@ -28,8 +27,8 @@
 	<ui:define name="implementation">
 	  	<style>
 		  	#inputs .anagraphic-image {
-		  		width: 180px;
-			    height: 180px;
+		  		width: 270px;
+			    height: 340px;
 			    padding: inherit;
 			    box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
 		  	}
@@ -39,6 +38,7 @@
 		  		flex-wrap: wrap;
 		  		justify-content: center;
 		  		align-content: center;
+		  		margin: 1rem;
 		  	}
 		  	
 	  		button.ui-button {
@@ -59,14 +59,18 @@
 				padding: 0.2rem 0.2rem;
 			}
 	  	</style>
+	  	
+	  	<f:event listener="#{anagraphicView.init()}" type="preRenderView"></f:event>
 
   		<h:form id="inputs">
   			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_INSERT', 'ROLE_USER_ANAGRAPHICVVF_EDIT')">
 	  			<p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-8" layout="grid">
 	  				<p:row>
 		  				<p:column styleClass="ui-grid-col-2">
-				  			<p:graphicImage id="anagraphic-photo" value="#{anagraphicView.selectedAnagraphic.image}" cache="false" styleClass="anagraphic-image" />
-				  			<p:commandButton value="Change" process="@this" oncomplete="PF('imageChangeDialog').show()" icon="pi pi-camera" styleClass="ui-button-success mt-3" />
+		  					<p:graphicImage id="anagraphic-photo" value="#{anagraphicView.imageById}" cache="false" styleClass="anagraphic-image">
+			            		<f:param id="photo-name" name="photo-name" value="#{anagraphicView.selectedAnagraphic.photo}" />
+			            	</p:graphicImage>
+				  			<p:commandButton value="Change" process="@this" action="#{anagraphicView.clearImageFile}" oncomplete="PF('imageChangeDialog').show()" icon="pi pi-camera" styleClass="ui-button-success mt-3" />
 				        </p:column>
 	
 				        <p:column styleClass="ui-grid-col-6">
@@ -98,13 +102,14 @@
 				                    <div class="formgrid grid">
 				                        <div class="field col">
 				                            <p:outputLabel for="qualification" value="Qualification"/>
-				                            <p:selectOneMenu id="qualification" value="#{anagraphicView.selectedAnagraphic.qualification}">
+				                            <p:selectOneMenu id="qualification" value="#{anagraphicView.selectedAnagraphic.qualification}" required="true">
+				                            	<f:selectItem></f:selectItem>
 							                    <f:selectItems value="#{anagraphicView.qualificationNames}"/>
 							                </p:selectOneMenu>
 				                        </div>
 				                        <div class="field col">
 				                            <p:outputLabel for="turno" value="Turno"/>
-							                <p:selectOneMenu id="turno" value="#{anagraphicView.selectedAnagraphic.turno}">
+							                <p:selectOneMenu id="turno" value="#{anagraphicView.selectedAnagraphic.turno}" required="true">
 							                    <f:selectItem itemLabel="A1" itemValue="A1"/>
 							                    <f:selectItem itemLabel="A2" itemValue="A2"/>
 							                    <f:selectItem itemLabel="A3" itemValue="A3"/>
@@ -144,15 +149,17 @@
 				                    <div class="formgrid grid">
 				                        <div class="field col">
 				                            <p:outputLabel for="phoneNumber">Phone number</p:outputLabel>
-				                        	<p:inputMask id="phoneNumber" value="#{anagraphicView.selectedAnagraphic.phoneNumber}"
-				                        		mask="(999) 999-9999" validateMask="true" required="true" />
+				                        	<p:inputNumber id="phoneNumber" value="#{anagraphicView.selectedAnagraphic.phoneNumber}"
+				                        		decimalPlaces="0" thousandSeparator="" required="true">
+				                        	</p:inputNumber>
+				                        		
 				                        </div>
 				                        <div class="field col">
 				                            <p:outputLabel for="contactEmail">Email</p:outputLabel>
 				                        	<p:inputText id="contactEmail" value="#{anagraphicView.selectedAnagraphic.contactEmail}" type="email"
 				                        		style="text-transform: lowercase;" onchange="this.value = this.value.toLowerCase();">
-				                        		<!-- <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-							                    <f:validateLength minimum="2" /> -->
+				                        		<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							                    <f:validateLength minimum="2" />
 				                        	</p:inputText>
 				                        </div>
 				                    </div>
@@ -186,7 +193,7 @@
 							                    </f:facet>
 							                    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_EDIT')">
 								                    <f:facet name="input">
-								                    	<p:selectOneMenu value="#{specialtyExpiration.specialty}" required="true">
+								                    	<p:selectOneMenu value="#{specialtyExpiration.specialty}"  required="true">
 								                    		<f:selectItem></f:selectItem>
 										                    <f:selectItems value="#{anagraphicView.specialtyNames}"/>
 										                </p:selectOneMenu>
@@ -260,28 +267,37 @@
 						        	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content delete-anagraphic-button" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
 					                </p:commandButton>
 					            </sec:authorize>
 					            <sec:authorize access="not hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
 					            	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
 					                </p:commandButton>
 					            </sec:authorize>
 			                </sec:authorize>
 		                </sec:authorize>
 		                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_EDIT', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
-			                <p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}"
-			                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
-			                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
-			                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
-			                </p:commandButton>
+		                	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
+				                <p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
+				                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
+				                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
+				                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+				                </p:commandButton>
+				            </sec:authorize>
+				            <sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
+				            	<p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
+				                    update="manage-anagraphic-content delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
+				                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
+				                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
+				                </p:commandButton>
+				            </sec:authorize>
 		                </sec:authorize>
 		                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 			                <p:commandButton id="delete-anagraphic-button" value="Delete" icon="pi pi-trash"
-			                	actionListener="#{anagraphicView.deleteAnagraphic}" update="@this"
+			                	actionListener="#{anagraphicView.deleteAnagraphic}" update="@this" immediate="true"
 			                	disabled="#{anagraphicView.selectedAnagraphic.id eq null}" styleClass="ui-button ui-button-danger">
 			                	<p:confirm header="Confirmation" message="Delete the selected anagraphic?" icon="pi pi-exclamation-triangle" />
 			                </p:commandButton>
@@ -295,9 +311,9 @@
 		    <h:form id="form">
 		        <p:growl id="messages" showDetail="true" />
 		
-		        <p:dataTable id="dt-anagraphics" widgetVar="dtAnagraphics" var="anagraphic" value="#{anagraphicView.anagraphics}"
+		        <p:dataTable id="dt-anagraphics" widgetVar="dtAnagraphics" var="anagraphic" value="#{anagraphicView.anagraphics}" rowIndexVar="index"
 		            reflow="true" styleClass="products-table" rowKey="#{anagraphic.id}" stripedRows="true" selection="#{anagraphicView.selectedAnagraphic}"
-		            paginator="true" rows="50" paginatorPosition="bottom" selectionPageOnly="false">
+		            resizableColumns="true" liveResize="true" paginator="true" rows="50" paginatorPosition="bottom" selectionPageOnly="false">
 		            <f:facet name="header">
 		                <div class="products-table-header">
 		                    <span style="font-weight: bold">ANAGRAPHICS</span>
@@ -313,6 +329,13 @@
 		                    <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
 								<p:inputText id="globalFilter" onkeyup="PF('dtAnagraphics').filter()" placeholder="Search" />
 							</span>
+							
+							<span>
+			                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+			                    <p:columnToggler datasource="dt-anagraphics" trigger="toggler">
+			                        <p:ajax />
+			                    </p:columnToggler>
+			                </span>
 		                </div>
 		            </f:facet>
 		            
@@ -372,7 +395,7 @@
 		                <h:outputText value="#{anagraphic.fiscalCode}" />
 		            </p:column>
 		            <p:column headerText="Phone number" width="10%" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
-		                <h:outputText value="#{anagraphic.phoneNumber}" />
+		                <h:outputText value="+39 #{anagraphic.phoneNumber}" />
 		            </p:column>
 		            <p:column headerText="Email" width="10%" sortBy="#{anagraphic.contactEmail}" filterBy="#{anagraphic.contactEmail}">
 		                <h:outputText value="#{anagraphic.contactEmail}" />
@@ -381,7 +404,9 @@
 		                <h:outputText value="#{anagraphic.note}" />
 		            </p:column>
 		            <p:column headerText="Photo" width="5%" exportable="false">
-		                <p:graphicImage value="#{anagraphic.image}" cache="false" styleClass="product-image" />
+		            	<p:graphicImage value="#{anagraphicView.imageById}" cache="false" styleClass="product-image">
+		            		<f:param id="photo-name" name="photo-name" value="#{anagraphic.photo}" />
+		            	</p:graphicImage>
 		            </p:column>
 		            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 			            <p:column width="5%" exportable="false">
@@ -395,33 +420,25 @@
 		    </h:form>
 		
 		    <h:form id="dialogs">
-		    	<p:dialog header="Choose to Crop" showEffect="fade" modal="true" widgetVar="imageChangeDialog" responsive="true">
+		    	<p:dialog header="Choose to upload" showEffect="fade" modal="true" widgetVar="imageChangeDialog" responsive="true">
 		            <p:outputPanel id="image-change-content" styleClass="ui-fluid">
-		                <p:fileUpload mode="advanced" multiple="false" sizeLimit="102400" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-	                      invalidSizeMessage="Maximum image size allowed is 100 KB" invalidFileMessage="only gif | jpg | jpeg | png is allowed"
-	                      update=":form:messages cropperPanel" listener="#{anagraphicView.handleFileUpload}"/>
+		                <p:fileUpload mode="advanced" multiple="false" sizeLimit="1024000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+	                      invalidSizeMessage="Maximum image size allowed is 1000 KB" invalidFileMessage="only gif | jpg | jpeg | png is allowed"
+	                      update=":form:messages uploadPanel" listener="#{anagraphicView.handleFileUpload}"/>
 	
-				          <p:outputPanel id="cropperPanel">
-				            <h:panelGrid columns="1" rendered="#{not empty anagraphicView.originalImageFile}">
-				                <h:panelGrid columns="2" cellpadding="7">
-				                    <p:imageCropper value="#{anagraphicView.croppedImage}" id="imageCropper" cache="false"
-				                    	image="#{anagraphicView.image}" initialCoords="0, 0, 500, 500" minSize="50,50" maxSize="500, 500"/>
-				                    <p:outputPanel id="cropped">
-				                        <p:graphicImage cache="false" rendered="#{not empty anagraphicView.croppedImage}"
-				                        	value="#{anagraphicView.cropped}"/>
-				                    </p:outputPanel>
-				                    <p:commandButton value="Crop" action="#{anagraphicView.crop}"
-				                		update=":form:messages cropped" styleClass="my-3"/>
-				                </h:panelGrid>
-				            </h:panelGrid>
-				        </p:outputPanel>
+				          <h:panelGrid id="uploadPanel">
+				              <p:outputPanel>
+				              	  <p:graphicImage cache="false" rendered="#{not empty anagraphicView.image}"
+				              	  	  value="#{anagraphicView.image}"/>
+				              </p:outputPanel>
+	                      </h:panelGrid>
 		            </p:outputPanel>
 
 		            <f:facet name="footer">
 		                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{anagraphicView.changeImage}"
 		                    process="image-change-content @this" />
-		                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('imageChangeDialog').hide()"
-		                	styleClass="ui-button-secondary" type="button" />
+		                <p:commandButton value="Cancel" icon="pi pi-times" actionListener="#{anagraphicView.clearImageFile}"
+		                	styleClass="ui-button-secondary" type="button" onclick="PF('imageChangeDialog').hide()" />
 		            </f:facet>
 		        </p:dialog>
 		    

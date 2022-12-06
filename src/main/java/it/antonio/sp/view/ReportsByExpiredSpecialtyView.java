@@ -13,7 +13,7 @@ import it.antonio.sp.service.AnagraphicService;
 
 @ManagedBean
 @ViewScoped
-public class ReportsByDetailView {
+public class ReportsByExpiredSpecialtyView {
 	private List<AnagraphicEntity> anagraphics;
 
 	public List<AnagraphicEntity> getAnagraphics() {
@@ -29,6 +29,6 @@ public class ReportsByDetailView {
 	
 	@PostConstruct
 	public void init() {
-		anagraphics = anagraphicService.findAll();
+		anagraphics = anagraphicService.findAllSpecialtyExpired();
 	}
 }

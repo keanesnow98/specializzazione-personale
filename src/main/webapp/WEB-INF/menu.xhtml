@@ -89,15 +89,15 @@
 			                                            </div>
 			                                        </li>
 			                                    </sec:authorize>
-			                                    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_REPORTS_BY_DETAIL_ALL')">
-			                                    	<li id="menuform:by-detail" role="menuitem">
-			                                    		<a href="/specializzazionevvf/api/reports-by-detail.xhtml">
+			                                    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_REPORTS_BY_EXPIRED_SPECIALTY_ALL')">
+			                                    	<li id="menuform:by-expired-specialty" role="menuitem">
+			                                    		<a href="/specializzazionevvf/api/reports-by-expired-specialty.xhtml">
 			                                    			<i class="pi pi-chart-bar layout-menuitem-icon"></i>
-			                                    			<span class="layout-menuitem-text">By Detail</span>
+			                                    			<span class="layout-menuitem-text">By Expired Specialty</span>
 			                                    		</a>
 			                                            <div class="layout-menu-tooltip">
 			                                                <div class="layout-menu-tooltip-arrow"></div>
-			                                                <div class="layout-menu-tooltip-text">By Detail</div>
+			                                                <div class="layout-menu-tooltip-text">By Expired Specialty</div>
 			                                            </div>
 			                                        </li>
 			                                    </sec:authorize>
