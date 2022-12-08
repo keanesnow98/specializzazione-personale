@@ -61,7 +61,7 @@
 	  	</style>
 
   		<h:form id="inputs">
-  			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_INSERT', 'ROLE_USER_ANAGRAPHICVVF_EDIT')">
+  			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
 	  			<p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-8" layout="grid">
 	  				<p:row>
 		  				<p:column styleClass="ui-grid-col-2">
@@ -78,28 +78,37 @@
 				                        <div class="field col">
 				                            <p:outputLabel for="firstName">First name</p:outputLabel>
 				                        	<p:inputText id="firstName" value="#{anagraphicView.selectedAnagraphic.firstName}" required="true"
-				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());" />
+				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+				                        		<p:message for="firstName" display="icon"/>
+				                        	</p:inputText>
 				                        </div>
 				                        <div class="field col">
 				                            <p:outputLabel for="lastName">Last name</p:outputLabel>
 				                        	<p:inputText id="lastName" value="#{anagraphicView.selectedAnagraphic.lastName}" required="true"
-				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());" />
+				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+				                        		<p:message for="lastName" display="icon"/>
+				                        	</p:inputText>
 				                        </div>
 				                    </div>
 				                    <div class="formgrid grid">
 				                        <div class="field col">
 				                            <p:outputLabel for="ruolo">Ruolo</p:outputLabel>
-				                        	<p:inputNumber id="ruolo" value="#{anagraphicView.selectedAnagraphic.ruolo}" decimalPlaces="0" thousandSeparator="" required="true" />
+				                        	<p:inputNumber id="ruolo" value="#{anagraphicView.selectedAnagraphic.ruolo}" decimalPlaces="0" thousandSeparator="" required="true">
+				                        		<p:message for="ruolo" display="icon"/>
+				                        	</p:inputNumber>
 				                        </div>
 				                        <div class="field col">
 				                            <p:outputLabel for="fiscalCode">Fiscal code</p:outputLabel>
 				                        	<p:inputText id="fiscalCode" value="#{anagraphicView.selectedAnagraphic.fiscalCode}" required="true"
-				                        		style="text-transform: uppercase;" onchange="this.value = this.value.toUpperCase();" />
+				                        		style="text-transform: uppercase;" onchange="this.value = this.value.toUpperCase();">
+				                        		<p:message for="fiscalCode" display="icon"/>
+				                        	</p:inputText>
 				                        </div>
 				                    </div>
 				                    <div class="formgrid grid">
 				                        <div class="field col">
 				                            <p:outputLabel for="qualification" value="Qualification"/>
+				                            <p:message for="qualification" display="icon"/>
 				                            <p:selectOneMenu id="qualification" value="#{anagraphicView.selectedAnagraphic.qualification}" required="true">
 				                            	<f:selectItem></f:selectItem>
 							                    <f:selectItems value="#{anagraphicView.qualificationNames}"/>
@@ -148,11 +157,12 @@
 				                        <div class="field col">
 				                            <p:outputLabel for="phoneNumber">Phone number</p:outputLabel>
 				                        	<p:inputText id="phoneNumber" value="#{anagraphicView.selectedAnagraphic.phoneNumber}" required="true">
+				                        		<p:message for="phoneNumber" display="icon"/>
 				                        	</p:inputText>
-				                        		
 				                        </div>
 				                        <div class="field col">
 				                            <p:outputLabel for="contactEmail">Email</p:outputLabel>
+				                            <p:message for="contactEmail"/>
 				                        	<p:inputText id="contactEmail" value="#{anagraphicView.selectedAnagraphic.contactEmail}" type="email"
 				                        		style="text-transform: lowercase;" onchange="this.value = this.value.toLowerCase();"
 				                        		placeholder="someone@example.com">
@@ -249,16 +259,25 @@
 			    </p:panelGrid>
 			</sec:authorize>
 		    
-		    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_INSERT', 'ROLE_USER_ANAGRAPHICVVF_EDIT', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
+		    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT', 'ROLE_USER_ANAGRAPHICVVF_RESET', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 		        <p:toolbar>
 		        	<p:toolbarGroup>
-		        		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_INSERT', 'ROLE_USER_ANAGRAPHICVVF_EDIT')">
+		        		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
 		        			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SPECIALTY_VIEW')">
-					        	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
-				                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button" process="manage-anagraphic-content @this"
-				                    styleClass="ui-button ui-button-success">
-				                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
-				                </p:commandButton>
+		        				<sec:authorize access="hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
+						        	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
+					                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button" process="manage-anagraphic-content @this"
+					                    styleClass="ui-button ui-button-success">
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                </p:commandButton>
+					            </sec:authorize>
+					            <sec:authorize access="not hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
+					            	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
+					                    update="manage-anagraphic-content dt-specialty-expirations" process="manage-anagraphic-content @this"
+					                    styleClass="ui-button ui-button-success">
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                </p:commandButton>
+					            </sec:authorize>
 			                </sec:authorize>
 			                <sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_SPECIALTY_VIEW')">
 			                	<sec:authorize access="hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
@@ -277,20 +296,38 @@
 					            </sec:authorize>
 			                </sec:authorize>
 		                </sec:authorize>
-		                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_EDIT', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
+		                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_RESET')">
 		                	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-				                <p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
-				                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
-				                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
-				                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
-				                </p:commandButton>
+		                		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
+					                <p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
+					                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
+					                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                </p:commandButton>
+					            </sec:authorize>
+					            <sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
+					            	<p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
+					                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
+					                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                </p:commandButton>
+					            </sec:authorize>
 				            </sec:authorize>
 				            <sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-				            	<p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
-				                    update="manage-anagraphic-content delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
-				                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
-				                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
-				                </p:commandButton>
+				            	<sec:authorize access="hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
+					            	<p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
+					                    update="manage-anagraphic-content delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
+					                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
+					                </p:commandButton>
+					            </sec:authorize>
+					            <sec:authorize access="not hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
+					            	<p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
+					                    update="manage-anagraphic-content :form @this" styleClass="ui-button ui-button-primary">
+					                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
+					                </p:commandButton>
+					            </sec:authorize>
 				            </sec:authorize>
 		                </sec:authorize>
 		                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
@@ -339,34 +376,29 @@
 		            
 		            <p:column selectionMode="single" style="width:16px;text-align:center" exportable="false"/>
 		            
-		            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_EDIT', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
-		            	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
-		            		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-		            			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_EDIT')">
-						            <p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
-					            </sec:authorize>
-					            <sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_EDIT')">
-					            	<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button" />
-					            </sec:authorize>
-				           	</sec:authorize>
-				           	<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-				           		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_EDIT')">
-					           		<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:manage-anagraphic-content" />
-					            </sec:authorize>
-					            <sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_EDIT')">
-					            	<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button" />
-					            </sec:authorize>
-				           	</sec:authorize>
+		            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
+		            	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
+		            		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
+		            			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
+		            				<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
+		            			</sec:authorize>
+		            			<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
+		            				<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content" />
+		            			</sec:authorize>
+		            		</sec:authorize>
+		            		<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
+		            			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
+		            				<p:ajax event="rowSelect" update=":inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
+		            			</sec:authorize>
+		            			<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
+		            				<p:ajax event="rowSelect" update=":inputs:anagraphic-photo :inputs:manage-anagraphic-content" />
+		            			</sec:authorize>
+		            		</sec:authorize>
 		            	</sec:authorize>
-		            	<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
-		            		<sec:authorize access="hasRole('ROLE_USER_SPECIALTY_VIEW')">
-			            		<p:ajax event="rowSelect" update=":inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
-				           	</sec:authorize>
-				           	<sec:authorize access="not hasRole('ROLE_USER_SPECIALTY_VIEW')">
-				           		<p:ajax event="rowSelect" update=":inputs:manage-anagraphic-content" />
-				            </sec:authorize>
-			            </sec:authorize>
-	            	</sec:authorize>
+		            	<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
+					        <p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button" />
+				        </sec:authorize>
+				    </sec:authorize>
 
 					<p:column headerText="Last name" width="10%" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
 		                <h:outputText value="#{anagraphic.lastName}" />

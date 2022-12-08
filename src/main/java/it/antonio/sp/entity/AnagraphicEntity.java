@@ -43,7 +43,7 @@ public class AnagraphicEntity {
 		
 		// Custom functions
 		public Boolean isValid() {
-			return !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now());
+			return !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now()) || (validationMonths == 0 && !achievedDate.isAfter(LocalDate.now()));
 		}
 	}
 	

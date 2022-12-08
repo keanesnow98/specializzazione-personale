@@ -129,7 +129,7 @@ public class AnagraphicView {
 		}
         
         selectedAnagraphic.setPhoto(newPhotoName);
-        if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null || selectedSpecialtyExpiration.getValidationMonths() == 0)) {
+        if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null)) {
         	List<SpecialtyExpiration> specialtyExpirations = selectedAnagraphic.getSpecialtyExpirations();
         	specialtyExpirations.remove(specialtyExpirations.size() - 1);
         	selectedAnagraphic.setSpecialtyExpirations(specialtyExpirations);
@@ -203,26 +203,6 @@ public class AnagraphicView {
     public void clearImageFile() {
     	imageFile = null;
     }
-
-//    public StreamedContent getImage() {
-//        return DefaultStreamedContent.builder()
-//            .contentType(imageFile == null ? null : imageFile.getContentType())
-//            .stream(() -> {
-//                if (imageFile == null
-//                    || imageFile.getContent() == null
-//                    || imageFile.getContent().length == 0) {
-//                    return null;
-//                }
-//
-//                try {
-//                    return new ByteArrayInputStream(imageFile.getContent());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    return null;
-//                }
-//            })
-//            .build();
-//    }
 
     public void changeImage() {
     	if (imageFile == null

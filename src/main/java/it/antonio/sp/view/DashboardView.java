@@ -149,31 +149,33 @@ public class DashboardView {
         List<Number> values = anagraphicService.getSpecialtyCounts(specialtyNames);
         barDataSet.setData(values);
 
-        List<String> backgroundColors = new ArrayList<>();
-        List<String> borderColors = new ArrayList<>();
-        int plusSize = specialtyNames.size();
-        if (plusSize > 8) {
-        	backgroundColors = defaultBackgroundColors;
-        	borderColors = defaultBorderColors;
-        	plusSize -= 8;
-        	
-        	int r, g, b;
-        	while (plusSize-- > 0) {
-            	r = (int) (Math.random() * 255);
-            	g = (int) (Math.random() * 255);
-            	b = (int) (Math.random() * 255);
-            	backgroundColors.add("rgba(" + r + ", " + g + ", " + b + ", 0.2)");
-                borderColors.add("rgb(" + r + ", " + g + ", " + b + ")");
-            }
-        } else {
-        	while (plusSize-- > 1) {
-            	backgroundColors.add(defaultBackgroundColors.get(specialtyNames.size() - plusSize));
-                borderColors.add(defaultBorderColors.get(specialtyNames.size() - plusSize));
-            }
-        }
+//        List<String> backgroundColors = new ArrayList<>();
+//        List<String> borderColors = new ArrayList<>();
+//        int plusSize = specialtyNames.size();
+//        if (plusSize > 8) {
+//        	backgroundColors = defaultBackgroundColors;
+//        	borderColors = defaultBorderColors;
+//        	plusSize -= 8;
+//        	
+//        	int r, g, b;
+//        	while (plusSize-- > 0) {
+//            	r = (int) (Math.random() * 255);
+//            	g = (int) (Math.random() * 255);
+//            	b = (int) (Math.random() * 255);
+//            	backgroundColors.add("rgba(" + r + ", " + g + ", " + b + ", 0.2)");
+//                borderColors.add("rgb(" + r + ", " + g + ", " + b + ")");
+//            }
+//        } else {
+//        	while (plusSize-- > 1) {
+//            	backgroundColors.add(defaultBackgroundColors.get(specialtyNames.size() - plusSize));
+//                borderColors.add(defaultBorderColors.get(specialtyNames.size() - plusSize));
+//            }
+//        }
         
-        barDataSet.setBackgroundColor(backgroundColors);
-        barDataSet.setBorderColor(borderColors);
+//        barDataSet.setBackgroundColor(backgroundColors);
+//        barDataSet.setBorderColor(borderColors);
+        barDataSet.setBackgroundColor(defaultBackgroundColors.get(0));
+        barDataSet.setBorderColor(defaultBorderColors.get(0));
         barDataSet.setBorderWidth(1);
 
         data.addChartDataSet(barDataSet);

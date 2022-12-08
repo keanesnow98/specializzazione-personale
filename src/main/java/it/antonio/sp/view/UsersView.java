@@ -76,10 +76,11 @@ public class UsersView {
 		rolesSource.add(Constants.ROLE_USER_DASHBOARD_ALL);
 		rolesSource.add(Constants.ROLE_USER_REPORTS_BY_SPECIALTY_ALL);
 		rolesSource.add(Constants.ROLE_USER_REPORTS_BY_TURNO_ALL);
+		rolesSource.add(Constants.ROLE_USER_REPORTS_BY_EXPIRED_SPECIALTY_ALL);
 		
 		rolesSource.add(Constants.ROLE_USER_ANAGRAPHICVVF_VIEW);
-		rolesSource.add(Constants.ROLE_USER_ANAGRAPHICVVF_INSERT);
-		rolesSource.add(Constants.ROLE_USER_ANAGRAPHICVVF_EDIT);
+		rolesSource.add(Constants.ROLE_USER_ANAGRAPHICVVF_SUBMIT);
+		rolesSource.add(Constants.ROLE_USER_ANAGRAPHICVVF_RESET);
 		rolesSource.add(Constants.ROLE_USER_ANAGRAPHICVVF_DELETE);
 		
 		rolesSource.add(Constants.ROLE_USER_SPECIALTY_VIEW);
