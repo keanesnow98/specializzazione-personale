@@ -163,7 +163,7 @@ public class AnagraphicView {
     public void addNewSpecialtyExp() {
     	List<SpecialtyExpiration> specialtyExpirations = selectedAnagraphic.getSpecialtyExpirations();
 
-    	if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null || selectedSpecialtyExpiration.getValidationMonths() == 0)) {
+    	if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null)) {
     		return;
     	}
     	selectedSpecialtyExpiration = new SpecialtyExpiration();

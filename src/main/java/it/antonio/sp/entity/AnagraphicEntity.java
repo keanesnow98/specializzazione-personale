@@ -43,7 +43,19 @@ public class AnagraphicEntity {
 		
 		// Custom functions
 		public Boolean isValid() {
-			return !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now()) || (validationMonths == 0 && !achievedDate.isAfter(LocalDate.now()));
+			return (validationMonths != 0 && !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now())) || (validationMonths == 0 && !achievedDate.isAfter(LocalDate.now()));
+		}
+		
+		public String getStatus() {
+			if (specialty == null || achievedDate == null) {
+				return "";
+			}
+
+			if (validationMonths == 0 && !achievedDate.isAfter(LocalDate.now()))
+				return "LIFETIME";
+			if (validationMonths != 0 && !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now()))
+				return "VALID";
+			return "EXPIRED";
 		}
 	}
 	
