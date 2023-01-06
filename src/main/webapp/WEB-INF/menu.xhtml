@@ -18,10 +18,10 @@
                     <ul id="menuform:j_idt34" class="layout-menu">
                     	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_DASHBOARD_ALL', 'ROLE_USER_REPORTS_BY_SPECIALTY_ALL', 'ROLE_USER_REPORTS_BY_TURNO_ALL', 'ROLE_USER_ANAGRAPHICVVF_VIEW')">
 	                        <li role="menuitem" class="layout-root-menuitem">
-	                            <div><span class="layout-menuitem-text">Favorites</span></div>
+<!-- 	                            <div><span class="layout-menuitem-text">Favorites</span></div> -->
 	                            <a href="#">
 	                            	<i class="pi pi-home layout-menuitem-icon"></i>
-	                            	<span class="layout-menuitem-text">Favorites</span>
+<!-- 	                            	<span class="layout-menuitem-text">Favorites</span> -->
 	                            	<i class="pi pi-angle-down layout-submenu-toggler"></i>
 	                            </a>
 	                            <div class="layout-menu-tooltip">
@@ -45,11 +45,11 @@
 		                                <li id="menuform:anagraphic" role="menuitem">
 		                                	<a href="/specializzazionevvf/api/anagraphic.xhtml">
 		                                		<i class="pi pi-users layout-menuitem-icon"></i>
-		                                		<span class="layout-menuitem-text">AnagraphicVVF</span>
+		                                		<span class="layout-menuitem-text">Anagrafica VVF</span>
 		                                	</a>
 		                                    <div class="layout-menu-tooltip">
 		                                        <div class="layout-menu-tooltip-arrow"></div>
-		                                        <div class="layout-menu-tooltip-text">AnagraphicVVF</div>
+		                                        <div class="layout-menu-tooltip-text">Anagrafica VVF</div>
 		                                    </div>
 		                                </li>
 	                                </sec:authorize>
@@ -69,11 +69,11 @@
 			                                    	<li id="menuform:by-qualifications" role="menuitem">
 			                                    		<a href="/specializzazionevvf/api/reports-by-turno.xhtml">
 			                                    			<i class="pi pi-chart-bar layout-menuitem-icon"></i>
-			                                    			<span class="layout-menuitem-text">By Turno</span>
+			                                    			<span class="layout-menuitem-text">Turno</span>
 			                                    		</a>
 			                                            <div class="layout-menu-tooltip">
 			                                                <div class="layout-menu-tooltip-arrow"></div>
-			                                                <div class="layout-menu-tooltip-text">By Turno</div>
+			                                                <div class="layout-menu-tooltip-text">Turno</div>
 			                                            </div>
 			                                        </li>
 			                                    </sec:authorize>
@@ -81,11 +81,11 @@
 			                                    	<li id="menuform:by-specialty" role="menuitem">
 			                                    		<a href="/specializzazionevvf/api/reports-by-specialty.xhtml">
 			                                    			<i class="pi pi-chart-bar layout-menuitem-icon"></i>
-			                                    			<span class="layout-menuitem-text">By Specialty</span>
+			                                    			<span class="layout-menuitem-text">Specializzazioni</span>
 			                                    		</a>
 			                                            <div class="layout-menu-tooltip">
 			                                                <div class="layout-menu-tooltip-arrow"></div>
-			                                                <div class="layout-menu-tooltip-text">By Specialty</div>
+			                                                <div class="layout-menu-tooltip-text">Specializzazioni</div>
 			                                            </div>
 			                                        </li>
 			                                    </sec:authorize>
@@ -93,11 +93,11 @@
 			                                    	<li id="menuform:by-expired-specialty" role="menuitem">
 			                                    		<a href="/specializzazionevvf/api/reports-by-expired-specialty.xhtml">
 			                                    			<i class="pi pi-chart-bar layout-menuitem-icon"></i>
-			                                    			<span class="layout-menuitem-text">By Expired Specialty</span>
+			                                    			<span class="layout-menuitem-text">Specializzazioni Scadute</span>
 			                                    		</a>
 			                                            <div class="layout-menu-tooltip">
 			                                                <div class="layout-menu-tooltip-arrow"></div>
-			                                                <div class="layout-menu-tooltip-text">By Expired Specialty</div>
+			                                                <div class="layout-menu-tooltip-text">Specializzazioni Scadute</div>
 			                                            </div>
 			                                        </li>
 			                                    </sec:authorize>
@@ -109,26 +109,26 @@
 	                    </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
 	                        <li id="menuform:admin-privileges" role="menuitem" class="layout-root-menuitem">
-	                            <div><span class="layout-menuitem-text">Admin Privileges</span></div>
+	                            <div><span class="layout-menuitem-text">Privilegi Amministrativi</span></div>
 	                            <a href="#">
 	                            	<i class="pi pi-star-fill layout-menuitem-icon"></i>
-	                            	<span class="layout-menuitem-text">Admin Privileges</span>
+	                            	<span class="layout-menuitem-text">Privilegi Amministrativi</span>
 	                            	<i class="pi pi-angle-down layout-submenu-toggler"></i>
 	                           	</a>
 	                            <div class="layout-menu-tooltip">
 	                                <div class="layout-menu-tooltip-arrow"></div>
-	                                <div class="layout-menu-tooltip-text">Admin Privileges</div>
+	                                <div class="layout-menu-tooltip-text">Privilegi Amministrativi</div>
 	                            </div>
 	                            <ul role="menu">
 	                            	<sec:authorize access="hasRole('ROLE_ADMIN_SPECIALTIES_ALL')">
 		                                <li id="menuform:specialties" role="menuitem">
 		                                	<a href="/specializzazionevvf/api/admin/specialties.xhtml">
 		                                		<i class="pi pi-file layout-menuitem-icon"></i>
-		                                		<span class="layout-menuitem-text">Specialties</span>
+		                                		<span class="layout-menuitem-text">Specializzazioni</span>
 		                                	</a>
 		                                    <div class="layout-menu-tooltip">
 		                                        <div class="layout-menu-tooltip-arrow"></div>
-		                                        <div class="layout-menu-tooltip-text">Specialties</div>
+		                                        <div class="layout-menu-tooltip-text">Specializzazioni</div>
 		                                    </div>
 		                                </li>
 	                                </sec:authorize>
@@ -136,10 +136,10 @@
 		                                <li id="menuform:qualifications" role="menuitem">
 		                                	<a href="/specializzazionevvf/api/admin/qualifications.xhtml">
 		                                		<i class="pi pi-file layout-menuitem-icon"></i>
-		                                	<span class="layout-menuitem-text">Qualifications</span></a>
+		                                	<span class="layout-menuitem-text">Qualifiche</span></a>
 		                                    <div class="layout-menu-tooltip">
 		                                        <div class="layout-menu-tooltip-arrow"></div>
-		                                        <div class="layout-menu-tooltip-text">Qualifications</div>
+		                                        <div class="layout-menu-tooltip-text">Qualifiche</div>
 		                                    </div>
 		                                </li>
 	                                </sec:authorize>
@@ -147,11 +147,11 @@
 		                                <li id="menuform:users" role="menuitem">
 		                                	<a href="/specializzazionevvf/api/admin/users.xhtml">
 		                                		<i class="pi pi-id-card layout-menuitem-icon"></i>
-		                                		<span class="layout-menuitem-text">User Management</span>
+		                                		<span class="layout-menuitem-text">Gestione Utenti</span>
 		                                	</a>
 		                                    <div class="layout-menu-tooltip">
 		                                        <div class="layout-menu-tooltip-arrow"></div>
-		                                        <div class="layout-menu-tooltip-text">User Management</div>
+		                                        <div class="layout-menu-tooltip-text">Gestione Utenti</div>
 		                                    </div>
 		                                </li>
 		                            </sec:authorize>

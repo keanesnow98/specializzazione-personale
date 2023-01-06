@@ -8,7 +8,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>specializzazione-personale</name>
-	<description>La specializzazione personale dell&apos;azienda</description>
+	<description>Specializzazione Personale</description>
 	
 	<parent>
         <groupId>org.springframework.boot</groupId>

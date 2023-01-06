@@ -3,6 +3,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="https://joinfaces.org/security"
 	template="/WEB-INF/template.xhtml">
 	
 	<ui:define name="title">
@@ -42,7 +43,7 @@
 		            <div class="overview-box box1">
 		                <i class="overview-icon pi pi-users"></i>
 		                <p:link outcome="anagraphic.xhtml" style="color:white;">
-			                <span class="overview-title">Anagraphics Total</span>
+			                <span class="overview-title">Totale Personale VVF</span>
 		                </p:link>
 		                <i class="overview-arrow pi pi-chevron-circle-up"></i>
 		                <div class="overview-numbers">
@@ -56,7 +57,7 @@
 		            <div class="overview-box box2">
 		                <i class="overview-icon pi pi-users"></i>
 		                <p:link outcome="anagraphic.xhtml" style="color:white;">
-			                <span class="overview-title">With Specialty Valid</span>
+			                <span class="overview-title">VVF con specializzazioni valide</span>
 		                </p:link>
 		                <i class="overview-arrow pi pi-chevron-circle-up"></i>
 		                <div class="overview-numbers">
@@ -71,7 +72,7 @@
 		            <div class="overview-box box3">
 		                <i class="overview-icon pi pi-users"></i>
 		                <p:link outcome="reports-by-expired-specialty.xhtml" style="color:white;">
-			                <span class="overview-title">With Specialty Expired</span>
+			                <span class="overview-title">VVF con specailizzazioni scadute</span>
 		                </p:link>
 		                <i class="overview-arrow pi pi-chevron-circle-up"></i>
 		                <div class="overview-numbers">
@@ -86,7 +87,7 @@
 		            <div class="overview-box box4">
 		                <i class="overview-icon pi pi-users"></i>
 		                <p:link outcome="anagraphic.xhtml" style="color:white;">
-			                <span class="overview-title">With Specialty Empty</span>
+			                <span class="overview-title">VVF con nessuna specializzazione</span>
 		                </p:link>
 		                <i class="overview-arrow pi pi-chevron-circle-up"></i>
 		                <div class="overview-numbers">
@@ -99,24 +100,37 @@
 	            </div>
 			</div>
 			
-			<p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-6, ui-grid-col-12" layout="grid" style="background-color:whitesmoke;">
-	 			<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
-					<div class="card">
-						<h5>Specialties</h5>
-				      	<p:barChart model="#{dashboardView.specialtiesBar}" widgetVar="chart1" style="width: 100%; display: block; box-sizing: border-box;" />
-				      	<br/>
-				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart1')" styleClass="mr-2 mb-2" />
-				    </div>
-				</p:column>
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-12 ui-grid-col-3 md:ui-grid-col-6 lg:ui-grid-col-6" layout="grid" style="background-color:whitesmoke;">
+	 			<p:row>
+		 			<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
+						<div class="card">
+							<h5>Specializzazioni Raggruppate</h5>
+					      	<p:barChart model="#{dashboardView.specialtiesBarRag}" widgetVar="chartSpecRaggruppate"  style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chartSpecRaggruppate')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+					
+					<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
+						<div class="card">
+							<h5>Qualifiche</h5>
+					      	<p:lineChart model="#{dashboardView.qualificationsLine}" widgetVar="chart2" style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart2')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+				</p:row>
 				
-				<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
-					<div class="card">
-						<h5>Qualifications</h5>
-				      	<p:lineChart model="#{dashboardView.qualificationsLine}" widgetVar="chart2" style="width: 100%; display: block; box-sizing: border-box;" />
-				      	<br/>
-				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart2')" styleClass="mr-2 mb-2" />
-				    </div>
-				</p:column>
+				<p:row>
+					<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
+						<div class="card">
+							<h5>Specializzazioni in Dettaglio</h5>
+					      	<p:barChart model="#{dashboardView.specialtiesBar}" widgetVar="chart1" style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart1')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+				</p:row>
 				
 				<p:row>
 					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
@@ -155,6 +169,27 @@
 					    </div>
 					</p:column>
 				</p:row>
+				
+				<p:row>
+					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
+						<div class="card">
+							<h5>Turni A-B-C-D-G5 e Turni Discontinui</h5>
+					      	<p:pieChart model="#{dashboardView.turnoABCDG5DiscPie}" widgetVar="chart7" style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart7')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+					
+					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
+						<div class="card">
+							<h5>Dettaglio Specializzazioni SAF</h5>
+					      	<p:donutChart  model="#{dashboardView.specialtiesSaf}" widgetVar="chartSpecSaf" style="width: 100%; display: block; box-sizing: border-box;" />
+					      	<br/>
+					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chartSpecSaf')" styleClass="mr-2 mb-2" />
+					    </div>
+					</p:column>
+				</p:row>
+				
 			</p:panelGrid>
 		</div>
 

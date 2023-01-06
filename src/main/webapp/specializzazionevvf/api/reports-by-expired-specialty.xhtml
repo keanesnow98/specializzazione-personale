@@ -13,7 +13,7 @@
 		<h:form>
 			<div class="flex justify-content-between">
 			   <div class="flex justify-content-between align-items-center">
-			   		By Detail
+			   		Lista Specializzazioni Scadute per VVF
 			   </div>
 			   <div>
 			      <p:commandButton value="XLSX" styleClass="mr-2 mb-2" >
@@ -26,12 +26,17 @@
 			   </div>
 			</div>
 			
-		    <p:dataTable id="anagraphics" var="anagraphic" value="#{reportsByExpiredSpecialtyView.anagraphics}" styleClass="mb-3" rowKey="#{product.id}">
+		    <p:dataTable id="anagraphics" widgetVar="dtAnagraphicA" var="anagraphic" value="#{reportsByExpiredSpecialtyView.anagraphics}" styleClass="mb-3" rowKey="#{product.id}"
+		    	stripedRows="true" resizableColumns="true" liveResize="true">
 		        <f:facet name="header">
 		            <div class="flex justify-content-between align-items-center">
-		            	Anagraphics Detail
+		            	Dettagli Personale con Specializzazioni Scadute
 		                <div>
-		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                	<span class="filter-container ui-input-icon-left" style="margin-right: 30px;"> <i class="pi pi-search"></i>
+							 	<p:inputText id="globalFilter" onkeyup="PF('dtAnagraphicA').filter()" placeholder="Search" />
+							</span>
+							
+		                    <p:commandButton id="toggler" type="button" value="Colonne" icon="pi pi-align-justify"/>
 		                    <p:columnToggler datasource="anagraphics" trigger="toggler">
 		                        <p:ajax />
 		                    </p:columnToggler>
@@ -43,58 +48,55 @@
 	                <p:rowToggler/>
 	            </p:column>
 		
-		        <p:column headerText="Last name">
+		        <p:column headerText="Cognome" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
 		            <h:outputText value="#{anagraphic.lastName}" />
 		        </p:column>
 		
-		        <p:column headerText="First name">
+		        <p:column headerText="Nome" sortBy="#{anagraphic.firstName}" filterBy="#{anagraphic.firstName}">
 		            <h:outputText value="#{anagraphic.firstName}" />
 		        </p:column>
 		
-		        <p:column headerText="Qualification">
+		        <p:column headerText="Qualifica" sortBy="#{anagraphic.qualification}" filterBy="#{anagraphic.qualification}">
 		            <h:outputText value="#{anagraphic.qualification}" />
 		        </p:column>
-		        
-		        <p:column headerText="Turno">
-	                <h:outputText value="#{anagraphic.turno}" />
-	            </p:column>
 		
-		        <p:column headerText="Ruolo">
+		        <p:column headerText="Ruolo" sortBy="#{anagraphic.ruolo}" filterBy="#{anagraphic.ruolo}">
 		            <h:outputText value="#{anagraphic.ruolo}" />
 		        </p:column>
 		        
-		        <p:column headerText="Fiscal Code">
+		        <p:column headerText="Codice Fiscale" sortBy="#{anagraphic.fiscalCode}" filterBy="#{anagraphic.fiscalCode}">
 		            <h:outputText value="#{anagraphic.fiscalCode}" />
 		        </p:column>
 		        
-		        <p:column headerText="Phone number">
+		        <p:column headerText="Numero Telefonico" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
 		            <h:outputText value="#{anagraphic.phoneNumber}" />
 		        </p:column>
 		        
-		        <p:column headerText="Email">
+		        <p:column headerText="Email" sortBy="#{anagraphic.contactEmail}" filterBy="#{anagraphic.contactEmail}">
 		            <h:outputText value="#{anagraphic.contactEmail}" />
 		        </p:column>
 		        
-		        <p:column headerText="Note">
+		        <p:column headerText="Note" sortBy="#{anagraphic.note}" filterBy="#{anagraphic.note}">
 		            <h:outputText value="#{anagraphic.note}" />
 		        </p:column>
 		        
 		        <p:rowExpansion>
-	                <p:dataTable var="specialtyExp" value="#{anagraphic.specialtyExpirations}">
-			            <p:column headerText="Specialty">
-			                <h:outputText value="#{specialtyExp.specialty}" />
+	                <p:dataTable var="specialtyExp" value="#{anagraphic.specialtyExpirations}"
+	                	stripedRows="true" resizableColumns="true" liveResize="true">
+			            <p:column headerText="Specializzazione" sortBy="#{specialtyExp.specialty}">
+			                <h:outputText value="#{specialtyExp.specialty}"/>
 			            </p:column>
 			
-			            <p:column headerText="Achieved date">
-			                <h:outputText value="#{specialtyExp.achievedDate}" />
+			            <p:column headerText="Data di Conseguimento" sortBy="#{specialtyExp.achievedDate}">
+			                <h:outputText value="#{specialtyExp.achievedDate}"/>
 			            </p:column>
 			
-			            <p:column headerText="Validation months">
-			                <h:outputText value="#{specialtyExp.validationMonths}" />
+			            <p:column headerText="Mesi di validità" sortBy="#{specialtyExp.validationMonths}">
+			                <h:outputText value="#{specialtyExp.validationMonths}"/>
 			            </p:column>
 			
-			            <p:column headerText="Status">
-			                <h:outputText value="#{specialtyExp.isValid() ? 'Valid' : 'Expired'}" />
+			            <p:column headerText="Stato" >
+			                <h:outputText value="#{specialtyExp.isValid() ? 'Valid' : 'Expired'}"/>
 			            </p:column>
 			        </p:dataTable>
 	            </p:rowExpansion>

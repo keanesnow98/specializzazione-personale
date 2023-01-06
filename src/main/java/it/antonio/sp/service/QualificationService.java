@@ -1,6 +1,7 @@
 package it.antonio.sp.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class QualificationService {
 		qualificationRepository.findAll().toIterable().forEach(qualification -> {
 			qualificationNames.add(qualification.getQualificationName());
 		});
+		Collections.sort(qualificationNames);
 		return qualificationNames;
 	}
 	

@@ -6,14 +6,14 @@
 	template="/WEB-INF/template.xhtml">
 	
 	<ui:define name="title">
-        Qualifications
+        Lista Qualifiche Censite
     </ui:define>
 
 	<ui:define name="implementation">
 		<h:form id="form">
 			<p:toolbar styleClass="mb-3">
 	            <p:toolbarGroup>
-	                <p:commandButton value="New" icon="pi pi-plus" process="@this" action="#{qualificationsView.addNew()}"
+	                <p:commandButton value="Nuova" icon="pi pi-plus" process="@this" action="#{qualificationsView.addNew()}"
 	                	oncomplete="PF('qualifications').addRow();" styleClass="ui-button-success" style="margin-right: .5rem" />
 	            </p:toolbarGroup>
 	        </p:toolbar>
@@ -25,7 +25,7 @@
 		        	scrollable="true" scrollHeight="470">
 		        	<p:ajax event="cellEdit" listener="#{qualificationsView.onCellEdit}" update=":form:msg" />
 		            
-		            <p:column headerText="Name">
+		            <p:column headerText="Definizione qualifica" sortOrder="ascending" sortBy="#{qualification.qualificationName}">
 			            <p:cellEditor>
 		                    <f:facet name="output">
 		                        <h:outputText value="#{qualification.qualificationName}" />

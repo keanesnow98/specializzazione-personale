@@ -13,7 +13,7 @@
 		<h:form>
 			<div class="flex justify-content-between">
 			   <div class="flex justify-content-between align-items-center">
-			   		<p:outputLabel for="@next" style="margin-right: 14px;">By Specialty:</p:outputLabel>
+			   		<p:outputLabel for="@next" style="margin-right: 14px;">Filtra per Specializzazioni:</p:outputLabel>
 		            <p:selectOneMenu value="#{reportsBySpecialtyView.selectedSpecialty}" onchange="submit()" valueChangeListener="#{reportsBySpecialtyView.handleSpecialtyChange}">
 	                    <f:selectItems value="#{reportsBySpecialtyView.specialties}"/>
 	                </p:selectOneMenu>
@@ -29,12 +29,17 @@
 			   </div>
 			</div>
 			
-		    <p:dataTable id="turnoA" var="anagraphic" value="#{reportsBySpecialtyView.turnoA}" styleClass="mb-3">
+		    <p:dataTable id="turnoA" widgetVar="dtAnagraphicA" var="anagraphic" value="#{reportsBySpecialtyView.turnoA}" styleClass="mb-3"
+		    	stripedRows="true" resizableColumns="true" liveResize="true">
 		        <f:facet name="header">
 		            <div class="flex justify-content-between align-items-center">
 		            	TurnoA
 		                <div>
-		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                	<span class="filter-container ui-input-icon-left" style="margin-right: 30px;"> <i class="pi pi-search"></i>
+							 	<p:inputText id="globalFilter" onkeyup="PF('dtAnagraphicA').filter()" placeholder="Search" />
+							</span>
+							
+		                    <p:commandButton id="toggler" type="button" value="Colonne" icon="pi pi-align-justify"/>
 		                    <p:columnToggler datasource="turnoA" trigger="toggler">
 		                        <p:ajax />
 		                    </p:columnToggler>
@@ -42,45 +47,50 @@
 		            </div>
 		        </f:facet>
 		
-		        <p:column headerText="Last name">
+		        <p:column headerText="Cognome" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
 		            <h:outputText value="#{anagraphic.lastName}" />
 		        </p:column>
 		
-		        <p:column headerText="First name">
+		        <p:column headerText="Nome" sortBy="#{anagraphic.firstName}" filterBy="#{anagraphic.firstName}">
 		            <h:outputText value="#{anagraphic.firstName}" />
 		        </p:column>
 		
-		        <p:column headerText="Qualification">
+		        <p:column headerText="Qualifica" sortBy="#{anagraphic.qualification}" filterBy="#{anagraphic.qualification}">
 		            <h:outputText value="#{anagraphic.qualification}" />
 		        </p:column>
 		
-		        <p:column headerText="Ruolo">
+		        <p:column headerText="Ruolo" sortBy="#{anagraphic.ruolo}" filterBy="#{anagraphic.ruolo}">
 		            <h:outputText value="#{anagraphic.ruolo}" />
 		        </p:column>
 		        
-		        <p:column headerText="Fiscal Code">
+		        <p:column headerText="Codice Fiscale" sortBy="#{anagraphic.fiscalCode}" filterBy="#{anagraphic.fiscalCode}">
 		            <h:outputText value="#{anagraphic.fiscalCode}" />
 		        </p:column>
 		        
-		        <p:column headerText="Phone number">
+		        <p:column headerText="Numero Telefonico" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
 		            <h:outputText value="#{anagraphic.phoneNumber}" />
 		        </p:column>
 		        
-		        <p:column headerText="Email">
+		        <p:column headerText="Email" sortBy="#{anagraphic.contactEmail}" filterBy="#{anagraphic.contactEmail}">
 		            <h:outputText value="#{anagraphic.contactEmail}" />
 		        </p:column>
 		        
-		        <p:column headerText="Note">
+		        <p:column headerText="Note" sortBy="#{anagraphic.note}" filterBy="#{anagraphic.note}">
 		            <h:outputText value="#{anagraphic.note}" />
 		        </p:column>
 		    </p:dataTable>
 		    
-		    <p:dataTable id="turnoB" var="anagraphic" value="#{reportsBySpecialtyView.turnoB}" styleClass="mb-3">
+		    <p:dataTable id="turnoB" widgetVar="dtAnagraphicB" var="anagraphic" value="#{reportsBySpecialtyView.turnoB}" styleClass="mb-3"
+		    	stripedRows="true" resizableColumns="true" liveResize="true">
 		        <f:facet name="header">
 		            <div class="flex justify-content-between align-items-center">
 		            	TurnoB
 		                <div>
-		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                	<span class="filter-container ui-input-icon-left" style="margin-right: 30px;"> <i class="pi pi-search"></i>
+							 	<p:inputText id="globalFilter" onkeyup="PF('dtAnagraphicB').filter()" placeholder="Search" />
+							</span>
+							
+		                    <p:commandButton id="toggler" type="button" value="Colonne" icon="pi pi-align-justify"/>
 		                    <p:columnToggler datasource="turnoB" trigger="toggler">
 		                        <p:ajax />
 		                    </p:columnToggler>
@@ -88,45 +98,50 @@
 		            </div>
 		        </f:facet>
 		
-		        <p:column headerText="Last name">
+		        <p:column headerText="Cognome" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
 		            <h:outputText value="#{anagraphic.lastName}" />
 		        </p:column>
 		
-		        <p:column headerText="First name">
+		        <p:column headerText="Nome" sortBy="#{anagraphic.firstName}" filterBy="#{anagraphic.firstName}">
 		            <h:outputText value="#{anagraphic.firstName}" />
 		        </p:column>
 		
-		        <p:column headerText="Qualification">
+		        <p:column headerText="Qualifica" sortBy="#{anagraphic.qualification}" filterBy="#{anagraphic.qualification}">
 		            <h:outputText value="#{anagraphic.qualification}" />
 		        </p:column>
 		
-		        <p:column headerText="Ruolo">
+		        <p:column headerText="Ruolo" sortBy="#{anagraphic.ruolo}" filterBy="#{anagraphic.ruolo}">
 		            <h:outputText value="#{anagraphic.ruolo}" />
 		        </p:column>
 		        
-		        <p:column headerText="Fiscal Code">
+		        <p:column headerText="Codice Fiscale" sortBy="#{anagraphic.fiscalCode}" filterBy="#{anagraphic.fiscalCode}">
 		            <h:outputText value="#{anagraphic.fiscalCode}" />
 		        </p:column>
 		        
-		        <p:column headerText="Phone number">
+		        <p:column headerText="Numero Telefonico" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
 		            <h:outputText value="#{anagraphic.phoneNumber}" />
 		        </p:column>
 		        
-		        <p:column headerText="Email">
+		        <p:column headerText="Email" sortBy="#{anagraphic.contactEmail}" filterBy="#{anagraphic.contactEmail}">
 		            <h:outputText value="#{anagraphic.contactEmail}" />
 		        </p:column>
 		        
-		        <p:column headerText="Note">
+		        <p:column headerText="Note" sortBy="#{anagraphic.note}" filterBy="#{anagraphic.note}">
 		            <h:outputText value="#{anagraphic.note}" />
 		        </p:column>
 		    </p:dataTable>
 		    
-		    <p:dataTable id="turnoC" var="anagraphic" value="#{reportsBySpecialtyView.turnoC}" styleClass="mb-3">
+		    <p:dataTable id="turnoC" widgetVar="dtAnagraphicC" var="anagraphic" value="#{reportsBySpecialtyView.turnoC}" styleClass="mb-3"
+		    	stripedRows="true" resizableColumns="true" liveResize="true">
 		        <f:facet name="header">
 		            <div class="flex justify-content-between align-items-center">
 		            	TurnoC
 		                <div>
-		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                	<span class="filter-container ui-input-icon-left" style="margin-right: 30px;"> <i class="pi pi-search"></i>
+							 	<p:inputText id="globalFilter" onkeyup="PF('dtAnagraphicC').filter()" placeholder="Search" />
+							</span>
+							
+		                    <p:commandButton id="toggler" type="button" value="Colonne" icon="pi pi-align-justify"/>
 		                    <p:columnToggler datasource="turnoC" trigger="toggler">
 		                        <p:ajax />
 		                    </p:columnToggler>
@@ -134,45 +149,50 @@
 		            </div>
 		        </f:facet>
 		
-		        <p:column headerText="Last name">
+		        <p:column headerText="Cognome" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
 		            <h:outputText value="#{anagraphic.lastName}" />
 		        </p:column>
 		
-		        <p:column headerText="First name">
+		        <p:column headerText="Nome" sortBy="#{anagraphic.firstName}" filterBy="#{anagraphic.firstName}">
 		            <h:outputText value="#{anagraphic.firstName}" />
 		        </p:column>
 		
-		        <p:column headerText="Qualification">
+		        <p:column headerText="Qualifica" sortBy="#{anagraphic.qualification}" filterBy="#{anagraphic.qualification}">
 		            <h:outputText value="#{anagraphic.qualification}" />
 		        </p:column>
 		
-		        <p:column headerText="Ruolo">
+		        <p:column headerText="Ruolo" sortBy="#{anagraphic.ruolo}" filterBy="#{anagraphic.ruolo}">
 		            <h:outputText value="#{anagraphic.ruolo}" />
 		        </p:column>
 		        
-		        <p:column headerText="Fiscal Code">
+		        <p:column headerText="Codice Fiscale" sortBy="#{anagraphic.fiscalCode}" filterBy="#{anagraphic.fiscalCode}">
 		            <h:outputText value="#{anagraphic.fiscalCode}" />
 		        </p:column>
 		        
-		        <p:column headerText="Phone number">
+		        <p:column headerText="Numero Telefonico" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
 		            <h:outputText value="#{anagraphic.phoneNumber}" />
 		        </p:column>
 		        
-		        <p:column headerText="Email">
+		        <p:column headerText="Email" sortBy="#{anagraphic.contactEmail}" filterBy="#{anagraphic.contactEmail}">
 		            <h:outputText value="#{anagraphic.contactEmail}" />
 		        </p:column>
 		        
-		        <p:column headerText="Note">
+		        <p:column headerText="Note" sortBy="#{anagraphic.note}" filterBy="#{anagraphic.note}">
 		            <h:outputText value="#{anagraphic.note}" />
 		        </p:column>
 		    </p:dataTable>
 		    
-		    <p:dataTable id="turnoD" var="anagraphic" value="#{reportsBySpecialtyView.turnoD}" styleClass="mb-3">
+		    <p:dataTable id="turnoD" widgetVar="dtAnagraphicD" var="anagraphic" value="#{reportsBySpecialtyView.turnoD}" styleClass="mb-3"
+		    	stripedRows="true" resizableColumns="true" liveResize="true">
 		        <f:facet name="header">
 		            <div class="flex justify-content-between align-items-center">
 		            	TurnoD
 		                <div>
-		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+		                	<span class="filter-container ui-input-icon-left" style="margin-right: 30px;"> <i class="pi pi-search"></i>
+							 	<p:inputText id="globalFilter" onkeyup="PF('dtAnagraphicD').filter()" placeholder="Search" />
+							</span>
+							
+		                    <p:commandButton id="toggler" type="button" value="Colonne" icon="pi pi-align-justify"/>
 		                    <p:columnToggler datasource="turnoD" trigger="toggler">
 		                        <p:ajax />
 		                    </p:columnToggler>
@@ -180,81 +200,86 @@
 		            </div>
 		        </f:facet>
 		
-		        <p:column headerText="Last name">
+		        <p:column headerText="Cognome" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
 		            <h:outputText value="#{anagraphic.lastName}" />
 		        </p:column>
 		
-		        <p:column headerText="First name">
+		        <p:column headerText="Nome" sortBy="#{anagraphic.firstName}" filterBy="#{anagraphic.firstName}">
 		            <h:outputText value="#{anagraphic.firstName}" />
 		        </p:column>
 		
-		        <p:column headerText="Qualification">
+		        <p:column headerText="Qualifica" sortBy="#{anagraphic.qualification}" filterBy="#{anagraphic.qualification}">
 		            <h:outputText value="#{anagraphic.qualification}" />
 		        </p:column>
 		
-		        <p:column headerText="Ruolo">
+		        <p:column headerText="Ruolo" sortBy="#{anagraphic.ruolo}" filterBy="#{anagraphic.ruolo}">
 		            <h:outputText value="#{anagraphic.ruolo}" />
 		        </p:column>
 		        
-		        <p:column headerText="Fiscal Code">
+		        <p:column headerText="Codice Fiscale" sortBy="#{anagraphic.fiscalCode}" filterBy="#{anagraphic.fiscalCode}">
 		            <h:outputText value="#{anagraphic.fiscalCode}" />
 		        </p:column>
 		        
-		        <p:column headerText="Phone number">
+		        <p:column headerText="Numero Telefonico" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
 		            <h:outputText value="#{anagraphic.phoneNumber}" />
 		        </p:column>
 		        
-		        <p:column headerText="Email">
+		        <p:column headerText="Email" sortBy="#{anagraphic.contactEmail}" filterBy="#{anagraphic.contactEmail}">
 		            <h:outputText value="#{anagraphic.contactEmail}" />
 		        </p:column>
 		        
-		        <p:column headerText="Note">
+		        <p:column headerText="Note" sortBy="#{anagraphic.note}" filterBy="#{anagraphic.note}">
 		            <h:outputText value="#{anagraphic.note}" />
 		        </p:column>
 		    </p:dataTable>
 		    
-		    <p:dataTable id="turnoG" var="anagraphic" value="#{reportsBySpecialtyView.turnoG}" styleClass="mb-3">
+		    <p:dataTable id="turnoG5" widgetVar="dtAnagraphicG5" var="anagraphic" value="#{reportsBySpecialtyView.turnoG5}" styleClass="mb-3"
+		    	stripedRows="true" resizableColumns="true" liveResize="true">
 		        <f:facet name="header">
 		            <div class="flex justify-content-between align-items-center">
-		            	TurnoG
+		            	TurnoG5
 		                <div>
-		                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
-		                    <p:columnToggler datasource="turnoG" trigger="toggler">
+		                	<span class="filter-container ui-input-icon-left" style="margin-right: 30px;"> <i class="pi pi-search"></i>
+							 	<p:inputText id="globalFilter" onkeyup="PF('dtAnagraphicG5').filter()" placeholder="Search" />
+							</span>
+							
+		                    <p:commandButton id="toggler" type="button" value="Colonne" icon="pi pi-align-justify"/>
+		                    <p:columnToggler datasource="turnoG5" trigger="toggler">
 		                        <p:ajax />
 		                    </p:columnToggler>
 		                </div>
 		            </div>
 		        </f:facet>
 		
-		        <p:column headerText="Last name">
+		        <p:column headerText="Cognome" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
 		            <h:outputText value="#{anagraphic.lastName}" />
 		        </p:column>
 		
-		        <p:column headerText="First name">
+		        <p:column headerText="Nome" sortBy="#{anagraphic.firstName}" filterBy="#{anagraphic.firstName}">
 		            <h:outputText value="#{anagraphic.firstName}" />
 		        </p:column>
 		
-		        <p:column headerText="Qualification">
+		        <p:column headerText="Qualifica" sortBy="#{anagraphic.qualification}" filterBy="#{anagraphic.qualification}">
 		            <h:outputText value="#{anagraphic.qualification}" />
 		        </p:column>
 		
-		        <p:column headerText="Ruolo">
+		        <p:column headerText="Ruolo" sortBy="#{anagraphic.ruolo}" filterBy="#{anagraphic.ruolo}">
 		            <h:outputText value="#{anagraphic.ruolo}" />
 		        </p:column>
 		        
-		        <p:column headerText="Fiscal Code">
+		        <p:column headerText="Codice Fiscale" sortBy="#{anagraphic.fiscalCode}" filterBy="#{anagraphic.fiscalCode}">
 		            <h:outputText value="#{anagraphic.fiscalCode}" />
 		        </p:column>
 		        
-		        <p:column headerText="Phone number">
+		        <p:column headerText="Numero Telefonico" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
 		            <h:outputText value="#{anagraphic.phoneNumber}" />
 		        </p:column>
 		        
-		        <p:column headerText="Email">
+		        <p:column headerText="Email" sortBy="#{anagraphic.contactEmail}" filterBy="#{anagraphic.contactEmail}">
 		            <h:outputText value="#{anagraphic.contactEmail}" />
 		        </p:column>
 		        
-		        <p:column headerText="Note">
+		        <p:column headerText="Note" sortBy="#{anagraphic.note}" filterBy="#{anagraphic.note}">
 		            <h:outputText value="#{anagraphic.note}" />
 		        </p:column>
 		    </p:dataTable>

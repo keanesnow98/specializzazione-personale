@@ -23,7 +23,7 @@ public class ReportsBySpecialtyView {
 	private List<AnagraphicEntity> turnoB;
 	private List<AnagraphicEntity> turnoC;
 	private List<AnagraphicEntity> turnoD;
-	private List<AnagraphicEntity> turnoG;
+	private List<AnagraphicEntity> turnoG5;
 	
 	public List<String> getSpecialties() {
 		return specialties;
@@ -73,12 +73,12 @@ public class ReportsBySpecialtyView {
 		this.turnoD = turnoD;
 	}
 	
-	public List<AnagraphicEntity> getTurnoG() {
-		return turnoG;
+	public List<AnagraphicEntity> getTurnoG5() {
+		return turnoG5;
 	}
 	
-	public void setTurnoG(List<AnagraphicEntity> turnoG) {
-		this.turnoG = turnoG;
+	public void setTurnoG5(List<AnagraphicEntity> turnoG5) {
+		this.turnoG5 = turnoG5;
 	}
 	
 	@Autowired
@@ -95,7 +95,7 @@ public class ReportsBySpecialtyView {
 		turnoB = anagraphicService.getFilteredByTurnoB(selectedSpecialty);
 		turnoC = anagraphicService.getFilteredByTurnoC(selectedSpecialty);
 		turnoD = anagraphicService.getFilteredByTurnoD(selectedSpecialty);
-		turnoG = anagraphicService.getFilteredByTurnoG(selectedSpecialty);
+		turnoG5 = anagraphicService.getFilteredByTurnoG5(selectedSpecialty);
 	}
 	
 	public void handleSpecialtyChange(ValueChangeEvent event) {
@@ -105,8 +105,8 @@ public class ReportsBySpecialtyView {
 		turnoB = anagraphicService.getFilteredByTurnoB(newValue);
 		turnoC = anagraphicService.getFilteredByTurnoC(newValue);
 		turnoD = anagraphicService.getFilteredByTurnoD(newValue);
-		turnoG = anagraphicService.getFilteredByTurnoG(newValue);
+		turnoG5 = anagraphicService.getFilteredByTurnoG5(newValue);
 		
-		PrimeFaces.current().ajax().update("turnoA", "turnoB", "turnoC", "turnoD", "turnoG");
+		PrimeFaces.current().ajax().update("turnoA", "turnoB", "turnoC", "turnoD", "turnoG5");
 	}
 }

@@ -35,39 +35,51 @@
   	
   	<div class="login-panel" style="left:0%; -moz-border-radius:0%; -webkit-border-radius:0%; border-radius:0%;"></div>
   	
-  	<div class="login-content" style="display:flex; justify-content:center; opacity:0.85;">
+  	<div class="login-content" style="display:flex; justify-content:center; opacity:0.85; background-color: #ececec;">
   		<h:form prependId="false">
-  			<div class="card" style="padding:50px;">
+  			<div class="card" style="padding:50px; border-radius:30px; box-shadow: 0px 0px 40px 8px rgb(200 200 200 / 70%); border: 1px solid lightgrey;">
   				<div style="display:flex; justify-content:center;">
 	  				<p:graphicImage name="images/favicon.ico" library="specializzazionevvf" alt="Specializzazione Personale"
 	  					height="50" style="margin-bottom: 14px; width:50px;" />
 	  			</div>
 	
-		  		<h1><span>REGISTER</span> TO SPECIALIZZAZIONE PERSONALE</h1>
+		  		<h1><span>REGISTRATI </span>SPECIALIZZAZIONE PERSONALE</h1>
 		        <p>
-		        	Already have account?
+		        	Hai già un account?
 		        	<p:link href="/specializzazionevvf/auth/login.xhtml">
-		          		Log in now!
+		          		Effettua il login!
 		          </p:link>
 		        </p>
 		
 		        <div class="login-input-wrapper">
-		          <p:inputText id="email" value="#{registerView.email}" required="true" />
-		          <i class="pi pi-user"></i>
+		        <p>
+		        	Email
+		          <p:inputText id="email" value="#{registerView.email}" required="true" type="email" 
+		          	 	 style="text-transform: lowercase;" 
+		          		 onchange="this.value = this.value.toLowerCase();"
+				         placeholder="nome.cognome@gmail.com"/>
+		          		<i class="pi pi-user"></i>
+		         </p>
 		        </div>
 		
 		        <div class="login-input-wrapper">
+		        <p>
+		        	Password
 		          	<p:password id="password" match="confirmPassword" value="#{registerView.password}" required="true" />
 		            <i class="pi pi-key"></i>
+		        </p>
 		        </div>
 		        
 		        <div class="login-input-wrapper">
+		        <p>
+		        	Ripeti Password
 		          	<p:password id="confirmPassword" value="#{registerView.confirmPassword}" required="true" />
 		            <i class="pi pi-key"></i>
+				</p>
 		        </div>
 		        
-		        <p:commandButton value="Register" ajax="false" update="messages" action="#{registerView.register}" icon="pi pi-user"
-		        	 style="width: 100%;" />
+		        <p:commandButton value="Conferma Registrazione" ajax="false" update="messages" action="#{registerView.register}" icon="pi pi-user"
+		        	 style="width: 100%; height: 50px; border-radius: 10px" />
 		        
 		        <p:messages id="messages" showDetail="true">
 		        	<p:autoUpdate/>
@@ -77,10 +89,10 @@
   	</div>
   	<div class="crud-demo">
   		<h:form id="dialogs">
-	        <p:confirmDialog widgetVar="registerSuccessDialog" showEffect="fade" width="300"
-	            message="Proceed to login page?" header="Register Success" severity="warn">
-	            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{registerView.proceed}" process="@this" />
-	            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+	        <p:confirmDialog widgetVar="registerSuccessDialog" showEffect="fade" width="500"
+	            message="Account creato con successi. Premi OK e verrai rediretto alla pagina di login o in alternativa premi il pulsante cancel per creare un ulteriore account." header="Registrazione avvenuta con successo!" severity="info">
+	            <p:commandButton value="Ok" icon="pi pi-check" actionListener="#{registerView.proceed}" process="@this" />
+	            <p:commandButton value="Cancel" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
 	                onclick="PF('registerSuccessDialog').hide()" />
 	        </p:confirmDialog>
 	        

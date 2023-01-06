@@ -19,7 +19,9 @@ public class ReportsByTurnoView {
 	private List<AnagraphicEntity> turnoB;
 	private List<AnagraphicEntity> turnoC;
 	private List<AnagraphicEntity> turnoD;
-	private List<AnagraphicEntity> turnoG;
+	private List<AnagraphicEntity> turnoG5;
+	private List<AnagraphicEntity> turnoDisc;
+
 
 	public List<AnagraphicEntity> getTurnoA() {
 		return turnoA;
@@ -53,12 +55,19 @@ public class ReportsByTurnoView {
 		this.turnoD = turnoD;
 	}
 	
-	public List<AnagraphicEntity> getTurnoG() {
-		return turnoG;
+	public List<AnagraphicEntity> getTurnoG5() {
+		return turnoG5;
 	}
 	
-	public void setTurnoG(List<AnagraphicEntity> turnoG) {
-		this.turnoG = turnoG;
+	public void setTurnoG5(List<AnagraphicEntity> turnoG5) {
+		this.turnoG5 = turnoG5;
+	}
+	public List<AnagraphicEntity> getTurnoDisc() {
+		return turnoDisc;
+	}
+
+	public void setTurnoDisc(List<AnagraphicEntity> turnoDisc) {
+		this.turnoDisc = turnoDisc;
 	}
 	
 	@Autowired
@@ -73,6 +82,7 @@ public class ReportsByTurnoView {
 		turnoB = anagraphicService.getFilteredByTurnoB();
 		turnoC = anagraphicService.getFilteredByTurnoC();
 		turnoD = anagraphicService.getFilteredByTurnoD();
-		turnoG = anagraphicService.getFilteredByTurnoG();
+		turnoG5 = anagraphicService.getFilteredByTurnoG5();
+		turnoDisc = anagraphicService.getFilteredByTurnoDisc();
 	}
 }

@@ -7,7 +7,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="#{resource['specializzazionevvf/images/favicon.ico']}" rel="icon" type="image/png" sizes="48x48"/>
     <title>Specializzazione Personale</title>
     
     <!-- <link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css" />
@@ -33,19 +32,19 @@
   
   	<div class="login-panel" style="left:0%; -moz-border-radius:0%; -webkit-border-radius:0%; border-radius:0%;"></div>
   	
-  	<div class="login-content" style="display:flex; justify-content:center; opacity:0.85;">
+  	<div class="login-content" style="display:flex; justify-content:center; opacity:0.85; background-color: #ececec;">
   		<h:form prependId="false">
-  			<div class="card" style="padding:50px;">
+  			<div class="card" style="border-radius: 30px; padding:45px; box-shadow: 0px 0px 40px 8px rgb(200 200 200 / 70%); border: 1px solid lightgrey;">
   				<div style="display:flex; justify-content:center;">
-	  				<p:graphicImage name="images/favicon.ico" library="specializzazionevvf" alt="Specializzazione Personale"
-	  					height="50" style="margin-bottom: 14px; width:50px;" />
+	  				<p:graphicImage name="images/logo.png" library="specializzazionevvf" alt="Specializzazione Personale"
+	  					height="300" style="margin-bottom: 14px; width:300px;" />
 	  			</div>
 
-		  		<h1><span>LOG IN</span> TO SPECIALIZZAZIONE PERSONALE</h1>
+		  		<h1>SPECIALIZZAZIONI PERSONALE</h1>
 		        <p>
-		        	Don't have an account?
+		        	Non hai un account?
 		        	<p:link href="/specializzazionevvf/auth/register.xhtml">
-		          		Create today!
+		          		Registra un nuovo account.
 		            </p:link>
 		        </p>
 		        
@@ -55,13 +54,27 @@
 		        </div>
 		
 		        <div class="login-input-wrapper">
-		          <p:inputText id="email" required="true" />
-		          <i class="pi pi-user"></i>
+		        <p>
+		        	Email
+		          <p:inputText id="email" required="true" type="email" 
+		          		 style="text-transform: lowercase;" 
+		          		 onchange="this.value = this.value.toLowerCase();"
+				         placeholder="nome.cognome@gmail.com">
+		          		 <i class="pi pi-user"></i>
+		          </p:inputText>
+		        </p>
 		        </div>
+		        
+		        
+		  
+                       
 		
 		        <div class="login-input-wrapper">
+		        <p>
+		        	Password
 		          	<p:inputText id="password" type="password" required="true" />
 		            <i class="pi pi-lock"></i>
+		        </p>
 		        </div>
 		        
 		        <!-- <div class="login-input-wrapper">
@@ -69,7 +82,7 @@
 		            <label for="remember-me">Remember me</label>
 	            </div> -->
 		        
-		        <p:commandButton value="Log In" ajax="false" icon="pi pi-unlock" style="width: 100%;" />
+		        <p:commandButton value="Login" ajax="false" icon="pi pi-unlock" style="height: 50px; border-radius:10px; width: 100%;" />
 		    </div>
         </h:form>
   	</div>

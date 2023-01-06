@@ -1,3 +1,7 @@
+.ui-datatable .ui-column-filter {
+	display: none !important;
+}
+
 .product-badge {
     border-radius: 2px;
     padding: .25em .5rem;

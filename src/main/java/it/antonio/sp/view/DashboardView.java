@@ -2,16 +2,27 @@ package it.antonio.sp.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 
 import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
+import org.primefaces.model.charts.bar.BarChartOptions;
+import org.primefaces.model.charts.donut.DonutChartDataSet;
+import org.primefaces.model.charts.donut.DonutChartModel;
+import org.primefaces.model.charts.donut.DonutChartOptions;
 import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
+import org.primefaces.model.charts.line.LineChartOptions;
+import org.primefaces.model.charts.optionconfig.title.Title;
 import org.primefaces.model.charts.pie.PieChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +35,15 @@ import it.antonio.sp.service.SpecialtyService;
 @ManagedBean
 @RequestScope
 public class DashboardView {
+	private BarChartModel specialtiesBarRag;
+	private DonutChartModel specialtiesSaf;
 	private BarChartModel specialtiesBar;
 	private LineChartModel qualificationsLine;
 	private PieChartModel turnoAPie;
 	private PieChartModel turnoBPie;
 	private PieChartModel turnoCPie;
 	private PieChartModel turnoDPie;
+	private PieChartModel turnoABCDG5DiscPie;
 	
 	private List<String> defaultBackgroundColors;
 
@@ -43,6 +57,23 @@ public class DashboardView {
 	
 	@Autowired
 	AnagraphicService anagraphicService;
+	
+	
+	public DonutChartModel getSpecialtiesSaf() {
+		return specialtiesSaf;
+	}
+
+	public void setSpecialtiesSaf(DonutChartModel specialtiesSaf) {
+		this.specialtiesSaf = specialtiesSaf;
+	}
+
+	public BarChartModel getSpecialtiesBarRag() {
+		return specialtiesBarRag;
+	}
+
+	public void setSpecialtiesBarRag(BarChartModel specialtiesBarRag) {
+		this.specialtiesBarRag = specialtiesBarRag;
+	}
 	
 	public BarChartModel getSpecialtiesBar() {
 		return specialtiesBar;
@@ -92,6 +123,14 @@ public class DashboardView {
 		this.turnoDPie = turnoDPie;
 	}
 	
+	public PieChartModel getTurnoABCDG5DiscPie() {
+		return turnoABCDG5DiscPie;
+	}
+
+	public void setTurnoABCDG5DiscPie(PieChartModel turnoABCDG5DiscPie) {
+		this.turnoABCDG5DiscPie = turnoABCDG5DiscPie;
+	}
+	
 	@PostConstruct
 	public void init() {
 		defaultBackgroundColors = new ArrayList<String>();
@@ -103,6 +142,14 @@ public class DashboardView {
 		defaultBackgroundColors.add("rgba(153, 102, 255, 0.2)");
 		defaultBackgroundColors.add("rgba(201, 203, 207, 0.2)");
 		defaultBackgroundColors.add("rgba(198, 3, 252, 0.2)");
+		defaultBackgroundColors.add("rgba(94, 99, 132, 0.2)");
+		defaultBackgroundColors.add("rgba(255, 10, 64, 0.2)");
+		defaultBackgroundColors.add("rgba(155, 25, 86, 0.2)");
+		defaultBackgroundColors.add("rgba(75, 132, 92, 0.2)");
+		defaultBackgroundColors.add("rgba(154, 62, 235, 0.2)");
+		defaultBackgroundColors.add("rgba(153, 12, 25, 0.2)");
+		defaultBackgroundColors.add("rgba(100, 203, 100, 0.2)");
+		defaultBackgroundColors.add("rgba(60, 30, 252, 0.2)");
 
 		defaultBorderColors = new ArrayList<String>();
         defaultBorderColors.add("rgb(255, 99, 132)");
@@ -120,6 +167,9 @@ public class DashboardView {
 		createTurnoBPie();
 		createTurnoCPie();
 		createTurnoDPie();
+		createTurnoABCDG5DiscPie();
+		createSpecialtiesBarRag();
+		createSpecialtiesSaf();
 	}
 	
 	public Integer getAnagraphicsTotal() {
@@ -138,16 +188,86 @@ public class DashboardView {
 		return anagraphicService.findAllSpecialtyEmpty().size();
 	}
 	
+	//SPECIALIZZAZIONI RAGGRUPPATE
+	public void createSpecialtiesBarRag() {
+		specialtiesBarRag = new BarChartModel();
+        ChartData data = new ChartData();
+        
+        Map<String,Number> specialtyCountsByName = anagraphicService.getGroupedSpecialtyCounts();
+        
+        List<BarChartDataSet> dataSets = new ArrayList<>();
+        
+        Random rand = new Random();
+        for(Map.Entry<String, Number> entry : specialtyCountsByName.entrySet()) {
+        	if (entry.getValue().intValue() == 0) {
+        		continue;
+        	}
+        	
+        	BarChartDataSet dataset = new BarChartDataSet();
+        	dataset.setLabel(entry.getKey());
+        	dataset.setBackgroundColor(defaultBackgroundColors.get(rand.nextInt(defaultBackgroundColors.size())));
+        	dataset.setBorderColor(defaultBackgroundColors.get(rand.nextInt(defaultBackgroundColors.size())));
+        	//dataset.setBorderColor(defaultBorderColors.get(rand.nextInt()));
+        	dataset.setBorderWidth(1);
+            List<Number> _values = new ArrayList<>();
+            _values.add(entry.getValue());
+            dataset.setData(_values);
+            dataSets.add(dataset);
+        }
+        
+        for(BarChartDataSet dataset : dataSets) {
+        	data.addChartDataSet(dataset);
+        }
+      
+        List<String> labels = new ArrayList<>();
+        labels.add("");
+
+        data.setLabels(labels);
+        
+        specialtiesBarRag.setData(data);
+	}
+	
+	//SPECIALIZZAZIONI SAF DETTAGLIO
+	public void createSpecialtiesSaf() {
+		specialtiesSaf = new DonutChartModel();
+        ChartData data = new ChartData();
+        
+        DonutChartDataSet dataSet = new DonutChartDataSet();
+        
+        Map<String,Number> map = anagraphicService.getSingleSpecialtyCounts("SAF");
+        dataSet.setData(new LinkedList<Number>(map.values()));
+        
+        List<String> bgColors = new ArrayList<>();
+        bgColors.add("rgba(255, 99, 132, 0.2)");
+        bgColors.add("rgba(255, 159, 64, 0.2)");
+        bgColors.add("rgba(255, 205, 86, 0.2)");
+        bgColors.add("rgba(75, 192, 192, 0.2)");
+        bgColors.add("rgba(54, 162, 235, 0.2)");
+        bgColors.add("rgba(153, 102, 255, 0.2)");
+        bgColors.add("rgba(201, 203, 207, 0.2)");
+        dataSet.setBackgroundColor(bgColors);
+        dataSet.setBorderColor(bgColors);
+     
+        data.addChartDataSet(dataSet);
+
+        data.setLabels(new LinkedList<String>(map.keySet()));
+        
+        specialtiesSaf.setData(data);
+        
+	}
+	
+	
+	//SPECIALIZZAZIONI DETTAGLIO
 	public void createSpecialtiesBar() {
 		specialtiesBar = new BarChartModel();
         ChartData data = new ChartData();
 
         BarChartDataSet barDataSet = new BarChartDataSet();
-        barDataSet.setLabel("Specialties");
+        barDataSet.setLabel("Specializzazioni");
 
-        List<String> specialtyNames = specialtyService.getSpecialtyNames();
-        List<Number> values = anagraphicService.getSpecialtyCounts(specialtyNames);
-        barDataSet.setData(values);
+        
+        Map<String, Number> map = anagraphicService.getSpecialtyCounts();
+        barDataSet.setData(new LinkedList<Number>(map.values()));
 
 //        List<String> backgroundColors = new ArrayList<>();
 //        List<String> borderColors = new ArrayList<>();
@@ -180,7 +300,7 @@ public class DashboardView {
 
         data.addChartDataSet(barDataSet);
 
-        data.setLabels(specialtyNames);
+        data.setLabels(new LinkedList<String>(map.keySet()));
         
         specialtiesBar.setData(data);
 	}
@@ -190,21 +310,22 @@ public class DashboardView {
         ChartData data = new ChartData();
 
         LineChartDataSet dataSet = new LineChartDataSet();
-        List<String> qualificationNames = qualificationService.getQualificationNames();
-        List<Object> values = anagraphicService.getQualificationCounts(qualificationNames);
+       
+        Map<String, Number> qualificationCountsMap = anagraphicService.getQualificationCounts();
 
-        dataSet.setData(values);
+        dataSet.setData(new LinkedList<>(qualificationCountsMap.values()));
         dataSet.setFill(false);
-        dataSet.setLabel("Qualifications");
+        dataSet.setLabel("Qualifiche");
         dataSet.setBorderColor("rgb(75, 192, 192)");
         dataSet.setTension(0.1);
         data.addChartDataSet(dataSet);
 
-        data.setLabels(qualificationNames);
+        data.setLabels(new LinkedList<>(qualificationCountsMap.keySet()));
 
         qualificationsLine.setData(data);
 	}
 	
+	//ROUND GRAPH CORRECT
 	public void createTurnoAPie() {
 		turnoAPie = new PieChartModel();
 		ChartData data = new ChartData();
@@ -315,5 +436,29 @@ public class DashboardView {
         data.setLabels(labels);
 
         turnoDPie.setData(data);
+	}
+	
+	public void createTurnoABCDG5DiscPie() {
+		turnoABCDG5DiscPie = new PieChartModel();
+		ChartData data = new ChartData();
+		
+		PieChartDataSet dataSet = new PieChartDataSet();
+        dataSet.setData(Arrays.asList(anagraphicService.getTurnoABCDG5DiscCounts()));
+        dataSet.setBackgroundColor(defaultBackgroundColors);
+        dataSet.setBorderColor(defaultBorderColors);
+        dataSet.setBorderWidth(Arrays.asList(1, 1, 1, 1, 1, 1));
+
+        data.addChartDataSet(dataSet);
+        
+        List<String> labels = new ArrayList<>();
+        labels.add("A");
+        labels.add("B");
+        labels.add("C");
+        labels.add("D");
+        labels.add("G5");
+        labels.add("Discontinui");
+        data.setLabels(labels);
+
+        turnoABCDG5DiscPie.setData(data);
 	}
 }

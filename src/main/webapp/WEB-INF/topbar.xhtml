@@ -23,12 +23,25 @@
             <li class="user-profile">
                 <a href="#">
                 	<p:avatar styleClass="mr-2" size="large" shape="circle">
-                		<p:graphicImage url="#{topbarView.getGravatarURI()}"></p:graphicImage>
+					<!-- <p:graphicImage url="#{topbarView.getGravatarURI()}"></p:graphicImage> -->
+					<p:graphicImage name="/specializzazionevvf/images/loginFoto.png"></p:graphicImage>
                 	</p:avatar>
                     <span class="topbar-item-name">#{topbarView.getEmail()}</span>
                 </a>
                 <ul>
                     <li>
+                        <a href="/specializzazionevvf/api/userDetails.xhtml">
+                            <i class="pi pi-user"></i>
+                            <span>Dettaglio Utente</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="PF('dlg2').show();">
+                            <i class="pi pi-info-circle"></i>
+                            <span>Info</span>
+                        </a>
+                    </li>
+                     <li>
                         <a href="/logout">
                             <i class="pi pi-sign-out"></i>
                             <span>Logout</span>
@@ -38,4 +51,21 @@
             </li>
         </ul>
     </div>
+    
+    
+	<p:dialog header="Info" widgetVar="dlg2" modal="true" height="150" width="600" resizable="false" >
+		<div style="float:left; display:block; margin-right: 50px;">
+			  		<p:graphicImage name="images/logo.png" library="specializzazionevvf" alt="Specializzazione Personale"
+	  			height="100" style="width:100px;" />
+		</div>
+		<div style="float:left; display:block; text-align: center; font-weight: bold;">
+			    <h:outputText style="display:block; margin-top:1em; font-size: large; " value="Software Specializzazione Personale v.1.0" />
+        		<h:outputText style="display:block; margin-top:1em;" value="Test" />
+				<h:outputText style="display:block; margin-top:1em;" value="Caso di studio" />
+		</div>
+		<div style="float:center; display:block;">
+			<p style="text-align: center; padding-top: 22%;">Release v1.0 <script type='text/javascript'>var y = new Date();document.write(y.getFullYear());</script></p>
+		</div>
+	</p:dialog>   
+	
 </ui:composition>

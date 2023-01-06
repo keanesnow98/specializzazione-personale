@@ -1,0 +1,271 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="https://joinfaces.org/security"
+	template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="head">
+		<h:outputStylesheet name="css/custom-layout.css" library="specializzazionevvf"/>
+		<h:outputStylesheet name="inputnumber/inputnumber.css" library="javax.faces.resource" />
+		<h:outputStylesheet name="fileupload/fileupload.css" library="javax.faces.resource" />
+		<h:outputStylesheet name="imagecropper/imagecropper.css" library="javax.faces.resource" />
+	</ui:define>
+	
+	<ui:define name="script">
+		<h:outputScript library="javax.faces.resource" name="inputnumber/inputnumber.js" />
+		<h:outputScript library="javax.faces.resource" name="datepicker/datepicker.js" />
+		<h:outputScript library="javax.faces.resource" name="fileupload/fileupload.js" />
+		<h:outputScript library="javax.faces.resource" name="imagecropper/imagecropper.js" />
+	</ui:define>
+	
+	<ui:define name="title">
+        Dettaglio Utente registrato in piattaforma
+    </ui:define>
+
+	<ui:define name="implementation">
+	  	<style>
+		  	#inputs .anagraphic-image {
+		  		width: 270px;
+			    height: 340px;
+			    padding: inherit;
+			    box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+		  	}
+		  	#inputs .ui-grid-row .ui-grid-col-2 {
+		  		display: flex;
+		  		flex-direction: column;
+		  		flex-wrap: wrap;
+		  		justify-content: center;
+		  		align-content: center;
+		  		margin: 1rem;
+		  	}
+		  	
+	  		button.ui-button {
+			    margin-right: 0.5rem;
+			}
+			.crud-demo #form .product-image {
+				width: 50px;
+				box-shadow: 0 0 1px rgb(0 0 0 / 16%), 0 0 1px rgb(0 0 0 / 23%);
+			}
+			#inputs .ui-widget-content .ui-inputfield {
+			    width: -webkit-fill-available;
+			}
+			#inputs .ui-selectonemenu {
+				width: -webkit-fill-available;
+			}
+			
+			#form .ui-datatable .ui-datatable-data > tr > td {
+				padding: 0.2rem 0.2rem;
+			}
+			.product-badge.status-valid {
+		  		background: #c8e6c9;
+		    	color: #256029;
+		  	}
+		  	.product-badge.status-expired {
+		  		background: #FFCDD2;
+		  		color: #C63737;
+		  	}
+		  	.product-badge.status-lifetime {
+		  		background: #ECCFFF;
+		  		color: #694382;
+		  	}
+	  	</style>
+
+  		<h:form id="inputs">
+	  			<p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-8" layout="grid">
+	  				<p:row>
+		  				<p:column styleClass="ui-grid-col-2">
+		  					<p:graphicImage id="anagraphic-photo" value="#{imageBean.image}" cache="false" styleClass="anagraphic-image">
+			            		<f:param id="photo-name" name="photo-name" value="#{anagraphicView.selectedAnagraphic.photo}" />
+			            	</p:graphicImage>
+				        </p:column>
+	
+				        <p:column styleClass="ui-grid-col-6">
+				  			<h:panelGrid id="manage-anagraphic-content" columns="3" cellpadding="7" width="100%" styleClass="mb-3">
+				  				<p:outputPanel styleClass="ui-fluid">
+				                    <div class="formgrid grid">
+				                        <div class="field col">
+				                            <p:outputLabel for="lastName">Cognome</p:outputLabel>
+				                        	<p:inputText id="lastName" value="#{anagraphicView.selectedAnagraphic.lastName}" disabled="true"
+				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+				                        		<p:message for="lastName" display="icon"/>
+				                        	</p:inputText>
+				                        </div>
+				                        <div class="field col">
+				                            <p:outputLabel for="firstName">Nome</p:outputLabel>
+				                        	<p:inputText id="firstName" value="#{anagraphicView.selectedAnagraphic.firstName}" disabled="true"
+				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+				                        		<p:message for="firstName" display="icon"/>
+				                        	</p:inputText>
+				                        </div>
+				                    </div>
+				                    <div class="formgrid grid">
+				        
+				                        <div class="field col">
+				                            <p:outputLabel for="fiscalCode">Codice Fiscale</p:outputLabel>
+				                        	<p:inputText id="fiscalCode" value="#{anagraphicView.selectedAnagraphic.fiscalCode}" disabled="true"
+				                        		style="text-transform: uppercase;" onchange="this.value = this.value.toUpperCase();">
+				                        		<p:message for="fiscalCode" display="icon"/>
+				                        	</p:inputText>
+				                        </div>
+				                    </div>
+				                    <div class="formgrid grid">
+				                        <div class="field col">
+				                            <p:outputLabel for="qualification" value="Qualifica"/>
+				                            <p:message for="qualification" display="icon"/>
+				                            <p:selectOneMenu id="qualification" value="#{anagraphicView.selectedAnagraphic.qualification}" disabled="true">
+				                            	<f:selectItem></f:selectItem>
+							                    <f:selectItems value="#{anagraphicView.qualificationNames}"/>
+							                </p:selectOneMenu>
+				                        </div>
+				                        <div class="field col">
+				                            <p:outputLabel for="turno" value="Turno"/>
+							                <p:selectOneMenu id="turno" value="#{anagraphicView.selectedAnagraphic.turno}" disabled="true">
+							                    <f:selectItem itemLabel="A1" itemValue="A1"/>
+							                    <f:selectItem itemLabel="A2" itemValue="A2"/>
+							                    <f:selectItem itemLabel="A3" itemValue="A3"/>
+							                    <f:selectItem itemLabel="A4" itemValue="A4"/>
+							                    <f:selectItem itemLabel="A5" itemValue="A5"/>
+							                    <f:selectItem itemLabel="A6" itemValue="A6"/>
+							                    <f:selectItem itemLabel="A7" itemValue="A7"/>
+							                    <f:selectItem itemLabel="A8" itemValue="A8"/>
+							                    <f:selectItem itemLabel="Volontario-A" itemValue="Volontario-A"/>
+							                    <f:selectItem itemLabel="B1" itemValue="B1"/>
+							                    <f:selectItem itemLabel="B2" itemValue="B2"/>
+							                    <f:selectItem itemLabel="B3" itemValue="B3"/>
+							                    <f:selectItem itemLabel="B4" itemValue="B4"/>
+							                    <f:selectItem itemLabel="B5" itemValue="B5"/>
+							                    <f:selectItem itemLabel="B6" itemValue="B6"/>
+							                    <f:selectItem itemLabel="B7" itemValue="B7"/>
+							                    <f:selectItem itemLabel="B8" itemValue="B8"/>
+							                    <f:selectItem itemLabel="Volontario-B" itemValue="Volontario-B"/>
+							                    <f:selectItem itemLabel="C1" itemValue="C1"/>
+							                    <f:selectItem itemLabel="C2" itemValue="C2"/>
+							                    <f:selectItem itemLabel="C3" itemValue="C3"/>
+							                    <f:selectItem itemLabel="C4" itemValue="C4"/>
+							                    <f:selectItem itemLabel="C5" itemValue="C5"/>
+							                    <f:selectItem itemLabel="C6" itemValue="C6"/>
+							                    <f:selectItem itemLabel="C7" itemValue="C7"/>
+							                    <f:selectItem itemLabel="C8" itemValue="C8"/>
+							                    <f:selectItem itemLabel="Volontario-C" itemValue="Volontario-C"/>
+							                    <f:selectItem itemLabel="D1" itemValue="D1"/>
+							                    <f:selectItem itemLabel="D2" itemValue="D2"/>
+							                    <f:selectItem itemLabel="D3" itemValue="D3"/>
+							                    <f:selectItem itemLabel="D4" itemValue="D4"/>
+							                    <f:selectItem itemLabel="D5" itemValue="D5"/>
+							                    <f:selectItem itemLabel="D6" itemValue="D6"/>
+							                    <f:selectItem itemLabel="D7" itemValue="D7"/>
+							                    <f:selectItem itemLabel="D8" itemValue="D8"/>
+							                    <f:selectItem itemLabel="Volontario-D" itemValue="Volontario-D"/>
+							                    <f:selectItem itemLabel="G5" itemValue="G5"/>
+							                </p:selectOneMenu>
+				                        </div>
+				                    </div>
+				                    <div class="formgrid grid">
+				                        <div class="field col">
+				                            <p:outputLabel for="phoneNumber">Numero Telefonico</p:outputLabel>
+				                        	<p:inputText id="phoneNumber" value="#{anagraphicView.selectedAnagraphic.phoneNumber}" disabled="true">
+				                        		<p:message for="phoneNumber" display="icon"/>
+				                        	</p:inputText>
+				                        </div>
+				                        <div class="field col">
+				                            <p:outputLabel for="contactEmail">Email</p:outputLabel>
+				                            <p:message for="contactEmail" display="icon"/>
+				                        	<p:inputText id="contactEmail" value="#{anagraphicView.selectedAnagraphic.contactEmail}" disabled="true" type="email"
+				                        		style="text-transform: lowercase;" onchange="this.value = this.value.toLowerCase();"
+				                        		placeholder="nome.cognome@gmail.com">
+				                        		<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							                    <f:validateLength minimum="2" />
+				                        	</p:inputText>
+				                        </div>
+				                    </div>
+				 
+					            </p:outputPanel>
+					        </h:panelGrid>
+				        </p:column>
+		 
+					        <p:column styleClass="ui-grid-col-4">
+					        	<p:outputPanel>
+<!-- TABELLA SPECIALIZZAZIONI -->
+							        <p:dataTable id="dt-specialty-expirations" widgetVar="dtSpecialtyExpirations" var="specialtyExpiration" value="#{anagraphicView.selectedAnagraphic.specialtyExpirations}" editable="false"
+							                     stripedRows="true" resizableColumns="true" liveResize="true" scrollable="true" scrollHeight="330" size="small" editMode="cell" rendered="#{!(anagraphicView.selectedAnagraphic.specialtyExpirations eq null)}">
+							            <f:facet name="header">
+							            	<div class="products-table-header">
+				                    			<span style="font-weight: bold">Specializzazioni Acquisite</span>
+				                    			
+				     		                    <span class="filter-container ui-input-icon-left" style="margin-left: 30px;"> <i class="pi pi-search"></i>
+													<p:inputText id="globalFilter" onkeyup="PF('dtSpecialtyExpirations').filter()" placeholder="Search" />
+												</span>
+												
+				                    		</div>
+							            </f:facet>
+							            <p:column style="width: 10%;" headerText="Tipo" sortBy="#{specialtyExpiration.specialty}" filterBy="#{specialtyExpiration.specialty}">
+							               <h:outputText value="#{specialtyExpiration.specialty}" />
+							            </p:column>
+							        </p:dataTable>
+							      
+					            </p:outputPanel>
+					        </p:column>
+				    </p:row>
+			    </p:panelGrid>
+		</h:form>
+  	
+  	
+  	
+	  	<div class="crud-demo">
+		    <h:form id="form">
+		        <p:growl id="messages" showDetail="true" />
+		        
+<!-- TABELLA ANAGRAFICA -->
+		        <p:dataTable id="dt-anagraphics" widgetVar="dt-anagraphics" var="anagraphic" value="#{anagraphicView.userDetails}" rowIndexVar="index"
+		            reflow="true" styleClass="products-table" rowKey="#{anagraphic.id}" selection="#{anagraphicView.selectedAnagraphic}"
+		            resizableColumns="true" liveResize="true" draggableColumns="true" selectionMode="single" >
+		            <!-- <f:facet name="header">
+		                <div class="products-table-header">
+		                    <span style="font-weight: bold">DETTAGLIO UTENTE</span>
+		                </div>
+		            </f:facet> -->
+		            
+					<!-- Checkbox -->
+					<!-- <p:column selectionMode="single" style="width:16px;text-align:center" exportable="false"/> -->
+		            
+		            <p:ajax event="rowSelect"  update=":inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
+
+					<p:column headerText="Cognome" width="10%" sortBy="#{anagraphic.lastName}" >
+		                <h:outputText value="#{anagraphic.lastName}" />
+		            </p:column>
+		            <p:column headerText="Nome" width="10%" sortBy="#{anagraphic.firstName}" >
+		                <h:outputText value="#{anagraphic.firstName}" />
+		            </p:column>
+		            <p:column headerText="Qualifica" width="10%" sortBy="#{anagraphic.qualification}" >
+		                <h:outputText value="#{anagraphic.qualification}" />
+		            </p:column>
+		            <p:column headerText="Turno" width="5%" sortBy="#{anagraphic.turno}" >
+		                <h:outputText value="#{anagraphic.turno}" />
+		            </p:column>
+		            <p:column headerText="Codice Fiscale" width="10%" sortBy="#{anagraphic.fiscalCode}" >
+		                <h:outputText value="#{anagraphic.fiscalCode}" />
+		            </p:column>
+		            <p:column headerText="Numero Telefonico" width="10%" sortBy="#{anagraphic.phoneNumber}" >
+		                <h:outputText value="+39 #{anagraphic.phoneNumber}" />
+		            </p:column>
+		            <p:column headerText="Email" width="15%" sortBy="#{anagraphic.contactEmail}" >
+		                <h:outputText value="#{anagraphic.contactEmail}" />
+		            </p:column>
+
+
+		            <p:column headerText="Foto" width="5%" exportable="false">
+		            	<p:graphicImage value="#{imageBean.image}" cache="false" styleClass="product-image">
+		            		<f:param id="photo-name" name="photo-name" value="#{anagraphic.photo}" />
+		            	</p:graphicImage>
+		            </p:column>
+
+		        </p:dataTable>
+		    </h:form>
+		 
+
+		
+		</div>
+	</ui:define>
+</ui:composition>

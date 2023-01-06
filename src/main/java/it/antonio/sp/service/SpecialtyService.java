@@ -1,6 +1,7 @@
 package it.antonio.sp.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class SpecialtyService {
 		specialtyRepository.findAll().toIterable().forEach(specialty -> {
 			specialtyNames.add(specialty.getSpecialtyName());
 		});
+		Collections.sort(specialtyNames);
 		return specialtyNames;
 	}
 

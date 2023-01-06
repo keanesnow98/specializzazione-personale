@@ -21,7 +21,7 @@
 	</ui:define>
 	
 	<ui:define name="title">
-        Anagraphic VVF
+        Anagrafica VVF
     </ui:define>
 
 	<ui:define name="implementation">
@@ -56,7 +56,7 @@
 			}
 			
 			#form .ui-datatable .ui-datatable-data > tr > td {
-				padding: 0.2rem 0.2rem;
+				padding: 0.2rem 0.2rem 0.2rem 1rem;
 			}
 			.product-badge.status-valid {
 		  		background: #c8e6c9;
@@ -80,7 +80,7 @@
 		  					<p:graphicImage id="anagraphic-photo" value="#{imageBean.image}" cache="false" styleClass="anagraphic-image">
 			            		<f:param id="photo-name" name="photo-name" value="#{anagraphicView.selectedAnagraphic.photo}" />
 			            	</p:graphicImage>
-				  			<p:commandButton value="Change" process="@this" action="#{anagraphicView.clearImageFile}" oncomplete="PF('imageChangeDialog').show()" icon="pi pi-camera" styleClass="ui-button-success mt-3" />
+				  			<p:commandButton value="Cambia Foto" process="@this" action="#{anagraphicView.clearImageFile}" oncomplete="PF('imageChangeDialog').show()" icon="pi pi-camera" styleClass="ui-button-success mt-3" />
 				        </p:column>
 	
 				        <p:column styleClass="ui-grid-col-6">
@@ -88,17 +88,17 @@
 				  				<p:outputPanel styleClass="ui-fluid">
 				                    <div class="formgrid grid">
 				                        <div class="field col">
-				                            <p:outputLabel for="firstName">First name</p:outputLabel>
-				                        	<p:inputText id="firstName" value="#{anagraphicView.selectedAnagraphic.firstName}" required="true"
-				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
-				                        		<p:message for="firstName" display="icon"/>
-				                        	</p:inputText>
-				                        </div>
-				                        <div class="field col">
-				                            <p:outputLabel for="lastName">Last name</p:outputLabel>
+				                            <p:outputLabel for="lastName">Cognome</p:outputLabel>
 				                        	<p:inputText id="lastName" value="#{anagraphicView.selectedAnagraphic.lastName}" required="true"
 				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
 				                        		<p:message for="lastName" display="icon"/>
+				                        	</p:inputText>
+				                        </div>
+				                        <div class="field col">
+				                            <p:outputLabel for="firstName">Nome</p:outputLabel>
+				                        	<p:inputText id="firstName" value="#{anagraphicView.selectedAnagraphic.firstName}" required="true"
+				                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+				                        		<p:message for="firstName" display="icon"/>
 				                        	</p:inputText>
 				                        </div>
 				                    </div>
@@ -110,7 +110,7 @@
 				                        	</p:inputNumber>
 				                        </div>
 				                        <div class="field col">
-				                            <p:outputLabel for="fiscalCode">Fiscal code</p:outputLabel>
+				                            <p:outputLabel for="fiscalCode">Codice Fiscale</p:outputLabel>
 				                        	<p:inputText id="fiscalCode" value="#{anagraphicView.selectedAnagraphic.fiscalCode}" required="true"
 				                        		style="text-transform: uppercase;" onchange="this.value = this.value.toUpperCase();">
 				                        		<p:message for="fiscalCode" display="icon"/>
@@ -119,7 +119,7 @@
 				                    </div>
 				                    <div class="formgrid grid">
 				                        <div class="field col">
-				                            <p:outputLabel for="qualification" value="Qualification"/>
+				                            <p:outputLabel for="qualification" value="Qualifica"/>
 				                            <p:message for="qualification" display="icon"/>
 				                            <p:selectOneMenu id="qualification" value="#{anagraphicView.selectedAnagraphic.qualification}" required="true">
 				                            	<f:selectItem></f:selectItem>
@@ -137,6 +137,7 @@
 							                    <f:selectItem itemLabel="A6" itemValue="A6"/>
 							                    <f:selectItem itemLabel="A7" itemValue="A7"/>
 							                    <f:selectItem itemLabel="A8" itemValue="A8"/>
+							                    <f:selectItem itemLabel="Volontario-A" itemValue="Volontario-A"/>
 							                    <f:selectItem itemLabel="B1" itemValue="B1"/>
 							                    <f:selectItem itemLabel="B2" itemValue="B2"/>
 							                    <f:selectItem itemLabel="B3" itemValue="B3"/>
@@ -145,6 +146,7 @@
 							                    <f:selectItem itemLabel="B6" itemValue="B6"/>
 							                    <f:selectItem itemLabel="B7" itemValue="B7"/>
 							                    <f:selectItem itemLabel="B8" itemValue="B8"/>
+							                    <f:selectItem itemLabel="Volontario-B" itemValue="Volontario-B"/>
 							                    <f:selectItem itemLabel="C1" itemValue="C1"/>
 							                    <f:selectItem itemLabel="C2" itemValue="C2"/>
 							                    <f:selectItem itemLabel="C3" itemValue="C3"/>
@@ -153,6 +155,7 @@
 							                    <f:selectItem itemLabel="C6" itemValue="C6"/>
 							                    <f:selectItem itemLabel="C7" itemValue="C7"/>
 							                    <f:selectItem itemLabel="C8" itemValue="C8"/>
+							                    <f:selectItem itemLabel="Volontario-C" itemValue="Volontario-C"/>
 							                    <f:selectItem itemLabel="D1" itemValue="D1"/>
 							                    <f:selectItem itemLabel="D2" itemValue="D2"/>
 							                    <f:selectItem itemLabel="D3" itemValue="D3"/>
@@ -161,13 +164,14 @@
 							                    <f:selectItem itemLabel="D6" itemValue="D6"/>
 							                    <f:selectItem itemLabel="D7" itemValue="D7"/>
 							                    <f:selectItem itemLabel="D8" itemValue="D8"/>
-							                    <f:selectItem itemLabel="G" itemValue="G"/>
+							                    <f:selectItem itemLabel="Volontario-D" itemValue="Volontario-D"/>
+							                    <f:selectItem itemLabel="G5" itemValue="G5"/>
 							                </p:selectOneMenu>
 				                        </div>
 				                    </div>
 				                    <div class="formgrid grid">
 				                        <div class="field col">
-				                            <p:outputLabel for="phoneNumber">Phone number</p:outputLabel>
+				                            <p:outputLabel for="phoneNumber">Numero Telefonico</p:outputLabel>
 				                        	<p:inputText id="phoneNumber" value="#{anagraphicView.selectedAnagraphic.phoneNumber}" required="true">
 				                        		<p:message for="phoneNumber" display="icon"/>
 				                        	</p:inputText>
@@ -177,7 +181,7 @@
 				                            <p:message for="contactEmail" display="icon"/>
 				                        	<p:inputText id="contactEmail" value="#{anagraphicView.selectedAnagraphic.contactEmail}" type="email"
 				                        		style="text-transform: lowercase;" onchange="this.value = this.value.toLowerCase();"
-				                        		placeholder="someone@example.com">
+				                        		placeholder="nome.cognome@gmail.com">
 				                        		<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
 							                    <f:validateLength minimum="2" />
 				                        	</p:inputText>
@@ -194,19 +198,33 @@
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
 					        <p:column styleClass="ui-grid-col-4">
 					        	<p:outputPanel>
-							        <p:dataTable id="dt-specialty-expirations" widgetVar="specialtyExpirations" var="specialtyExpiration" value="#{anagraphicView.selectedAnagraphic.specialtyExpirations}" editable="true"
-							                     stripedRows="true" scrollable="true" scrollHeight="330" size="small" editMode="cell" rendered="#{!(anagraphicView.selectedAnagraphic.specialtyExpirations eq null)}">
+<!-- TABELLA SPECIALIZZAZIONI -->
+							        <p:dataTable id="dt-specialty-expirations" widgetVar="dtSpecialtyExpirations" var="specialtyExpiration" value="#{anagraphicView.selectedAnagraphic.specialtyExpirations}" editable="true"
+							                     stripedRows="true" resizableColumns="true" liveResize="true" scrollable="true" scrollHeight="330" size="small" editMode="cell" rendered="#{!(anagraphicView.selectedAnagraphic.specialtyExpirations eq null)}">
 							            <f:facet name="header">
 							            	<div class="products-table-header">
-				                    			<span style="font-weight: bold">Specialty Expirations</span>
+				                    			<span style="font-weight: bold">Specializzazioni Acquisite</span>
+				                    			
+				     		                    <span class="filter-container ui-input-icon-left" style="margin-left: 30px;"> <i class="pi pi-search"></i>
+													<p:inputText id="globalFilter" onkeyup="PF('dtSpecialtyExpirations').filter()" placeholder="Search" />
+												</span>
+    
+												<span>
+								                    <p:commandButton id="toggler" type="button" icon="pi pi-align-justify"/>
+								                    <p:columnToggler datasource="dt-specialty-expirations" trigger="toggler">
+								                        <p:ajax />
+								                    </p:columnToggler>
+								                </span>
 				                    		</div>
 							            </f:facet>
 			
+										
 										<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_EDIT')">
 							            	<p:ajax event="cellEdit" listener="#{anagraphicView.onSpecialtyExpEdit}" />
 							            </sec:authorize>
-			
-							            <p:column style="width: 10%;" headerText="Specialty">
+							            
+							            
+							            <p:column style="width: 10%;" headerText="Tipo" sortOrder="ascending" sortBy="#{specialtyExpiration.specialty}" filterBy="#{specialtyExpiration.specialty}">
 							                <p:cellEditor>
 							                    <f:facet name="output">
 							                        <h:outputText value="#{specialtyExpiration.specialty}"/>
@@ -227,7 +245,7 @@
 							                </p:cellEditor>
 							            </p:column>
 							
-							            <p:column style="width: 10%;" headerText="Achieved date">
+							            <p:column style="width: 10%;" headerText="Conseguita il" sortBy="#{specialtyExpiration.achievedDate}" filterBy="#{specialtyExpiration.achievedDate}">
 							                <p:cellEditor>
 							                    <f:facet name="output">
 							                        <h:outputText value="#{specialtyExpiration.achievedDate}"/>
@@ -245,7 +263,7 @@
 							                </p:cellEditor>
 							            </p:column>
 							
-							            <p:column style="width: 10%;" headerText="Validation months">
+							            <p:column style="width: 10%;" headerText="Mesi di Validità" sortBy="#{specialtyExpiration.validationMonths}" filterBy="#{specialtyExpiration.validationMonths}">
 							                <p:cellEditor>
 							                    <f:facet name="output">
 							                        <h:outputText value="#{specialtyExpiration.validationMonths}"/>
@@ -263,7 +281,7 @@
 							                </p:cellEditor>
 							            </p:column>
 							            
-							            <p:column style="width: 10%;" headerText="Validity">
+							            <p:column style="width: 10%;" headerText="Stato" sortBy="#{specialtyExpiration.status}" filterBy="#{specialtyExpiration.status}">
 							                <span class="product-badge status-#{specialtyExpiration.status eq 'VALID'? 'valid' : (specialtyExpiration.status eq 'LIFETIME' ? 'lifetime' : (specialtyExpiration.status eq 'EXPIRED' ? 'expired' : ''))}">#{specialtyExpiration.status}</span>
 							            </p:column>
 							            
@@ -279,7 +297,7 @@
 							        <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_INSERT')">
 								        <div class="grid mt-3">
 								            <div class="col-12">
-								                <p:commandButton value="Add new" process="@this" action="#{anagraphicView.addNewSpecialtyExp()}" />
+								                <p:commandButton value="Aggiungi" process="@this" action="#{anagraphicView.addNewSpecialtyExp()}" />
 								            </div>
 								        </div>
 								    </sec:authorize>
@@ -296,14 +314,14 @@
 		        		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
 		        			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SPECIALTY_VIEW')">
 		        				<sec:authorize access="hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
-						        	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
+						        	<p:commandButton value="Salva" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
 					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
 					                </p:commandButton>
 					            </sec:authorize>
 					            <sec:authorize access="not hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
-					            	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
+					            	<p:commandButton value="Salva" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content dt-specialty-expirations" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
 					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
@@ -319,7 +337,7 @@
 					                </p:commandButton>
 					            </sec:authorize>
 					            <sec:authorize access="not hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
-					            	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
+					            	<p:commandButton value="Salva" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
 					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
@@ -362,7 +380,7 @@
 				            </sec:authorize>
 		                </sec:authorize>
 		                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
-			                <p:commandButton id="delete-anagraphic-button" value="Delete" icon="pi pi-trash"
+			                <p:commandButton id="delete-anagraphic-button" value="Cancella" icon="pi pi-trash"
 			                	actionListener="#{anagraphicView.deleteAnagraphic}" update="@this" immediate="true"
 			                	disabled="#{anagraphicView.selectedAnagraphic.id eq null}" styleClass="ui-button ui-button-danger">
 			                	<p:confirm header="Confirmation" message="Delete the selected anagraphic?" icon="pi pi-exclamation-triangle" />
@@ -376,13 +394,14 @@
 	  	<div class="crud-demo">
 		    <h:form id="form">
 		        <p:growl id="messages" showDetail="true" />
-		
+		        
+<!-- TABELLA ANAGRAFICA -->
 		        <p:dataTable id="dt-anagraphics" widgetVar="dtAnagraphics" var="anagraphic" value="#{anagraphicView.anagraphics}" rowIndexVar="index"
-		            reflow="true" styleClass="products-table" rowKey="#{anagraphic.id}" stripedRows="true" selection="#{anagraphicView.selectedAnagraphic}"
-		            resizableColumns="true" liveResize="true" paginator="true" rows="50" paginatorPosition="bottom" selectionPageOnly="false">
+		            reflow="true" styleClass="products-table" rowKey="#{anagraphic.id}" stripedRows="true" selectionMode="single" selection="#{anagraphicView.selectedAnagraphic}"
+		            resizableColumns="true" liveResize="true" paginator="true" rows="50" paginatorPosition="bottom" selectionPageOnly="false" draggableColumns="true">
 		            <f:facet name="header">
 		                <div class="products-table-header">
-		                    <span style="font-weight: bold">ANAGRAPHICS</span>
+		                    <span style="font-weight: bold">ANAGRAFICA PERSONALE</span>
 		                    <span>
 				            	<p:commandButton value="XLSX" icon="pi pi-file-excel" styleClass="ui-button ui-button-success" ajax="false">
 				                    <p:dataExporter type="xlsxstream" target="dt-anagraphics" fileName="Anagraphicvvf"/>
@@ -397,15 +416,13 @@
 							</span>
 							
 							<span>
-			                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+			                    <p:commandButton id="toggler" type="button" value="Colonne" icon="pi pi-align-justify"/>
 			                    <p:columnToggler datasource="dt-anagraphics" trigger="toggler">
 			                        <p:ajax />
 			                    </p:columnToggler>
 			                </span>
 		                </div>
 		            </f:facet>
-		            
-		            <p:column selectionMode="single" style="width:16px;text-align:center" exportable="false"/>
 		            
 		            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 		            	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
@@ -431,13 +448,13 @@
 				        </sec:authorize>
 				    </sec:authorize>
 
-					<p:column headerText="Last name" width="10%" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
+					<p:column headerText="Cognome" width="10%" sortOrder="ascending" sortBy="#{anagraphic.lastName}" filterBy="#{anagraphic.lastName}">
 		                <h:outputText value="#{anagraphic.lastName}" />
 		            </p:column>
-		            <p:column headerText="First name" width="10%" sortBy="#{anagraphic.firstName}" filterBy="#{anagraphic.firstName}">
+		            <p:column headerText="Nome" width="10%" sortBy="#{anagraphic.firstName}" filterBy="#{anagraphic.firstName}">
 		                <h:outputText value="#{anagraphic.firstName}" />
 		            </p:column>
-		            <p:column headerText="Qualification" width="10%" sortBy="#{anagraphic.qualification}" filterBy="#{anagraphic.qualification}">
+		            <p:column headerText="Qualifica" width="10%" sortBy="#{anagraphic.qualification}" filterBy="#{anagraphic.qualification}">
 		                <h:outputText value="#{anagraphic.qualification}" />
 		            </p:column>
 		            <p:column headerText="Turno" width="5%" sortBy="#{anagraphic.turno}" filterBy="#{anagraphic.turno}">
@@ -446,10 +463,10 @@
 		            <p:column headerText="Ruolo" width="10%" sortBy="#{anagraphic.ruolo}" filterBy="#{anagraphic.ruolo}">
 		                <h:outputText value="#{anagraphic.ruolo}" />
 		            </p:column>
-		            <p:column headerText="Fiscal Code" width="10%" sortBy="#{anagraphic.fiscalCode}" filterBy="#{anagraphic.fiscalCode}">
+		            <p:column headerText="Codice Fiscale" width="10%" sortBy="#{anagraphic.fiscalCode}" filterBy="#{anagraphic.fiscalCode}">
 		                <h:outputText value="#{anagraphic.fiscalCode}" />
 		            </p:column>
-		            <p:column headerText="Phone number" width="10%" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
+		            <p:column headerText="Numero Telefonico" width="10%" sortBy="#{anagraphic.phoneNumber}" filterBy="#{anagraphic.phoneNumber}">
 		                <h:outputText value="+39 #{anagraphic.phoneNumber}" />
 		            </p:column>
 		            <p:column headerText="Email" width="15%" sortBy="#{anagraphic.contactEmail}" filterBy="#{anagraphic.contactEmail}">
@@ -458,7 +475,7 @@
 		            <p:column headerText="Note" width="10%" sortBy="#{anagraphic.note}" filterBy="#{anagraphic.note}">
 		                <h:outputText value="#{anagraphic.note}" />
 		            </p:column>
-		            <p:column headerText="Photo" width="5%" exportable="false">
+		            <p:column headerText="Foto" width="5%" exportable="false">
 		            	<p:graphicImage value="#{imageBean.image}" cache="false" styleClass="product-image">
 		            		<f:param id="photo-name" name="photo-name" value="#{anagraphic.photo}" />
 		            	</p:graphicImage>
@@ -475,7 +492,7 @@
 		    </h:form>
 		
 		    <h:form id="dialogs">
-		    	<p:dialog header="Choose to upload" showEffect="fade" modal="true" widgetVar="imageChangeDialog" responsive="true">
+		    	<p:dialog header="Upload Foto" showEffect="fade" modal="true" widgetVar="imageChangeDialog" responsive="true">
 		            <p:outputPanel id="image-change-content" styleClass="ui-fluid">
 		                <p:fileUpload mode="advanced" multiple="false" sizeLimit="1024000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
 	                      invalidSizeMessage="Maximum image size allowed is 1000 KB" invalidFileMessage="only gif | jpg | jpeg | png is allowed"
@@ -489,7 +506,7 @@
 		            </p:outputPanel>
 
 		            <f:facet name="footer">
-		                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{anagraphicView.changeImage}"
+		                <p:commandButton value="Salva" icon="pi pi-check" actionListener="#{anagraphicView.changeImage}"
 		                    process="image-change-content @this" />
 		                <p:commandButton value="Cancel" icon="pi pi-times" actionListener="#{anagraphicView.clearImageFile}"
 		                	styleClass="ui-button-secondary" type="button" onclick="PF('imageChangeDialog').hide()" />

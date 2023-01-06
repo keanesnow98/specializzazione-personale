@@ -10,7 +10,7 @@
 	</ui:define>
 	
 	<ui:define name="title">
-        User Management
+        Gestione Utenti Applicativo    
     </ui:define>
 
 	<ui:define name="implementation">
@@ -58,7 +58,8 @@
 		                        <span class="product-badge status-#{user.active? 'active' : 'inactive'}">#{user.active? 'Activated' : 'Deactived'}</span>
 		                    </div>
 		                    <div class="product-grid-item-content">
-		                    	<p:graphicImage url="#{usersView.getGravatarURI(user.email)}" />
+		                    	<!--  <p:graphicImage url="#{usersView.getGravatarURI(user.email)}" /> -->
+		                    	<p:graphicImage name="/specializzazionevvf/images/loginFoto.png"></p:graphicImage>
 		                        <div class="product-name">#{user.email}</div>
 		                        <div class="product-description">#{user.roles.contains('ROLE_ADMIN') ? 'Admin Privileged' : 'User Privileged'}</div>
 		                    </div>
@@ -81,7 +82,8 @@
 		
 		            <p:dataViewListItem>
 		                <div class="product-list-item">
-		                	<p:graphicImage url="#{usersView.getGravatarURI(user.email)}" />
+							<!-- <p:graphicImage url="#{usersView.getGravatarURI(user.email)}" /> -->
+		                	<p:graphicImage name="/specializzazionevvf/images/loginFoto.png"></p:graphicImage>
 		                    <div class="product-list-detail">
 		                        <div class="product-name">#{user.email}</div>
 		                        <div class="product-description">#{user.roles.contains('ROLE_ADMIN') ? 'Admin Privileged' : 'User Privileged'}</div>
@@ -116,7 +118,8 @@
 		        <p:dialog header="User Details" width="840" showEffect="fade" modal="true" widgetVar="modifyUserDialog" responsive="true">
 		            <p:outputPanel id="modify-user-content" styleClass="ui-fluid">
 		                <p:outputPanel rendered="#{not empty usersView.selectedUser}">
-		                    <p:graphicImage url="#{usersView.getGravatarURI(usersView.selectedUser.email)}" styleClass="product-image" />
+		                    <p:graphicImage name="/specializzazionevvf/images/loginFoto.png" styleClass="product-image" style="    margin: 50px auto 1rem auto"></p:graphicImage>
+							<!-- <p:graphicImage url="#{usersView.getGravatarURI(usersView.selectedUser.email)}" styleClass="product-image" /> -->
 		                    <div class="field">
 		                        <p:outputLabel for="email">Email</p:outputLabel>
 		                        <p:inputText id="email" value="#{usersView.selectedUser.email}" required="true" />
