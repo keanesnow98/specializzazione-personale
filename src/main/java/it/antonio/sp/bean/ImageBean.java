@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import javax.annotation.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import org.apache.logging.log4j.LogManager;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.web.context.annotation.SessionScope;
@@ -23,6 +24,8 @@ public class ImageBean {
     		photoName = "default.png";
     	
     	final String finalPhotoName = photoName;
+    	
+    	LogManager.getLogger().info("Loading image: " + finalPhotoName);
 		
     	return DefaultStreamedContent.builder()
 	        .contentType("image/png")

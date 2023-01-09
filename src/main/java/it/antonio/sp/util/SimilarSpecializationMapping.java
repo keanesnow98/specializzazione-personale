@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class SimilarSpecializationMapping {
 	
-	private static Map<String, String> map = new HashMap();
+	private static Map<String, String> map = new HashMap<String, String>();
 	
 	static {
 		map.put("Aeroportuali", "Aeroportuali");

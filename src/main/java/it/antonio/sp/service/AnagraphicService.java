@@ -1,17 +1,12 @@
 package it.antonio.sp.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +14,7 @@ import it.antonio.sp.entity.AnagraphicEntity;
 import it.antonio.sp.entity.AnagraphicEntity.SpecialtyExpiration;
 import it.antonio.sp.repository.AnagraphicRepository;
 import it.antonio.sp.util.SimilarSpecializationMapping;
+import reactor.core.publisher.Flux;
 
 @Service
 public class AnagraphicService {
@@ -27,27 +23,16 @@ public class AnagraphicService {
 
 	public List<AnagraphicEntity> findAll() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAll().toIterable().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted())
-				anagraphics.add(anagraphic);
-		});
-		return anagraphics;
-	}
-	
-	public List<AnagraphicEntity> findUserDetails(String userLoggedIntoPlatform) {
-		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		
-		anagraphicRepository.findAll().toIterable().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getContactEmail().equals(userLoggedIntoPlatform))
-				anagraphics.add(anagraphic);
+		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(anagraphic -> {
+			anagraphics.add(anagraphic);
 		});
 		return anagraphics;
 	}
 	
 	public List<AnagraphicEntity> findAllSpecialtyValid() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		findAll().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getSpecialtyExpirations().stream().allMatch(specialtyExp -> specialtyExp.isValid()) && !anagraphic.getSpecialtyExpirations().isEmpty())
+		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(anagraphic -> {
+			if (anagraphic.getSpecialtyExpirations().stream().allMatch(specialtyExp -> specialtyExp.isValid()) && !anagraphic.getSpecialtyExpirations().isEmpty())
 				anagraphics.add(anagraphic);
 		});
 		return anagraphics;
@@ -55,10 +40,11 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> findAllSpecialtyExpired() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		findAll().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(anagraphic -> {
+			
 			List<SpecialtyExpiration> newSpecialtyExpirations = new ArrayList<SpecialtyExpiration>();
 			anagraphic.getSpecialtyExpirations().forEach(specialtyExpiration -> {
-				if (!anagraphic.getDeleted() && !specialtyExpiration.isValid())
+				if (!specialtyExpiration.isValid())
 					newSpecialtyExpirations.add(specialtyExpiration);
 			});
 			anagraphic.setSpecialtyExpirations(newSpecialtyExpirations);
@@ -70,8 +56,8 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> findAllSpecialtyEmpty() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		findAll().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getSpecialtyExpirations().isEmpty())
+		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(anagraphic -> {
+			if (anagraphic.getSpecialtyExpirations().isEmpty())
 				anagraphics.add(anagraphic);
 		});
 		return anagraphics;
@@ -90,17 +76,13 @@ public class AnagraphicService {
 	public Map<String, Number> getGroupedSpecialtyCounts() {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		findAll().forEach(result -> {
-			if (!result.getDeleted()) {
-				for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
-					String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
-					String mappedSpecialty = SimilarSpecializationMapping.getSimilarMappingIfExist(specialty);
-					if (countsMap.containsKey(mappedSpecialty)) {
-						countsMap.put(mappedSpecialty, countsMap.get(mappedSpecialty).intValue() + 1);
-					} else {
-						countsMap.put(mappedSpecialty, 1);
-					}
-				}	
+		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(result -> {
+			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
+				String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
+				String mappedSpecialty = SimilarSpecializationMapping.getSimilarMappingIfExist(specialty);
+				if (countsMap.containsKey(mappedSpecialty))
+					countsMap.put(mappedSpecialty, countsMap.get(mappedSpecialty).intValue() + 1);
+				else countsMap.put(mappedSpecialty, 1);
 			}
 		});
 		
@@ -111,18 +93,14 @@ public class AnagraphicService {
 	public Map<String, Number> getSingleSpecialtyCounts(String singleSpecialty) {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		findAll().forEach(result -> {
-			if (!result.getDeleted()) {
-				for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
-					if (result.getSpecialtyExpirations().get(j).getSpecialty().contains(singleSpecialty)) {
-						String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
-						if (countsMap.containsKey(specialty)) {
-							countsMap.put(specialty, countsMap.get(specialty).intValue() + 1);
-						} else {
-							countsMap.put(specialty, 1);
-						}
-					}
-				}	
+		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(result -> {
+			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
+				if (result.getSpecialtyExpirations().get(j).getSpecialty().contains(singleSpecialty)) {
+					String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
+					if (countsMap.containsKey(specialty))
+						countsMap.put(specialty, countsMap.get(specialty).intValue() + 1);
+					else countsMap.put(specialty, 1);
+				}
 			}
 		});
 		
@@ -132,16 +110,12 @@ public class AnagraphicService {
 	public Map<String, Number> getSpecialtyCounts() {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		findAll().forEach(result -> {
-			if (!result.getDeleted()) {
-				for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
-					String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
-					if (countsMap.containsKey(specialty)) {
-						countsMap.put(specialty, countsMap.get(specialty).intValue() + 1);
-					} else {
-						countsMap.put(specialty, 1);
-					}
-				}	
+		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(result -> {
+			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
+				String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
+				if (countsMap.containsKey(specialty))
+					countsMap.put(specialty, countsMap.get(specialty).intValue() + 1);
+				else countsMap.put(specialty, 1);
 			}
 		});
 		
@@ -155,15 +129,11 @@ public class AnagraphicService {
 	public Map<String, Number> getQualificationCounts() {
 		Map<String, Number> countsMap = new TreeMap<>();
 
-		findAll().forEach(result -> {
-			if (!result.getDeleted()) {
-				if (countsMap.containsKey(result.getQualification())) {
-					int oldValue = countsMap.get(result.getQualification()).intValue();
-					countsMap.put(result.getQualification(), oldValue + 1);
-				} else {
-					countsMap.put(result.getQualification(), 1);
-				}
-			}
+		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(result -> {
+			if (countsMap.containsKey(result.getQualification())) {
+				int oldValue = countsMap.get(result.getQualification()).intValue();
+				countsMap.put(result.getQualification(), oldValue + 1);
+			} else countsMap.put(result.getQualification(), 1);
 		});	
 		
 		return countsMap;
@@ -171,17 +141,16 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> getFilteredByTurnoA() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getDeleted() && result.getTurno().startsWith("A"))
-				filteredResult.add(result);
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("A", false).toIterable().forEach(result -> {
+			filteredResult.add(result);
 		});
 		return filteredResult;
 	}
 	
 	public List<AnagraphicEntity> getFilteredByTurnoA(String specialty) {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getDeleted() && !result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().startsWith("A"))
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("A", false).toIterable().forEach(result -> {
+			if (!result.getDeleted() && !result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty())
 				filteredResult.add(result);
 		});
 		return filteredResult;
@@ -189,17 +158,16 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> getFilteredByTurnoB() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getDeleted() && result.getTurno().startsWith("B"))
-				filteredResult.add(result);
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("B", false).toIterable().forEach(result -> {
+			filteredResult.add(result);
 		});
 		return filteredResult;
 	}
 	
 	public List<AnagraphicEntity> getFilteredByTurnoB(String specialty) {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getDeleted() && !result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().startsWith("B"))
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("B", false).toIterable().forEach(result -> {
+			if (!result.getDeleted() && !result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty())
 				filteredResult.add(result);
 		});
 		return filteredResult;
@@ -207,17 +175,16 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> getFilteredByTurnoC() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getDeleted() && result.getTurno().startsWith("C"))
-				filteredResult.add(result);
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("C", false).toIterable().forEach(result -> {
+			filteredResult.add(result);
 		});
 		return filteredResult;
 	}
 	
 	public List<AnagraphicEntity> getFilteredByTurnoC(String specialty) {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().startsWith("C"))
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("C", false).toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty())
 				filteredResult.add(result);
 		});
 		return filteredResult;
@@ -225,17 +192,16 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> getFilteredByTurnoD() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (result.getTurno().startsWith("D"))
-				filteredResult.add(result);
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("D", false).toIterable().forEach(result -> {
+			filteredResult.add(result);
 		});
 		return filteredResult;
 	}
 	
 	public List<AnagraphicEntity> getFilteredByTurnoD(String specialty) {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().startsWith("D"))
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("D", false).toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty())
 				filteredResult.add(result);
 		});
 		return filteredResult;
@@ -243,17 +209,16 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> getFilteredByTurnoG5() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (result.getTurno().equals("G5"))
-				filteredResult.add(result);
+		anagraphicRepository.findAllByTurnoAndDeleted("G5", false).toIterable().forEach(result -> {
+			filteredResult.add(result);
 		});
 		return filteredResult;
 	}
 	
 	public List<AnagraphicEntity> getFilteredByTurnoG5(String specialty) {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getDeleted() && !result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().equals("G5"))
+		anagraphicRepository.findAllByTurnoAndDeleted("G5", false).toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty())
 				filteredResult.add(result);
 		});
 		return filteredResult;
@@ -261,20 +226,16 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> getFilteredByTurnoDisc() {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (result.getTurno().equals("Volontario-A")||
-					result.getTurno().equals("Volontario-B") || 
-					result.getTurno().equals("Volontario-C") || 
-					result.getTurno().equals("Volontario-D"))
-				filteredResult.add(result);
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("Volontario-", false).toIterable().forEach(result -> {
+			filteredResult.add(result);
 		});
 		return filteredResult;
 	}
 	
 	public List<AnagraphicEntity> getFilteredByTurnoDisc(String specialty) {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
-		findAll().forEach(result -> {
-			if (!result.getDeleted() && !result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty() && result.getTurno().equals("Volontario-"))
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("Volontario-", false).toIterable().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty())
 				filteredResult.add(result);
 		});
 		return filteredResult;
@@ -285,11 +246,9 @@ public class AnagraphicService {
 		for (int i = 0; i < 8; i++) {
 			turnoACounts[i] = 0;
 		}
-		findAll().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getTurno().startsWith("A")) {
-				int index = anagraphic.getTurno().codePointAt(1) - 0x31;
-				turnoACounts[index] = turnoACounts[index] + 1;
-			}
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("A", false).toIterable().forEach(anagraphic -> {
+			int index = anagraphic.getTurno().codePointAt(1) - 0x31;
+			turnoACounts[index] = turnoACounts[index] + 1;
 		});
 		return turnoACounts;
 	}
@@ -299,11 +258,9 @@ public class AnagraphicService {
 		for (int i = 0; i < 8; i++) {
 			turnoBCounts[i] = 0;
 		}
-		findAll().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getTurno().startsWith("B")) {
-				int index = anagraphic.getTurno().codePointAt(1) - 0x31;
-				turnoBCounts[index] = turnoBCounts[index] + 1;
-			}
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("B", false).toIterable().forEach(anagraphic -> {
+			int index = anagraphic.getTurno().codePointAt(1) - 0x31;
+			turnoBCounts[index] = turnoBCounts[index] + 1;
 		});
 		return turnoBCounts;
 	}
@@ -313,11 +270,9 @@ public class AnagraphicService {
 		for (int i = 0; i < 8; i++) {
 			turnoCCounts[i] = 0;
 		}
-		findAll().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getTurno().startsWith("C")) {
-				int index = anagraphic.getTurno().codePointAt(1) - 0x31;
-				turnoCCounts[index] = turnoCCounts[index] + 1;
-			}
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("C", false).toIterable().forEach(anagraphic -> {
+			int index = anagraphic.getTurno().codePointAt(1) - 0x31;
+			turnoCCounts[index] = turnoCCounts[index] + 1;
 		});
 		return turnoCCounts;
 	}
@@ -327,63 +282,55 @@ public class AnagraphicService {
 		for (int i = 0; i < 8; i++) {
 			turnoDCounts[i] = 0;
 		}
-		findAll().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getTurno().startsWith("D")) {
-				int index = anagraphic.getTurno().codePointAt(1) - 0x31;
-				turnoDCounts[index] = turnoDCounts[index] + 1;
-			}
+		anagraphicRepository.findAllByTurnoStartsWithAndDeleted("D", false).toIterable().forEach(anagraphic -> {
+			int index = anagraphic.getTurno().codePointAt(1) - 0x31;
+			turnoDCounts[index] = turnoDCounts[index] + 1;
 		});
 		return turnoDCounts;
 	}
-	
-	public Integer getTurnoG5Counts() {
-		AtomicInteger counts = new AtomicInteger(0);
-		anagraphicRepository.findAll().toIterable().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getTurno().startsWith("G5")) {
-				counts.incrementAndGet();
-			}
-		});
-		return counts.intValue();
+
+	private long getTurnoATotalCounts() {
+		return anagraphicRepository.findAllByTurnoStartsWithAndDeleted("A", false).count().block();
 	}
 	
-	public Integer getTurnoDiscCounts() {
-		AtomicInteger counts = new AtomicInteger(0);
-		anagraphicRepository.findAll().toIterable().forEach(anagraphic -> {
-			if (!anagraphic.getDeleted() && anagraphic.getTurno().startsWith("Volontario-")) {
-				counts.incrementAndGet();
-			}
-		});
-		return counts.intValue();
+	private long getTurnoBTotalCounts() {
+		return anagraphicRepository.findAllByTurnoStartsWithAndDeleted("B", false).count().block();
+	}
+	
+	private long getTurnoCTotalCounts() {
+		return anagraphicRepository.findAllByTurnoStartsWithAndDeleted("C", false).count().block();
+	}
+	
+	private long getTurnoDTotalCounts() {
+		return anagraphicRepository.findAllByTurnoStartsWithAndDeleted("D", false).count().block();
+	}
+	
+	private long getTurnoG5Counts() {
+		return anagraphicRepository.findAllByTurnoAndDeleted("G5", false).count().block();
+	}
+	
+	private long getTurnoDiscCounts() {
+		return anagraphicRepository.findAllByTurnoStartsWithAndDeleted("Volontario-", false).count().block();
 	}
 
 	public Integer[] getTurnoABCDG5DiscCounts() {
-		
-		Integer[] turnoA = getTurnoACounts();
-		int sumA = 0;
-		for (int i = 0; i < turnoA.length; i++)
-			sumA += turnoA[i];
-
-		Integer[] turnoB = getTurnoBCounts();
-		int sumB = 0;
-		for (int i = 0; i < turnoB.length; i++)
-			sumB += turnoB[i];
-		
-		Integer[] turnoC = getTurnoCCounts();
-		int sumC = 0;
-		for (int i = 0; i < turnoC.length; i++)
-			sumC += turnoC[i];
-		
-		Integer[] turnoD = getTurnoDCounts();
-		int sumD = 0;
-		for (int i = 0; i < turnoD.length; i++)
-			sumD += turnoD[i];
-		
-		int sumG5 = getTurnoG5Counts();
-
-		int sumDisc = getTurnoDiscCounts();
-		
-		Integer totalsTurnABCDG5Disc[] = {sumA, sumB, sumC, sumD, sumG5, sumDisc};
+		Integer totalsTurnABCDG5Disc[] = {
+				(int)getTurnoATotalCounts(),
+				(int)getTurnoBTotalCounts(),
+				(int)getTurnoCTotalCounts(),
+				(int)getTurnoDTotalCounts(),
+				(int)getTurnoG5Counts(),
+				(int)getTurnoDiscCounts()
+			};
 	
 		return totalsTurnABCDG5Disc;
+	}
+	
+	public Flux<AnagraphicEntity> getByContactEmail(String contactEmail) {
+		LogManager.getLogger().info("Get user details from: " + contactEmail);
+		
+		return anagraphicRepository
+				.findAllByContactEmail(contactEmail).map(anagraphic -> {return anagraphic;})
+				.defaultIfEmpty(new AnagraphicEntity());
 	}
 }

@@ -43,7 +43,11 @@ public class AnagraphicEntity {
 		
 		// Custom functions
 		public Boolean isValid() {
-			return (validationMonths != 0 && !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now())) || (validationMonths == 0 && !achievedDate.isAfter(LocalDate.now()));
+			return !achievedDate.isAfter(LocalDate.now()) &&
+					(
+							(validationMonths != 0 && !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now())) ||
+							(validationMonths == 0 && !achievedDate.isAfter(LocalDate.now()))
+					);
 		}
 		
 		public String getStatus() {
@@ -53,6 +57,8 @@ public class AnagraphicEntity {
 
 			if (validationMonths == 0 && !achievedDate.isAfter(LocalDate.now()))
 				return "LIFETIME";
+			if (achievedDate.isAfter(LocalDate.now()))
+				return "EXPIRED";
 			if (validationMonths != 0 && !achievedDate.plusMonths(validationMonths).isBefore(LocalDate.now()))
 				return "VALID";
 			return "EXPIRED";

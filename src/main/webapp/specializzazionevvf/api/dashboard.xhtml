@@ -3,7 +3,6 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:sec="https://joinfaces.org/security"
 	template="/WEB-INF/template.xhtml">
 	
 	<ui:define name="title">
@@ -38,7 +37,7 @@
 		</script>
 		
 		<div class="layout-dashboard" style="background-color:whitesmoke;">
-			<div class="grid" style="margin-left:0;margin-right:0;">
+			<div class="grid" style="margin-left:0; margin-right:0;">
 				<div class="col-12 lg:col-6 xl:col-3">
 		            <div class="overview-box box1">
 		                <i class="overview-icon pi pi-users"></i>
@@ -100,96 +99,83 @@
 	            </div>
 			</div>
 			
-			<p:panelGrid columns="2" columnClasses="ui-grid-col-12 ui-grid-col-3 md:ui-grid-col-6 lg:ui-grid-col-6" layout="grid" style="background-color:whitesmoke;">
-	 			<p:row>
-		 			<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
-						<div class="card">
-							<h5>Specializzazioni Raggruppate</h5>
-					      	<p:barChart model="#{dashboardView.specialtiesBarRag}" widgetVar="chartSpecRaggruppate"  style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chartSpecRaggruppate')" styleClass="mr-2 mb-2" />
-					    </div>
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="background-color:whitesmoke;">
+				<p:row style="padding: 0 16px 0 8px;">
+		 			<p:column>
+						<h5>Specializzazioni Raggruppate</h5>
+				      	<p:barChart model="#{dashboardView.specialtiesBarRag}" widgetVar="chartSpecRaggruppate" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chartSpecRaggruppate')" styleClass="mr-2 mb-2" />
 					</p:column>
-					
-					<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
-						<div class="card">
-							<h5>Qualifiche</h5>
-					      	<p:lineChart model="#{dashboardView.qualificationsLine}" widgetVar="chart2" style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart2')" styleClass="mr-2 mb-2" />
-					    </div>
+	
+					<p:column style="margin: 0 -8px 0 8px;">
+						<h5>Qualifiche</h5>
+				      	<p:lineChart model="#{dashboardView.qualificationsLine}" widgetVar="chart2" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart2')" styleClass="mr-2 mb-2" />
 					</p:column>
 				</p:row>
-				
-				<p:row>
-					<p:column styleClass="ui-grid-col-12 md:ui-grid-col-6 lg:ui-grid-col-6" style="margin:7px;">
-						<div class="card">
-							<h5>Specializzazioni in Dettaglio</h5>
-					      	<p:barChart model="#{dashboardView.specialtiesBar}" widgetVar="chart1" style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart1')" styleClass="mr-2 mb-2" />
-					    </div>
+			</p:panelGrid>
+			
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" style="background-color:whitesmoke;">
+				<p:row style="padding: 8px;">
+					<p:column>
+						<h5>Specializzazioni in Dettaglio</h5>
+				      	<p:barChart model="#{dashboardView.specialtiesBar}" widgetVar="chart1" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart1')" styleClass="mr-2 mb-2" />
 					</p:column>
 				</p:row>
-				
-				<p:row>
-					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
-						<div class="card">
-							<h5>Turno A</h5>
-					      	<p:pieChart model="#{dashboardView.turnoAPie}" widgetVar="chart3" style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart3')" styleClass="mr-2 mb-2" />
-					    </div>
+			</p:panelGrid>
+			
+			<p:panelGrid columns="4" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3" layout="grid" style="background-color:whitesmoke;">
+				<p:row style="padding: 0 32px 0 8px;">
+					<p:column>
+						<h5>Turno A</h5>
+				      	<p:pieChart model="#{dashboardView.turnoAPie}" widgetVar="chart3" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart3')" styleClass="mr-2 mb-2" />
 					</p:column>
 					
-		 			<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
-						<div class="card">
-							<h5>Turno B</h5>
-					      	<p:pieChart model="#{dashboardView.turnoBPie}" widgetVar="chart4" style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart4')" styleClass="mr-2 mb-2" />
-					    </div>
+		 			<p:column style="margin: 0 8px 0 8px;">
+						<h5>Turno B</h5>
+				      	<p:pieChart model="#{dashboardView.turnoBPie}" widgetVar="chart4" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart4')" styleClass="mr-2 mb-2" />
 					</p:column>
 					
-					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
-						<div class="card">
-							<h5>Turno C</h5>
-					      	<p:pieChart model="#{dashboardView.turnoCPie}" widgetVar="chart5" style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart5')" styleClass="mr-2 mb-2" />
-					    </div>
+					<p:column style="margin: 0 8px 0 0;">
+						<h5>Turno C</h5>
+				      	<p:pieChart model="#{dashboardView.turnoCPie}" widgetVar="chart5" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart5')" styleClass="mr-2 mb-2" />
 					</p:column>
 					
-					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
-						<div class="card">
-							<h5>Turno D</h5>
-					      	<p:pieChart model="#{dashboardView.turnoDPie}" widgetVar="chart6" style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart6')" styleClass="mr-2 mb-2" />
-					    </div>
+					<p:column style="margin: 0 -24px 0 0;">
+						<h5>Turno D</h5>
+				      	<p:pieChart model="#{dashboardView.turnoDPie}" widgetVar="chart6" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart6')" styleClass="mr-2 mb-2" />
 					</p:column>
 				</p:row>
+			</p:panelGrid>
 				
-				<p:row>
-					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
-						<div class="card">
-							<h5>Turni A-B-C-D-G5 e Turni Discontinui</h5>
-					      	<p:pieChart model="#{dashboardView.turnoABCDG5DiscPie}" widgetVar="chart7" style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart7')" styleClass="mr-2 mb-2" />
-					    </div>
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="background-color:whitesmoke;">
+				<p:row style="padding: 8px 16px 8px 8px;">
+					<p:column>
+						<h5>Turni A-B-C-D-G5 e Turni Discontinui</h5>
+				      	<p:pieChart model="#{dashboardView.turnoABCDG5DiscPie}" widgetVar="chart7" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chart7')" styleClass="mr-2 mb-2" />
 					</p:column>
 					
-					<p:column styleClass="ui-grid-col-12 lg:ui-grid-col-3" style="margin:7px;">
-						<div class="card">
-							<h5>Dettaglio Specializzazioni SAF</h5>
-					      	<p:donutChart  model="#{dashboardView.specialtiesSaf}" widgetVar="chartSpecSaf" style="width: 100%; display: block; box-sizing: border-box;" />
-					      	<br/>
-					      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chartSpecSaf')" styleClass="mr-2 mb-2" />
-					    </div>
+					<p:column style="margin: 0 -8px 0 8px;">
+						<h5>Dettaglio Specializzazioni SAF</h5>
+				      	<p:donutChart  model="#{dashboardView.specialtiesSaf}" widgetVar="chartSpecSaf" style="width: 100%; display: block; box-sizing: border-box;" />
+				      	<br/>
+				      	<p:commandButton type="button" value="Export" icon="pi pi-image" onclick="exportChart('chartSpecSaf')" styleClass="mr-2 mb-2" />
 					</p:column>
 				</p:row>
-				
 			</p:panelGrid>
 		</div>
 

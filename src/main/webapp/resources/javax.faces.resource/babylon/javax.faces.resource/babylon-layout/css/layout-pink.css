@@ -541,8 +541,8 @@ a {
   padding-left: 12px;
 }
 .layout-wrapper .layout-menu-container .layout-menu-logo a img {
-  margin-top: 1px;
-  height: 57px;
+  margin-top: 15px;
+  height: 30px;
 }
 .layout-wrapper .layout-menu-container .layout-profile.layout-profile-active .layout-profile-icon {
   -webkit-transform: rotate(-180deg);
@@ -1397,7 +1397,7 @@ a {
   border-top: 1px solid #e8e8e8;
 }
 .layout-footer img {
-  height: 50px;
+  height: 30px;
   margin-top: 4px;
 }
 .layout-footer .footer-icons {
@@ -2226,9 +2226,9 @@ a {
   position: absolute;
   color: #727272;
   font-size: 16px;
-  top: 60%;
+  top: 50%;
   right: 0.429em;
-  margin-top: 0px;
+  margin-top: -8px;
 }
 .login-body .login-content button {
   min-width: 150px;

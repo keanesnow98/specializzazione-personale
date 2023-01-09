@@ -52,7 +52,7 @@ public class UserService {
     			Constants.ROLE_ADMIN_QUALIFICATIONS_ALL,
     			Constants.ROLE_ADMIN_SPECIALTIES_ALL,
     			Constants.ROLE_ADMIN_USER_MANAGEMENT_ALL
-    		) : new UserEntity();
+    		) : new UserEntity(Constants.ROLE_USER_REPORTS_BY_SPECIALTY_ALL);
     	
    
     	user.setEmail(email);

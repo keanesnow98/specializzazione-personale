@@ -33,7 +33,6 @@ import it.antonio.sp.service.SpecialtyService;
 @ViewScoped
 public class AnagraphicView {
 	private List<AnagraphicEntity> anagraphics;
-	private List<AnagraphicEntity> userDetails;
 	private AnagraphicEntity selectedAnagraphic;
 	private SpecialtyExpiration selectedSpecialtyExpiration;
 	private List<String> qualificationNames;
@@ -100,13 +99,6 @@ public class AnagraphicView {
 	public String getUploadedImageName() {
 		return uploadedImageName;
 	}
-	public List<AnagraphicEntity> getUserDetails() {
-		return userDetails;
-	}
-
-	public void setUserDetails(List<AnagraphicEntity> userDetails) {
-		this.userDetails = userDetails;
-	}
 	
 
 	@PostConstruct
@@ -115,14 +107,7 @@ public class AnagraphicView {
 		anagraphics = anagraphicService.findAll();
 		qualificationNames = qualificationService.getQualificationNames();
 		specialtyNames = specialtyService.getSpecialtyNames();
-		userDetails = anagraphicService.findUserDetails(SecurityContextHolder.getContext().getAuthentication().getName());
 
-	}
-	
-	public AnagraphicEntity userDetails() {
-	
-		
-		return selectedAnagraphic;
 	}
 	
 	public void saveAnagraphic() {

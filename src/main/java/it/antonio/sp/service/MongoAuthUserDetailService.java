@@ -1,5 +1,6 @@
 package it.antonio.sp.service;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,9 @@ public class MongoAuthUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByEmail(userName).blockFirst();
+        
+        if (user == null)
+        	LogManager.getLogger().error("User not found!");
 
         return User.builder()
         		.username(user.getEmail())
