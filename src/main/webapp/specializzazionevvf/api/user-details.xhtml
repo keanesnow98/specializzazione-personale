@@ -71,7 +71,7 @@
 		  	}
 	  	</style>
 
-  		<div id="inputs">
+  		<h:form id="inputs">
   			<p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-8" layout="grid" rendered="#{!(userDetailsView.userDetails eq null)}">
   				<p:row>
 	  				<p:column styleClass="ui-grid-col-2">
@@ -171,11 +171,9 @@
 			                        <div class="field col">
 			                            <p:outputLabel for="contactEmail">Email</p:outputLabel>
 			                            <p:message for="contactEmail" display="icon"/>
-			                        	<p:inputText id="contactEmail" value="#{userDetailsView.userDetails.contactEmail}" disabled="true" type="email"
+			                        	<p:inputText id="contactEmail" value="#{userDetailsView.userDetails.contactEmail}" disabled="true"
 			                        		style="text-transform: lowercase;" onchange="this.value = this.value.toLowerCase();"
 			                        		placeholder="nome.cognome@gmail.com">
-			                        		<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-						                    <f:validateLength minimum="2" />
 			                        	</p:inputText>
 			                        </div>
 			                    </div>
@@ -187,8 +185,8 @@
 			        <p:column styleClass="ui-grid-col-4">
 			        	<p:outputPanel>
 <!-- TABELLA SPECIALIZZAZIONI -->
-					        <p:dataTable var="specialtyExpiration" value="#{userDetailsView.userDetails.specialtyExpirations}" editable="false"
-					                     stripedRows="true" resizableColumns="true" liveResize="true" scrollable="true" scrollHeight="330" size="small" editMode="cell" rendered="#{!(userDetailsView.userDetails.specialtyExpirations eq null)}">
+					        <p:dataTable widgetVar="dtSpecialtyExpirations" var="specialtyExpiration" value="#{userDetailsView.userDetails.specialtyExpirations}"
+					                     stripedRows="true" resizableColumns="true" liveResize="true" size="small" rendered="#{!(userDetailsView.userDetails.specialtyExpirations eq null)}">
 					            <f:facet name="header">
 					            	<div class="products-table-header">
 		                    			<span style="font-weight: bold">Specializzazioni Acquisite</span>
@@ -196,10 +194,9 @@
 		     		                    <span class="filter-container ui-input-icon-left" style="margin-left: 30px;"> <i class="pi pi-search"></i>
 											<p:inputText id="globalFilter" onkeyup="PF('dtSpecialtyExpirations').filter()" placeholder="Search" />
 										</span>
-										
 		                    		</div>
 					            </f:facet>
-					            <p:column style="width: 10%;" headerText="Tipo" sortBy="#{specialtyExpiration.specialty}" filterBy="#{specialtyExpiration.specialty}">
+					            <p:column headerText="Tipo" sortBy="#{specialtyExpiration.specialty}" filterBy="#{specialtyExpiration.specialty}">
 					               <h:outputText value="#{specialtyExpiration.specialty}" />
 					            </p:column>
 					        </p:dataTable>
@@ -207,6 +204,6 @@
 			        </p:column>
 			    </p:row>
 		    </p:panelGrid>
-		</div>
+		</h:form>
 	</ui:define>
 </ui:composition>
