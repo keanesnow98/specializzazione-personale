@@ -44,7 +44,7 @@ public class QualificationsView {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
 
-        if (newValue != null && !newValue.equals(oldValue)) {
+        if (newValue != null && newValue != "" && !newValue.equals(oldValue)) {
         	String headerText = event.getColumn().getHeaderText();
         	QualificationEntity selectedQualification = qualifications.get(event.getRowIndex());
         	

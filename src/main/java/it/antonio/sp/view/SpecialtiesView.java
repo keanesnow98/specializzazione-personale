@@ -44,7 +44,7 @@ public class SpecialtiesView {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
 
-        if (newValue != null && !newValue.equals(oldValue)) {
+        if (newValue != null && newValue != "" && !newValue.equals(oldValue)) {
         	String headerText = event.getColumn().getHeaderText();
         	SpecialtyEntity selectedSpecialty = specialties.get(event.getRowIndex());
         	

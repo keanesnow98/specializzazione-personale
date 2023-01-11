@@ -186,9 +186,11 @@
 			                        	</p:inputText>
 			                        </div>
 			                    </div>
-			                    <div class="field col col-12">
-			                        <p:outputLabel for="note">Note</p:outputLabel>
-			                        <p:inputTextarea id="note" value="#{anagraphicView.selectedAnagraphic.note}" rows="5" autoResize="false" style="resize:none;" />
+			                    <div class="formgrid grid">
+				                    <div class="field col col-12">
+				                        <p:outputLabel for="note">Note</p:outputLabel>
+				                        <p:inputTextarea id="note" value="#{anagraphicView.selectedAnagraphic.note}" rows="5" autoResize="false" style="resize:none;" />
+				                    </div>
 			                    </div>
 				            </p:outputPanel>
 				        </h:panelGrid>
@@ -204,16 +206,19 @@
 						            	<div class="products-table-header">
 			                    			<span style="font-weight: bold">Specializzazioni Acquisite</span>
 			                    			
-			     		                    <span class="filter-container ui-input-icon-left" style="margin-left: 30px;"> <i class="pi pi-search"></i>
-												<p:inputText id="globalFilter" onkeyup="PF('dtSpecialtyExpirations').filter()" placeholder="Search" />
-											</span>
+			                    			<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_EDIT')">
+				     		                    <span class="filter-container ui-input-icon-left" style="margin-left: 30px;"> <i class="pi pi-search"></i>
+													<p:inputText id="globalFilter" onkeyup="PF('dtSpecialtyExpirations').filter()" placeholder="Search" />
+												</span>
    
-											<span>
-							                    <p:commandButton id="toggler" type="button" icon="pi pi-align-justify"/>
-							                    <p:columnToggler datasource="dt-specialty-expirations" trigger="toggler">
-							                        <p:ajax />
-							                    </p:columnToggler>
-							                </span>
+												<span>
+								                    <p:commandButton id="toggler" type="button" icon="pi pi-align-justify"/>
+							                    
+								                    <p:columnToggler datasource="dt-specialty-expirations" trigger="toggler">
+								                        <p:ajax />
+								                    </p:columnToggler>
+								                </span>
+								            </sec:authorize>
 			                    		</div>
 						            </f:facet>
 		
@@ -223,7 +228,7 @@
 						            </sec:authorize>
 						            
 						            
-						            <p:column style="width: 10%;" headerText="Tipo" sortOrder="ascending" sortBy="#{specialtyExpiration.specialty}" filterBy="#{specialtyExpiration.specialty}">
+						            <p:column style="width: 10%;" headerText="Tipo" sortOrder="ascending" filterBy="#{specialtyExpiration.specialty}">
 						                <p:cellEditor>
 						                    <f:facet name="output">
 						                        <h:outputText value="#{specialtyExpiration.specialty}"/>
@@ -244,7 +249,7 @@
 						                </p:cellEditor>
 						            </p:column>
 						
-						            <p:column style="width: 10%;" headerText="Conseguita il" sortBy="#{specialtyExpiration.achievedDate}" filterBy="#{specialtyExpiration.achievedDate}">
+						            <p:column style="width: 10%;" headerText="Conseguita il" filterBy="#{specialtyExpiration.achievedDate}">
 						                <p:cellEditor>
 						                    <f:facet name="output">
 						                        <h:outputText value="#{specialtyExpiration.achievedDate}"/>
@@ -262,7 +267,7 @@
 						                </p:cellEditor>
 						            </p:column>
 						
-						            <p:column style="width: 10%;" headerText="Mesi di Validità" sortBy="#{specialtyExpiration.validationMonths}" filterBy="#{specialtyExpiration.validationMonths}">
+						            <p:column style="width: 10%;" headerText="Mesi di Validità" filterBy="#{specialtyExpiration.validationMonths}">
 						                <p:cellEditor>
 						                    <f:facet name="output">
 						                        <h:outputText value="#{specialtyExpiration.validationMonths}"/>
@@ -280,7 +285,7 @@
 						                </p:cellEditor>
 						            </p:column>
 						            
-						            <p:column style="width: 10%;" headerText="Stato" sortBy="#{specialtyExpiration.status}" filterBy="#{specialtyExpiration.status}">
+						            <p:column style="width: 10%;" headerText="Stato" filterBy="#{specialtyExpiration.status}">
 						                <span class="product-badge status-#{specialtyExpiration.status eq 'VALID'? 'valid' : (specialtyExpiration.status eq 'LIFETIME' ? 'lifetime' : (specialtyExpiration.status eq 'EXPIRED' ? 'expired' : ''))}">#{specialtyExpiration.status}</span>
 						            </p:column>
 						            
