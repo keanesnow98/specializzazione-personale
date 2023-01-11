@@ -7,16 +7,6 @@
 	
 	<ui:define name="head">
 		<h:outputStylesheet name="css/custom-layout.css" library="specializzazionevvf"/>
-		<h:outputStylesheet name="inputnumber/inputnumber.css" library="javax.faces.resource" />
-		<h:outputStylesheet name="fileupload/fileupload.css" library="javax.faces.resource" />
-		<h:outputStylesheet name="imagecropper/imagecropper.css" library="javax.faces.resource" />
-	</ui:define>
-	
-	<ui:define name="script">
-		<h:outputScript library="javax.faces.resource" name="inputnumber/inputnumber.js" />
-		<h:outputScript library="javax.faces.resource" name="datepicker/datepicker.js" />
-		<h:outputScript library="javax.faces.resource" name="fileupload/fileupload.js" />
-		<h:outputScript library="javax.faces.resource" name="imagecropper/imagecropper.js" />
 	</ui:define>
 	
 	<ui:define name="title">
@@ -87,14 +77,14 @@
 			                        <div class="field col">
 			                            <p:outputLabel for="lastName">Cognome</p:outputLabel>
 			                        	<p:inputText id="lastName" value="#{userDetailsView.userDetails.lastName}" disabled="true"
-			                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+			                        		style="text-transform: capitalize;">
 			                        		<p:message for="lastName" display="icon"/>
 			                        	</p:inputText>
 			                        </div>
 			                        <div class="field col">
 			                            <p:outputLabel for="firstName">Nome</p:outputLabel>
 			                        	<p:inputText id="firstName" value="#{userDetailsView.userDetails.firstName}" disabled="true"
-			                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+			                        		style="text-transform: capitalize;">
 			                        		<p:message for="firstName" display="icon"/>
 			                        	</p:inputText>
 			                        </div>
@@ -104,7 +94,7 @@
 			                        <div class="field col">
 			                            <p:outputLabel for="fiscalCode">Codice Fiscale</p:outputLabel>
 			                        	<p:inputText id="fiscalCode" value="#{userDetailsView.userDetails.fiscalCode}" disabled="true"
-			                        		style="text-transform: uppercase;" onchange="this.value = this.value.toUpperCase();">
+			                        		style="text-transform: uppercase;">
 			                        		<p:message for="fiscalCode" display="icon"/>
 			                        	</p:inputText>
 			                        </div>
@@ -172,8 +162,7 @@
 			                            <p:outputLabel for="contactEmail">Email</p:outputLabel>
 			                            <p:message for="contactEmail" display="icon"/>
 			                        	<p:inputText id="contactEmail" value="#{userDetailsView.userDetails.contactEmail}" disabled="true"
-			                        		style="text-transform: lowercase;" onchange="this.value = this.value.toLowerCase();"
-			                        		placeholder="nome.cognome@gmail.com">
+			                        		style="text-transform: lowercase;" placeholder="nome.cognome@gmail.com">
 			                        	</p:inputText>
 			                        </div>
 			                    </div>

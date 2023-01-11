@@ -17,9 +17,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
 
+import org.apache.logging.log4j.LogManager;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -110,7 +112,17 @@ public class AnagraphicView {
 
 	}
 	
+	public void OnAnagraphicSelect(SelectEvent<Object> event)
+	{
+		selectedAnagraphic = anagraphicService.getById(selectedAnagraphic.getId()).block();
+		selectedSpecialtyExpiration = null;
+	}
+	
 	public void saveAnagraphic() {
+		if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == null || selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null)) {
+			PrimeFaces.current().executeScript("PF('requireSpecialtyExpirationPopup').show()");
+			return;
+		}
         if (selectedAnagraphic.getId() == null) {
         	anagraphics.add(selectedAnagraphic);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anagraphic Added"));
@@ -133,11 +145,11 @@ public class AnagraphicView {
 		}
         
         selectedAnagraphic.setPhoto(newPhotoName);
-        if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null)) {
-        	List<SpecialtyExpiration> specialtyExpirations = selectedAnagraphic.getSpecialtyExpirations();
-        	specialtyExpirations.remove(specialtyExpirations.size() - 1);
-        	selectedAnagraphic.setSpecialtyExpirations(specialtyExpirations);
-        }
+//        if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == null || selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null)) {
+//        	List<SpecialtyExpiration> specialtyExpirations = selectedAnagraphic.getSpecialtyExpirations();
+//        	specialtyExpirations.remove(specialtyExpirations.size() - 1);
+//        	selectedAnagraphic.setSpecialtyExpirations(specialtyExpirations);
+//        }
         anagraphicService.saveAnagraphic(selectedAnagraphic);
 
         selectedAnagraphic = new AnagraphicEntity();
@@ -167,7 +179,10 @@ public class AnagraphicView {
     public void addNewSpecialtyExp() {
     	List<SpecialtyExpiration> specialtyExpirations = selectedAnagraphic.getSpecialtyExpirations();
 
-    	if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null)) {
+    	if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == null || selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null)) {
+    		LogManager.getLogger().info(selectedSpecialtyExpiration.getSpecialty());
+    		LogManager.getLogger().info(selectedSpecialtyExpiration.getAchievedDate());
+    		PrimeFaces.current().executeScript("PF('requireSpecialtyExpirationPopup').show()");
     		return;
     	}
     	selectedSpecialtyExpiration = new SpecialtyExpiration();

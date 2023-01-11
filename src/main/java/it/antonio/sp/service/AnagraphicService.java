@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import it.antonio.sp.entity.AnagraphicEntity.SpecialtyExpiration;
 import it.antonio.sp.repository.AnagraphicRepository;
 import it.antonio.sp.util.SimilarSpecializationMapping;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class AnagraphicService {
@@ -324,6 +326,11 @@ public class AnagraphicService {
 			};
 	
 		return totalsTurnABCDG5Disc;
+	}
+	
+	public Mono<AnagraphicEntity> getById(ObjectId id) {
+		return anagraphicRepository.findById(id).map(anagraphic -> {return anagraphic;})
+				.defaultIfEmpty(new AnagraphicEntity());
 	}
 	
 	public Flux<AnagraphicEntity> getByContactEmail(String contactEmail) {

@@ -89,14 +89,14 @@
 			                        <div class="field col col-12 lg:col-6">
 			                            <p:outputLabel for="lastName">Cognome</p:outputLabel>
 			                        	<p:inputText id="lastName" value="#{anagraphicView.selectedAnagraphic.lastName}" required="true"
-			                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+			                        		onkeyup="this.value = this.value.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());" onchange="this.value = this.value.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
 			                        		<p:message for="lastName" display="icon"/>
 			                        	</p:inputText>
 			                        </div>
 			                        <div class="field col col-12 lg:col-6">
 			                            <p:outputLabel for="firstName">Nome</p:outputLabel>
 			                        	<p:inputText id="firstName" value="#{anagraphicView.selectedAnagraphic.firstName}" required="true"
-			                        		style="text-transform: capitalize;" onchange="this.value = this.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
+			                        		onkeyup="this.value = this.value.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());" onchange="this.value = this.value.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());">
 			                        		<p:message for="firstName" display="icon"/>
 			                        	</p:inputText>
 			                        </div>
@@ -426,7 +426,7 @@
 		            	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
 		            		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 		            			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-		            				<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
+		            				<p:ajax event="rowSelect" listener="#{anagraphicView.OnAnagraphicSelect}" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
 		            			</sec:authorize>
 		            			<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
 		            				<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content" />
@@ -434,7 +434,7 @@
 		            		</sec:authorize>
 		            		<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 		            			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-		            				<p:ajax event="rowSelect" update=":inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
+		            				<p:ajax event="rowSelect" listener="#{anagraphicView.OnAnagraphicSelect}" update=":inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
 		            			</sec:authorize>
 		            			<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
 		            				<p:ajax event="rowSelect" update=":inputs:anagraphic-photo :inputs:manage-anagraphic-content" />
@@ -525,6 +525,12 @@
 		                process="@this" oncomplete="PF('deleteSpecialtyExpDialog').hide()" />
 		            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
 		                onclick="PF('deleteSpecialtyExpDialog').hide()" />
+		        </p:confirmDialog>
+		        
+		        <p:confirmDialog widgetVar="requireSpecialtyExpirationPopup" showEffect="fade" width="300"
+		        	message="You must fill both specialty and achieved date field!" header="Require" severity="warn">
+		        	<p:commandButton value="OK" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"
+		        		onclick="PF('requireSpecialtyExpirationPopup').hide()" />
 		        </p:confirmDialog>
 		
 		        <p:confirmDialog global="true" showEffect="fade" width="300">
