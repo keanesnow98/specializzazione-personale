@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +18,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
 
-import org.apache.logging.log4j.LogManager;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
@@ -87,7 +87,12 @@ public class AnagraphicView {
 	}
 	
 	public List<String> getSpecialtyNames() {
-		return specialtyNames;
+		List<String> hasSpecialtyNames = new ArrayList<>();
+		List<String> newSpecialtyNames = specialtyNames;
+		List<SpecialtyExpiration> specialtyExpirations =  selectedAnagraphic.getSpecialtyExpirations();
+		specialtyExpirations.forEach(t -> hasSpecialtyNames.add(t.getSpecialty()));
+		newSpecialtyNames.removeAll(hasSpecialtyNames);
+		return newSpecialtyNames;
 	}
 	
 	public void setSpecialtyNames(List<String> specialtyNames) {
@@ -180,8 +185,6 @@ public class AnagraphicView {
     	List<SpecialtyExpiration> specialtyExpirations = selectedAnagraphic.getSpecialtyExpirations();
 
     	if (selectedSpecialtyExpiration != null && (selectedSpecialtyExpiration.getSpecialty() == null || selectedSpecialtyExpiration.getSpecialty() == "" || selectedSpecialtyExpiration.getAchievedDate() == null)) {
-    		LogManager.getLogger().info(selectedSpecialtyExpiration.getSpecialty());
-    		LogManager.getLogger().info(selectedSpecialtyExpiration.getAchievedDate());
     		PrimeFaces.current().executeScript("PF('requireSpecialtyExpirationPopup').show()");
     		return;
     	}

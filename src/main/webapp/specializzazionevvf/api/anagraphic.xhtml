@@ -56,7 +56,7 @@
 			}
 			
 			#form .ui-datatable .ui-datatable-data > tr > td {
-				padding: 0.2rem 0.2rem 0.2rem 1rem;
+				padding: 0.2rem 0.2rem;
 			}
 			.product-badge.status-valid {
 		  		background: #c8e6c9;
@@ -232,7 +232,7 @@
 							                    <f:facet name="input">
 							                    	<p:selectOneMenu value="#{specialtyExpiration.specialty}"  required="true">
 							                    		<f:selectItem></f:selectItem>
-									                    <f:selectItems value="#{anagraphicView.specialtyNames}"/>
+									                    <f:selectItems value="#{anagraphicView.specialtyNames}" />
 									                </p:selectOneMenu>
 							                    </f:facet>
 						                    </sec:authorize>
@@ -251,7 +251,7 @@
 						                    </f:facet>
 						                    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_EDIT')">
 							                    <f:facet name="input">
-										            <p:datePicker value="#{specialtyExpiration.achievedDate}" styleClass="block" monthNavigator="true" yearNavigator="true" showButtonBar="true" required="true" />
+										            <p:datePicker value="#{specialtyExpiration.achievedDate}" styleClass="block" monthNavigator="true" yearNavigator="true" showButtonBar="true" touchUI="true" />
 							                    </f:facet>
 							                </sec:authorize>
 							                <sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_EDIT')">
