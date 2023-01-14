@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 
@@ -109,4 +111,22 @@ public class ReportsBySpecialtyView {
 		
 		PrimeFaces.current().ajax().update("turnoA", "turnoB", "turnoC", "turnoD", "turnoG5");
 	}
+	
+	public void OnExportXlsxButtonClicked() {
+    	try {
+    		anagraphicService.exportReportsBySpecialty("xlsx", selectedSpecialty);
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx exported to C:/exports"));
+    	} catch (Exception e) {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx"));
+    	}
+    }
+	
+	public void OnExportPdfButtonClicked() {
+    	try {
+	    	anagraphicService.exportReportsBySpecialty("pdf", selectedSpecialty);
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf exported to C:/exports"));
+	    } catch (Exception e) {
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf"));
+		}
+    }
 }

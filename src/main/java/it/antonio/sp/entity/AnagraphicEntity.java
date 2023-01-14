@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "anagraphicList")
 public class AnagraphicEntity {
 	public static class SpecialtyExpiration {
 		String specialty;

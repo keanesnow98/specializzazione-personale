@@ -252,4 +252,22 @@ public class AnagraphicView {
             e.printStackTrace();
         }
     }
+    
+    public void OnExportXlsxButtonClicked() {
+    	try {
+    		anagraphicService.exportAnagraphicVVF("xlsx");
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "AnagraphicVVF_XLSX.xlsx exported to C:/exports"));
+    	} catch (Exception e) {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/AnagraphicVVF_XLSX.xlsx"));
+    	}
+    }
+    
+    public void OnExportPdfButtonClicked() {
+    	try {
+	    	anagraphicService.exportAnagraphicVVF("pdf");
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "AnagraphicVVF_PDF.pdf exported to C:/exports"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/AnagraphicVVF_PDF.pdf"));
+		}
+    }
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,4 +87,22 @@ public class ReportsByTurnoView {
 		turnoG5 = anagraphicService.getFilteredByTurnoG5();
 		turnoDisc = anagraphicService.getFilteredByTurnoDisc();
 	}
+	
+	public void OnExportXlsxButtonClicked() {
+    	try {
+    		anagraphicService.exportReportsByTurno("xlsx");
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsByTurno_XLSX.xlsx exported to C:/exports"));
+    	} catch (Exception e) {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsByTurno_XLSX.xlsx"));
+    	}
+    }
+    
+    public void OnExportPdfButtonClicked() {
+    	try {
+	    	anagraphicService.exportReportsByTurno("pdf");
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsByTurno_PDF.pdf exported to C:/exports"));
+	    } catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsByTurno_PDF.pdf"));
+		}
+    }
 }

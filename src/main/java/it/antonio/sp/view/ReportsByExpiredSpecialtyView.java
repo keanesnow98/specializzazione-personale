@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +33,22 @@ public class ReportsByExpiredSpecialtyView {
 	public void init() {
 		anagraphics = anagraphicService.findAllSpecialtyExpired();
 	}
+	
+	public void OnExportXlsxButtonClicked() {
+    	try {
+    		anagraphicService.exportReportsBySpecialtyExpired("xlsx");
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialtyExpired_XLSX.xlsx exported to C:/exports"));
+    	} catch (Exception e) {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsBySpecialtyExpired_XLSX.xlsx"));
+    	}
+    }
+    
+    public void OnExportPdfButtonClicked() {
+    	try {
+	    	anagraphicService.exportReportsBySpecialtyExpired("pdf");
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialtyExpired_PDF.pdf exported to C:/exports"));
+	    } catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsBySpecialtyExpired_PDF.pdf"));
+		}
+    }	
 }

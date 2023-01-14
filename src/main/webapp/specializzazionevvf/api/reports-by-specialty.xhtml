@@ -10,23 +10,20 @@
     </ui:define>
 
 	<ui:define name="implementation">
-		<h:form>
+		<h:form id="form">
+			<p:growl id="messages" showDetail="true" />
+			
 			<div class="flex justify-content-between">
-			   <div class="flex justify-content-between align-items-center">
+			    <div class="flex justify-content-between align-items-center">
 			   		<p:outputLabel for="@next" style="margin-right: 14px;">Filtra per Specializzazioni:</p:outputLabel>
 		            <p:selectOneMenu value="#{reportsBySpecialtyView.selectedSpecialty}" onchange="submit()" valueChangeListener="#{reportsBySpecialtyView.handleSpecialtyChange}">
 	                    <f:selectItems value="#{reportsBySpecialtyView.specialties}"/>
 	                </p:selectOneMenu>
-			   </div>
-			   <div>
-			      <p:commandButton value="XLSX" styleClass="mr-2 mb-2" >
-			          <!-- <p:dataExporter type="xlsxstream" target="products" fileName="visible" visibleOnly="true"/> -->
-			      </p:commandButton>
-			
-			      <p:commandButton value="PDF" styleClass="mr-2 mb-2" >
-			          <!-- <p:dataExporter type="pdf" target="products" fileName="visible" visibleOnly="true"/> -->
-			      </p:commandButton>
-			   </div>
+			    </div>
+			    <div>
+			    	<p:commandButton value="XLSX" icon="pi pi-file-excel" styleClass="ui-button ui-button-info mr-2 mb-2" update=":form:messages" actionListener="#{reportsBySpecialtyView.OnExportXlsxButtonClicked}" />
+					<p:commandButton value="PDF" icon="pi pi-file-pdf" styleClass="ui-button ui-button-info mr-2 mb-2" update=":form:messages" actionListener="#{reportsBySpecialtyView.OnExportPdfButtonClicked}" />
+			    </div>
 			</div>
 			
 		    <p:dataTable id="turnoA" widgetVar="dtAnagraphicA" var="anagraphic" value="#{reportsBySpecialtyView.turnoA}" styleClass="mb-3"

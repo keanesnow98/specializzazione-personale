@@ -1,6 +1,11 @@
 package it.antonio.sp.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -10,11 +15,22 @@ import org.apache.logging.log4j.LogManager;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import it.antonio.sp.entity.AnagraphicEntity;
 import it.antonio.sp.entity.AnagraphicEntity.SpecialtyExpiration;
 import it.antonio.sp.repository.AnagraphicRepository;
 import it.antonio.sp.util.SimilarSpecializationMapping;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,7 +41,17 @@ public class AnagraphicService {
 
 	public List<AnagraphicEntity> findAll() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+			anagraphics.add(anagraphic);
+		});
+		return anagraphics;
+	}
+	
+	public List<AnagraphicEntity> safeFindAll() {
+		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+			if (Files.notExists(Paths.get("C:/uploads/photo", anagraphic.getPhoto())))
+				anagraphic.setPhoto("default.png");
 			anagraphics.add(anagraphic);
 		});
 		return anagraphics;
@@ -33,7 +59,7 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> findAllSpecialtyValid() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
 			if (anagraphic.getSpecialtyExpirations().stream().allMatch(specialtyExp -> specialtyExp.isValid()) && !anagraphic.getSpecialtyExpirations().isEmpty())
 				anagraphics.add(anagraphic);
 		});
@@ -42,7 +68,7 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> findAllSpecialtyExpired() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
 			
 			List<SpecialtyExpiration> newSpecialtyExpirations = new ArrayList<SpecialtyExpiration>();
 			anagraphic.getSpecialtyExpirations().forEach(specialtyExpiration -> {
@@ -56,9 +82,28 @@ public class AnagraphicService {
 		return anagraphics;
 	}
 	
+	public List<AnagraphicEntity> safeFindAllSpecialtyExpired() {
+		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+			
+			List<SpecialtyExpiration> newSpecialtyExpirations = new ArrayList<SpecialtyExpiration>();
+			anagraphic.getSpecialtyExpirations().forEach(specialtyExpiration -> {
+				if (!specialtyExpiration.isValid())
+					newSpecialtyExpirations.add(specialtyExpiration);
+			});
+			anagraphic.setSpecialtyExpirations(newSpecialtyExpirations);
+			if (!newSpecialtyExpirations.isEmpty()) {
+				if (Files.notExists(Paths.get("C:/uploads/photo", anagraphic.getPhoto())))
+					anagraphic.setPhoto("default.png");
+				anagraphics.add(anagraphic);
+			}
+		});
+		return anagraphics;
+	}
+	
 	public List<AnagraphicEntity> findAllSpecialtyEmpty() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
 			if (anagraphic.getSpecialtyExpirations().isEmpty())
 				anagraphics.add(anagraphic);
 		});
@@ -78,7 +123,7 @@ public class AnagraphicService {
 	public Map<String, Number> getGroupedSpecialtyCounts() {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(result -> {
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(result -> {
 			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
 				String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
 				String mappedSpecialty = SimilarSpecializationMapping.getSimilarMappingIfExist(specialty);
@@ -95,7 +140,7 @@ public class AnagraphicService {
 	public Map<String, Number> getSingleSpecialtyCounts(String singleSpecialty) {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(result -> {
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(result -> {
 			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
 				if (result.getSpecialtyExpirations().get(j).getSpecialty().contains(singleSpecialty)) {
 					String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
@@ -112,7 +157,7 @@ public class AnagraphicService {
 	public Map<String, Number> getSpecialtyCounts() {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(result -> {
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(result -> {
 			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
 				String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
 				if (countsMap.containsKey(specialty))
@@ -131,7 +176,7 @@ public class AnagraphicService {
 	public Map<String, Number> getQualificationCounts() {
 		Map<String, Number> countsMap = new TreeMap<>();
 
-		anagraphicRepository.findAllByDeleted(false).toIterable().forEach(result -> {
+		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(result -> {
 			if (countsMap.containsKey(result.getQualification())) {
 				int oldValue = countsMap.get(result.getQualification()).intValue();
 				countsMap.put(result.getQualification(), oldValue + 1);
@@ -243,6 +288,16 @@ public class AnagraphicService {
 		return filteredResult;
 	}
 	
+	public List<AnagraphicEntity> safeGetOrderedByTurno() {
+		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
+		anagraphicRepository.findAllByDeletedOrderByTurno(false).toIterable().forEach(anagraphic -> {
+			if (Files.notExists(Paths.get("C:/uploads/photo", anagraphic.getPhoto())))
+				anagraphic.setPhoto("default.png");
+			anagraphics.add(anagraphic);
+		});
+		return anagraphics;
+	}
+	
 	public Integer[] getTurnoACounts() {
 		Integer[] turnoACounts = new Integer[8];
 		for (int i = 0; i < 8; i++) {
@@ -339,5 +394,84 @@ public class AnagraphicService {
 		return anagraphicRepository
 				.findAllByContactEmail(contactEmail).map(anagraphic -> {return anagraphic;})
 				.defaultIfEmpty(new AnagraphicEntity());
+	}
+	
+	public void exportAnagraphicVVF(String reportFormat) throws FileNotFoundException, JRException {
+		File file = ResourceUtils.getFile("classpath:reports/anagraphicvvf.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(safeFindAll());
+		
+		Map<String, Object> parameters = new HashMap<>();
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+		
+		if (reportFormat.equalsIgnoreCase("xlsx")) {
+			JRXlsxExporter exporter = new JRXlsxExporter();
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:/exports/AnagraphicVVF_XLSX.xlsx"));
+			
+			exporter.exportReport();
+		} else if (reportFormat.equalsIgnoreCase("pdf"))
+			JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/exports/AnagraphicVVF_PDF.pdf");
+	}
+	
+	public void exportReportsByTurno(String reportFormat) throws FileNotFoundException, JRException {
+		File file = ResourceUtils.getFile("classpath:reports/anagraphicvvf.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(safeGetOrderedByTurno());
+		
+		Map<String, Object> parameters = new HashMap<>();
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+		
+		if (reportFormat.equalsIgnoreCase("xlsx")) {
+			JRXlsxExporter exporter = new JRXlsxExporter();
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:/exports/ReportsByTurno_XLSX.xlsx"));
+			
+			exporter.exportReport();
+		} else if (reportFormat.equalsIgnoreCase("pdf"))
+			JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/exports/ReportsByTurno_PDF.pdf");
+	}
+	
+	public void exportReportsBySpecialty(String reportFormat, String specialty) throws FileNotFoundException, JRException {
+		List<AnagraphicEntity> filteredResult = new ArrayList<>();
+		safeGetOrderedByTurno().forEach(result -> {
+			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty())
+				filteredResult.add(result);
+		});
+		
+		File file = ResourceUtils.getFile("classpath:reports/anagraphicvvf.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(filteredResult);
+		
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("specialty", specialty);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+		
+		if (reportFormat.equalsIgnoreCase("xlsx")) {
+			JRXlsxExporter exporter = new JRXlsxExporter();
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:/exports/ReportsBySpecialty(" + specialty + ")_XLSX.xlsx"));
+			
+			exporter.exportReport();
+		} else if (reportFormat.equalsIgnoreCase("pdf"))
+			JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/exports/ReportsBySpecialty(" + specialty + ")_PDF.pdf");
+	}
+	
+	public void exportReportsBySpecialtyExpired(String reportFormat) throws FileNotFoundException, JRException {
+		File file = ResourceUtils.getFile("classpath:reports/anagraphicvvf.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(safeFindAllSpecialtyExpired());
+		
+		Map<String, Object> parameters = new HashMap<>();
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+		
+		if (reportFormat.equalsIgnoreCase("xlsx")) {
+			JRXlsxExporter exporter = new JRXlsxExporter();
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:/exports/ReportsBySpecialtyExpired_XLSX.xlsx"));
+			
+			exporter.exportReport();
+		} else if (reportFormat.equalsIgnoreCase("pdf"))
+			JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/exports/ReportsBySpecialtyExpired_PDF.pdf");
 	}
 }
