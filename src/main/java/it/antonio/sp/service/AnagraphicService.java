@@ -19,6 +19,7 @@ import org.springframework.util.ResourceUtils;
 
 import it.antonio.sp.entity.AnagraphicEntity;
 import it.antonio.sp.entity.AnagraphicEntity.SpecialtyExpiration;
+import it.antonio.sp.export.AnagraphicExport;
 import it.antonio.sp.repository.AnagraphicRepository;
 import it.antonio.sp.util.SimilarSpecializationMapping;
 import net.sf.jasperreports.engine.JRException;
@@ -41,7 +42,7 @@ public class AnagraphicService {
 
 	public List<AnagraphicEntity> findAll() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(anagraphic -> {
 			anagraphics.add(anagraphic);
 		});
 		return anagraphics;
@@ -49,7 +50,7 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> safeFindAll() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(anagraphic -> {
 			if (Files.notExists(Paths.get("C:/uploads/photo", anagraphic.getPhoto())))
 				anagraphic.setPhoto("default.png");
 			anagraphics.add(anagraphic);
@@ -59,7 +60,7 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> findAllSpecialtyValid() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(anagraphic -> {
 			if (anagraphic.getSpecialtyExpirations().stream().allMatch(specialtyExp -> specialtyExp.isValid()) && !anagraphic.getSpecialtyExpirations().isEmpty())
 				anagraphics.add(anagraphic);
 		});
@@ -68,7 +69,7 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> findAllSpecialtyExpired() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(anagraphic -> {
 			
 			List<SpecialtyExpiration> newSpecialtyExpirations = new ArrayList<SpecialtyExpiration>();
 			anagraphic.getSpecialtyExpirations().forEach(specialtyExpiration -> {
@@ -84,7 +85,7 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> safeFindAllSpecialtyExpired() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(anagraphic -> {
 			
 			List<SpecialtyExpiration> newSpecialtyExpirations = new ArrayList<SpecialtyExpiration>();
 			anagraphic.getSpecialtyExpirations().forEach(specialtyExpiration -> {
@@ -103,7 +104,7 @@ public class AnagraphicService {
 	
 	public List<AnagraphicEntity> findAllSpecialtyEmpty() {
 		List<AnagraphicEntity> anagraphics = new ArrayList<AnagraphicEntity>();
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(anagraphic -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(anagraphic -> {
 			if (anagraphic.getSpecialtyExpirations().isEmpty())
 				anagraphics.add(anagraphic);
 		});
@@ -123,7 +124,7 @@ public class AnagraphicService {
 	public Map<String, Number> getGroupedSpecialtyCounts() {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(result -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(result -> {
 			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
 				String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
 				String mappedSpecialty = SimilarSpecializationMapping.getSimilarMappingIfExist(specialty);
@@ -140,7 +141,7 @@ public class AnagraphicService {
 	public Map<String, Number> getSingleSpecialtyCounts(String singleSpecialty) {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(result -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(result -> {
 			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
 				if (result.getSpecialtyExpirations().get(j).getSpecialty().contains(singleSpecialty)) {
 					String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
@@ -157,7 +158,7 @@ public class AnagraphicService {
 	public Map<String, Number> getSpecialtyCounts() {
 		Map<String,Number> countsMap = new TreeMap<>();
 		
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(result -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(result -> {
 			for (int j = 0; j < result.getSpecialtyExpirations().size(); j++) {
 				String specialty = result.getSpecialtyExpirations().get(j).getSpecialty();
 				if (countsMap.containsKey(specialty))
@@ -176,7 +177,7 @@ public class AnagraphicService {
 	public Map<String, Number> getQualificationCounts() {
 		Map<String, Number> countsMap = new TreeMap<>();
 
-		anagraphicRepository.findAllByDeletedOrderByLastName(false).toIterable().forEach(result -> {
+		anagraphicRepository.findAllByDeletedOrderByFirstName(false).toIterable().forEach(result -> {
 			if (countsMap.containsKey(result.getQualification())) {
 				int oldValue = countsMap.get(result.getQualification()).intValue();
 				countsMap.put(result.getQualification(), oldValue + 1);
@@ -458,9 +459,28 @@ public class AnagraphicService {
 	}
 	
 	public void exportReportsBySpecialtyExpired(String reportFormat) throws FileNotFoundException, JRException {
-		File file = ResourceUtils.getFile("classpath:reports/anagraphicvvf.jrxml");
+		List<AnagraphicExport> exportResult = new ArrayList<>();
+		safeFindAllSpecialtyExpired().forEach(result -> {
+			result.getSpecialtyExpirations().forEach(t -> {
+				AnagraphicExport anagraphicExport = new AnagraphicExport();
+				anagraphicExport.setFirstName(result.getFirstName());
+				anagraphicExport.setLastName(result.getLastName());
+				anagraphicExport.setRuolo(result.getRuolo());
+				anagraphicExport.setFiscalCode(result.getFiscalCode());
+				anagraphicExport.setQualification(result.getQualification());
+				anagraphicExport.setTurno(result.getTurno());
+				anagraphicExport.setPhoneNumber(result.getPhoneNumber());
+				anagraphicExport.setContactEmail(result.getContactEmail());
+				anagraphicExport.setPhoto(result.getPhoto());
+				anagraphicExport.setSpecialty(t.getSpecialty());
+				anagraphicExport.setExpiredDate(t.getAchievedDate().plusMonths(t.getValidationMonths()).toString());
+				exportResult.add(anagraphicExport);
+			});
+		});
+		
+		File file = ResourceUtils.getFile("classpath:reports/reports_expired.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(safeFindAllSpecialtyExpired());
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(exportResult);
 		
 		Map<String, Object> parameters = new HashMap<>();
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);

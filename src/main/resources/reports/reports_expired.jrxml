@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="anagraphic" pageWidth="992" pageHeight="595" orientation="Landscape" columnWidth="952" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cde55ae3-e971-44f7-a788-a99392b4d2b0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="anagraphic" pageWidth="1292" pageHeight="595" orientation="Landscape" columnWidth="1252" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cde55ae3-e971-44f7-a788-a99392b4d2b0">
 	<subDataset name="Dataset1" uuid="10d902cf-201e-492d-b0fe-e37887f7c5ef">
 		<field name="lastName" class="java.lang.String"></field>
 		<field name="firstName" class="java.lang.String"></field>
@@ -10,6 +10,8 @@
 		<field name="fiscalCode" class="java.lang.String"></field>
 		<field name="phoneNumber" class="java.lang.String"></field>
 		<field name="contactEmail" class="java.lang.String"></field>
+		<field name="specialty" class="java.lang.String"></field>
+		<field name="expiredDate" class="java.lang.String"></field>
 	</subDataset>
 	<field name="lastName" class="java.lang.String"></field>
 	<field name="firstName" class="java.lang.String"></field>
@@ -20,17 +22,19 @@
 	<field name="phoneNumber" class="java.lang.String"></field>
 	<field name="contactEmail" class="java.lang.String"></field>
 	<field name="photo" class="java.lang.String"></field>
+	<field name="specialty" class="java.lang.String"></field>
+	<field name="expiredDate" class="java.lang.String"></field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="950" height="79" forecolor="#FF05EA" uuid="ad06e338-8d36-4ae2-b542-675e2c81ce51"/>
+				<reportElement x="0" y="0" width="1250" height="79" forecolor="#FF05EA" uuid="ad06e338-8d36-4ae2-b542-675e2c81ce51"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Colonna MT" size="41"/>
 				</textElement>
-				<text><![CDATA[Anagraphic VVF Personale]]></text>
+				<text><![CDATA[Anagraphic VVF Reports]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -127,6 +131,26 @@
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Foto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" mode="Opaque" x="950" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a"/>
+				<box>
+					<pen lineColor="#E9ECEF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" mode="Opaque" x="1100" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a"/>
+				<box>
+					<pen lineColor="#E9ECEF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Expired Date]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -256,6 +280,34 @@
 				</box>
 				<imageExpression><![CDATA["C:/uploads/photo/" + $F{photo}]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="950" y="0" width="150" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
+				<box>
+					<pen lineColor="#E9ECEF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{specialty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1100" y="0" width="150" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
+				<box>
+					<pen lineColor="#E9ECEF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{expiredDate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>
