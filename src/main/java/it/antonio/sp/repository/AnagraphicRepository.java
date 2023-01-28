@@ -7,7 +7,7 @@ import it.antonio.sp.entity.AnagraphicEntity;
 import reactor.core.publisher.Flux;
 
 public interface AnagraphicRepository extends ReactiveCrudRepository<AnagraphicEntity, ObjectId> {
-	Flux<AnagraphicEntity> findAllByDeletedOrderByFirstName(Boolean deleted);
+	Flux<AnagraphicEntity> findAllByDeletedOrderByLastName(Boolean deleted);
 	Flux<AnagraphicEntity> findAllByDeletedOrderByTurno(Boolean deleted);
 	Flux<AnagraphicEntity> findAllByTurnoAndDeleted(String turno, Boolean deleted);
 	Flux<AnagraphicEntity> findAllByTurnoStartsWithAndDeleted(String turno, Boolean deleted);

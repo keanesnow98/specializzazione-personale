@@ -2,7 +2,7 @@
 <Configuration status="WARN" monitorInterval="30">
     <Properties>
         <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
-        <Property name="APP_LOG_ROOT">c:/temp</Property>
+        <Property name="APP_LOG_ROOT">c:/anagraficavvf_config</Property>
     </Properties>
 
     <Appenders>
@@ -10,8 +10,8 @@
             <PatternLayout pattern="${LOG_PATTERN}" />
         </Console>
         <RollingFile name="appLog"
-                fileName="${APP_LOG_ROOT}/SpringBoot2App/application.log"
-                filePattern="${APP_LOG_ROOT}/SpringBoot2App/application-%d{yyyy-MM-dd}-%i.log">
+                fileName="${APP_LOG_ROOT}/log/application.log"
+                filePattern="${APP_LOG_ROOT}/log/application-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="${LOG_PATTERN}" />
             <Policies>
                 <SizeBasedTriggeringPolicy size="19500KB" />

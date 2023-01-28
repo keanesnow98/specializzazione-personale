@@ -43,7 +43,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="41"/>
 				</textElement>
-				<text><![CDATA[Anagrafica Personale]]></text>
+				<text><![CDATA[Report per Turni]]></text>
 			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="180" height="52" uuid="bdfeb808-006d-48e5-99d4-b36080a10550"/>
@@ -60,7 +60,7 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<property name="com.jaspersoft.studio.layout"/>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="180" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="96cceac5-9496-4e82-bec3-dc93b19acb07"/>
+				<reportElement key="" mode="Opaque" x="210" y="0" width="200" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="96cceac5-9496-4e82-bec3-dc93b19acb07"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -70,7 +70,7 @@
 				<text><![CDATA[Nome]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="0" y="0" width="180" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="eb0eed6a-c1b3-4ded-944e-e62eae111eb6"/>
+				<reportElement key="" mode="Opaque" x="0" y="0" width="210" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="eb0eed6a-c1b3-4ded-944e-e62eae111eb6"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -80,7 +80,7 @@
 				<text><![CDATA[Cognome]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="330" y="0" width="240" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="eaba5916-e044-412a-a234-d2ae2f6096e2"/>
+				<reportElement key="" mode="Opaque" x="410" y="0" width="310" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="eaba5916-e044-412a-a234-d2ae2f6096e2"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -90,7 +90,7 @@
 				<text><![CDATA[Qualifica]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="570" y="0" width="60" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="405fd038-2584-4dfc-bbd7-993097c03cd4"/>
+				<reportElement key="" mode="Opaque" x="720" y="0" width="60" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="405fd038-2584-4dfc-bbd7-993097c03cd4"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -100,27 +100,7 @@
 				<text><![CDATA[Turno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="630" y="0" width="90" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="f96e9864-ed40-4cc1-9c1a-124b93e357e1"/>
-				<box>
-					<pen lineColor="#E9ECEF"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Ruolo]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="" mode="Opaque" x="720" y="0" width="170" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="0b261077-15f9-4212-85a3-77d363230fa2"/>
-				<box>
-					<pen lineColor="#E9ECEF"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Codice Fiscale]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="" mode="Opaque" x="890" y="0" width="200" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="73d092bc-debf-4fe6-99fe-9fa3c86600b7"/>
+				<reportElement key="" mode="Opaque" x="780" y="0" width="260" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="73d092bc-debf-4fe6-99fe-9fa3c86600b7"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -130,7 +110,7 @@
 				<text><![CDATA[Numero Telefonico]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="1090" y="0" width="220" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a">
+				<reportElement key="" mode="Opaque" x="1040" y="0" width="270" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box>
@@ -157,7 +137,7 @@
 		<band height="30" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="180" y="0" width="150" height="30" forecolor="#495057" uuid="084d5710-596e-4ed9-8a02-3746ebcf1291"/>
+				<reportElement x="210" y="0" width="200" height="30" forecolor="#495057" uuid="084d5710-596e-4ed9-8a02-3746ebcf1291"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -171,7 +151,7 @@
 				<textFieldExpression><![CDATA[$F{firstName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="180" height="30" forecolor="#495057" uuid="f4f87fea-7884-44e4-b7c0-02893b87e5cd"/>
+				<reportElement x="0" y="0" width="210" height="30" forecolor="#495057" uuid="f4f87fea-7884-44e4-b7c0-02893b87e5cd"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -185,7 +165,7 @@
 				<textFieldExpression><![CDATA[$F{lastName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="0" width="240" height="30" forecolor="#495057" uuid="a67b6152-6de5-4718-8f44-42469aa59244"/>
+				<reportElement x="410" y="0" width="310" height="30" forecolor="#495057" uuid="a67b6152-6de5-4718-8f44-42469aa59244"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -199,7 +179,7 @@
 				<textFieldExpression><![CDATA[$F{qualification}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="570" y="0" width="60" height="30" forecolor="#495057" uuid="4a0924b1-5701-4d16-8b01-2abf732c640f"/>
+				<reportElement x="720" y="0" width="60" height="30" forecolor="#495057" uuid="4a0924b1-5701-4d16-8b01-2abf732c640f"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -213,35 +193,7 @@
 				<textFieldExpression><![CDATA[$F{turno}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="630" y="0" width="90" height="30" forecolor="#495057" uuid="0e85677f-5528-44ee-8150-d5df0fe68e39"/>
-				<box>
-					<pen lineColor="#E9ECEF"/>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ruolo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="720" y="0" width="170" height="30" forecolor="#495057" uuid="f22c8d8c-a377-4af3-a93a-3ca210728928"/>
-				<box>
-					<pen lineColor="#E9ECEF"/>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{fiscalCode}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="890" y="0" width="200" height="30" forecolor="#495057" uuid="ce593d2b-04ce-4503-8ea3-bdc9c49398dc"/>
+				<reportElement x="780" y="0" width="260" height="30" forecolor="#495057" uuid="ce593d2b-04ce-4503-8ea3-bdc9c49398dc"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -255,7 +207,7 @@
 				<textFieldExpression><![CDATA[$F{phoneNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1090" y="0" width="220" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
+				<reportElement x="1040" y="0" width="270" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>

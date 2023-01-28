@@ -30,7 +30,7 @@ public class UserService {
     }
     
     //MAIL VALIDATION
-    private static final String EMAIL_PATTERN = "[A-Za-z]+[0-9]*\\.[A-Za-z]+[0-9]*@gmail\\.com"; //"[A-Za-z0-9]+\\.[A-Za-z0-9]+@gmail\\.com";
+    private static final String EMAIL_PATTERN = "[A-Za-z]+[0-9]*\\.[A-Za-z]+[0-9]*@gmail\\.it"; //"[A-Za-z0-9]+\\.[A-Za-z0-9]+@gmail\\.it";
     private static final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
     public static boolean isValidMail(final String email) {
         return emailPattern.matcher(email).matches();
@@ -62,7 +62,7 @@ public class UserService {
         
         //MAIL VALIDATION
         if (!isValidMail(email)) {
-        	return Flux.just(Response.Error("L'indirizzo email deve essere nel seguente formato: nome.cognome@gmail.com")); 
+        	return Flux.just(Response.Error("L'indirizzo email deve essere nel seguente formato: nome.cognome@gmail.it")); 
         }
         
         //PASSWORD VALIDATION

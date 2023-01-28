@@ -15,6 +15,12 @@
 
 	<ui:define name="implementation">
 	  	<style>
+	  		.grade-image {
+				/* width: 209px; */
+			    height: 150px;
+			    padding: 10px;
+			    box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+		  	}
 		  	#inputs .anagraphic-image {
 		  		width: 270px;
 			    height: 340px;
@@ -61,8 +67,8 @@
 	  					<p:graphicImage id="anagraphic-photo" value="#{imageBean.image}" styleClass="anagraphic-image">
 		            		<f:param id="photo-name" name="photo-name" value="#{userDetailsView.userDetails.photo}" />
 		            	</p:graphicImage>
-			        </p:column>
-
+		            </p:column>
+		            
 			        <p:column styleClass="ui-grid-col-6">
 			  			<h:panelGrid id="manage-anagraphic-content" columns="3" cellpadding="7" width="100%" styleClass="mb-3">
 			  				<p:outputPanel styleClass="ui-fluid">
@@ -155,7 +161,7 @@
 			                            <p:outputLabel for="contactEmail">Email</p:outputLabel>
 			                            <p:message for="contactEmail" display="icon"/>
 			                        	<p:inputText id="contactEmail" value="#{userDetailsView.userDetails.contactEmail}" disabled="true"
-			                        		style="text-transform: lowercase;" placeholder="nome.cognome@gmail.com">
+			                        		style="text-transform: lowercase;" placeholder="nome.cognome@gmail.it">
 			                        	</p:inputText>
 			                        </div>
 			                    </div>
@@ -185,6 +191,15 @@
 			        </p:column>
 			    </p:row>
 		    </p:panelGrid>
+		    
+		    <p:graphicImage id="anagraphic-photo2" value="#{imageBean.patchImage}" styleClass="grade-image" style="margin-left: 11px;">
+           		<f:param id="patch-photo" name="patch-photo" value="#{userDetailsView.userDetails.qualification}" />
+           	</p:graphicImage>
+           	
+   		    <p:graphicImage id="anagraphic-photo3" value="#{imageBean.gradeImage}" styleClass="grade-image" style="margin-left: 20px;">
+           		<f:param id="grade-photo" name="grade-photo" value="#{userDetailsView.userDetails.qualification}" />
+           	</p:graphicImage>
+           	
 		</h:form>
 	</ui:define>
 </ui:composition>

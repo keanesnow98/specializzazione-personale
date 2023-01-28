@@ -26,6 +26,11 @@
 
 	<ui:define name="implementation">
 	  	<style>
+	  		#inputs .grade-image {
+				/* width: 136px; */
+			    height: 87px;
+			    margin-top: 15px;
+		  	}
 		  	#inputs .anagraphic-image {
 		  		width: 270px;
 			    height: 340px;
@@ -79,7 +84,19 @@
 	  					<p:graphicImage id="anagraphic-photo" value="#{imageBean.image}" cache="false" styleClass="anagraphic-image">
 		            		<f:param id="photo-name" name="photo-name" value="#{anagraphicView.selectedAnagraphic.photo}" />
 		            	</p:graphicImage>
-			  			<p:commandButton value="Cambia Foto" process="@this" action="#{anagraphicView.clearImageFile}" oncomplete="PF('imageChangeDialog').show()" icon="pi pi-camera" styleClass="ui-button-success mt-3" />
+		            	
+		            	<p:commandButton value="Cambia Foto" process="@this" action="#{anagraphicView.clearImageFile}" oncomplete="PF('imageChangeDialog').show()" icon="pi pi-camera" styleClass="ui-button-success mt-3" />
+		            	
+		            	<div style="height: 85px;">
+			            	<p:graphicImage id="anagraphic-photo2" value="#{imageBean.patchImage}" styleClass="grade-image">
+			            		<f:param id="patch-photo" name="patch-photo" value="#{anagraphicView.selectedAnagraphic.qualification}" />
+			            	</p:graphicImage>
+			            	
+			            	<p:graphicImage id="anagraphic-photo3" value="#{imageBean.gradeImage}" styleClass="grade-image" style="margin-left: 5px;">
+			            		<f:param id="grade-photo" name="grade-photo" value="#{anagraphicView.selectedAnagraphic.qualification}" />
+			            	</p:graphicImage>
+		            	</div>
+		            	
 			        </p:column>
 
 			        <p:column>
@@ -123,6 +140,7 @@
 			                            <p:selectOneMenu id="qualification" value="#{anagraphicView.selectedAnagraphic.qualification}" required="true">
 			                            	<f:selectItem></f:selectItem>
 						                    <f:selectItems value="#{anagraphicView.qualificationNames}"/>
+						                    <p:ajax update=":inputs:anagraphic-photo2 :inputs:anagraphic-photo3" />
 						                </p:selectOneMenu>
 			                        </div>
 			                        <div class="field col col-12 xl:col-4">
@@ -180,7 +198,7 @@
 			                            <p:message for="contactEmail" display="icon"/>
 			                        	<p:inputText id="contactEmail" value="#{anagraphicView.selectedAnagraphic.contactEmail}" type="email"
 			                        		style="text-transform: lowercase;" onchange="this.value = this.value.toLowerCase();"
-			                        		placeholder="nome.cognome@gmail.com">
+			                        		placeholder="nome.cognome@gmail.it">
 			                        		<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
 						                    <f:validateLength minimum="2" />
 			                        	</p:inputText>
@@ -189,7 +207,7 @@
 			                    <div class="formgrid grid">
 				                    <div class="field col col-12">
 				                        <p:outputLabel for="note">Note</p:outputLabel>
-				                        <p:inputTextarea id="note" value="#{anagraphicView.selectedAnagraphic.note}" rows="5" autoResize="false" style="resize:none;" />
+				                        <p:inputTextarea id="note" value="#{anagraphicView.selectedAnagraphic.note}" rows="7" autoResize="false" style="resize:none;" />
 				                    </div>
 			                    </div>
 				            </p:outputPanel>
@@ -430,18 +448,18 @@
 		            	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
 		            		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 		            			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-		            				<p:ajax event="rowSelect" listener="#{anagraphicView.OnAnagraphicSelect}" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
+		            				<p:ajax event="rowSelect" listener="#{anagraphicView.OnAnagraphicSelect}" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations :inputs:anagraphic-photo2 :inputs:anagraphic-photo3" />
 		            			</sec:authorize>
 		            			<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-		            				<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content" />
+		            				<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:anagraphic-photo2 :inputs:anagraphic-photo3 :inputs:manage-anagraphic-content" />
 		            			</sec:authorize>
 		            		</sec:authorize>
 		            		<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 		            			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-		            				<p:ajax event="rowSelect" listener="#{anagraphicView.OnAnagraphicSelect}" update=":inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
+		            				<p:ajax event="rowSelect" listener="#{anagraphicView.OnAnagraphicSelect}" update=":inputs:anagraphic-photo :inputs:anagraphic-photo2 :inputs:anagraphic-photo3 :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
 		            			</sec:authorize>
 		            			<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-		            				<p:ajax event="rowSelect" update=":inputs:anagraphic-photo :inputs:manage-anagraphic-content" />
+		            				<p:ajax event="rowSelect" update=":inputs:anagraphic-photo :inputs:anagraphic-photo2 :inputs:anagraphic-photo3 :inputs:manage-anagraphic-content" />
 		            			</sec:authorize>
 		            		</sec:authorize>
 		            	</sec:authorize>

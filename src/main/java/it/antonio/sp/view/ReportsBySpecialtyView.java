@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import it.antonio.sp.entity.AnagraphicEntity;
 import it.antonio.sp.service.AnagraphicService;
 import it.antonio.sp.service.SpecialtyService;
+import org.apache.logging.log4j.LogManager;
 
 @ManagedBean
 @ViewScoped
@@ -115,18 +116,27 @@ public class ReportsBySpecialtyView {
 	public void OnExportXlsxButtonClicked() {
     	try {
     		anagraphicService.exportReportsBySpecialty("xlsx", selectedSpecialty);
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx exported to C:/exports"));
+    		String fileName = "ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx";
+    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
+    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
+    		//FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx exported to C:/anagraficavvf_config/exports"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
     	} catch (Exception e) {
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx"));
+			LogManager.getLogger().info("Error in export ReportBySpecialty XLSX: " + e);
     	}
     }
 	
 	public void OnExportPdfButtonClicked() {
     	try {
 	    	anagraphicService.exportReportsBySpecialty("pdf", selectedSpecialty);
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf exported to C:/exports"));
+	    	String fileName = "ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf";
+    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
+    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
 	    } catch (Exception e) {
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf"));
-		}
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf"));
+			LogManager.getLogger().info("Error in export ReportBySpecialty PDF: " + e);
+	    }
     }
 }

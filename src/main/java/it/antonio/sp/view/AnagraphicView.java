@@ -30,6 +30,7 @@ import it.antonio.sp.entity.AnagraphicEntity.SpecialtyExpiration;
 import it.antonio.sp.service.AnagraphicService;
 import it.antonio.sp.service.QualificationService;
 import it.antonio.sp.service.SpecialtyService;
+import org.apache.logging.log4j.LogManager;
 
 @ManagedBean
 @ViewScoped
@@ -138,12 +139,12 @@ public class AnagraphicView {
         }
         
         String photoName = selectedAnagraphic.getPhoto(), newPhotoName = photoName;
-		if (Files.notExists(Paths.get(photoName.startsWith("sp-temp-") ? "C:/uploads/temp" : "C:/uploads/photo", photoName)))
+		if (Files.notExists(Paths.get(photoName.startsWith("sp-temp-") ? "C:/anagraficavvf_config/temp" : "C:/anagraficavvf_config/photo", photoName)))
 			newPhotoName = "default.png";
 		if (photoName.startsWith("sp-temp-")) {
 	        try {
 	        	newPhotoName = UUID.randomUUID().toString().replace("-", "") + ".png";
-	        	Files.move(Paths.get("C:/uploads/temp/", photoName), Paths.get("C:/uploads/photo/", newPhotoName));
+	        	Files.move(Paths.get("C:/anagraficavvf_config/temp", photoName), Paths.get("C:/anagraficavvf_config/photo/", newPhotoName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -237,7 +238,7 @@ public class AnagraphicView {
             BufferedImage dest = ImageIO.read(new ByteArrayInputStream(imageFile.getContent()));
 
             String filename = "sp-temp";
-            Path file = Files.createFile(Paths.get("C:/uploads/temp", filename + "-" + UUID.randomUUID().toString().replace("-", "") + ".png"));
+            Path file = Files.createFile(Paths.get("C:/anagraficavvf_config/temp", filename + "-" + UUID.randomUUID().toString().replace("-", "") + ".png"));
             ImageIO.write(dest, "png", file.toFile());
             
             if (selectedAnagraphic.getPhoto().equals("default.png"))
@@ -256,18 +257,20 @@ public class AnagraphicView {
     public void OnExportXlsxButtonClicked() {
     	try {
     		anagraphicService.exportAnagraphicVVF("xlsx");
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "AnagraphicVVF_XLSX.xlsx exported to C:/exports"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "AnagraphicVVF_XLSX.xlsx exported to C:/anagraficavvf_config/exports"));
     	} catch (Exception e) {
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/AnagraphicVVF_XLSX.xlsx"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/AnagraphicVVF_XLSX.xlsx"));
+    		LogManager.getLogger().error("Error in print .XLSX file for anagraphic VVF: " + e);
     	}
     }
     
     public void OnExportPdfButtonClicked() {
     	try {
 	    	anagraphicService.exportAnagraphicVVF("pdf");
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "AnagraphicVVF_PDF.pdf exported to C:/exports"));
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "AnagraphicVVF_PDF.pdf exported to C:/anagraficavvf_config/exports"));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/AnagraphicVVF_PDF.pdf"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/AnagraphicVVF_PDF.pdf"));
+    		LogManager.getLogger().error("Error in print .PDF file for anagraphic VVF: " + e);
 		}
     }
 }

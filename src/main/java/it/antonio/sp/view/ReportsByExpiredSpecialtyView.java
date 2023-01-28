@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import it.antonio.sp.entity.AnagraphicEntity;
@@ -37,18 +38,26 @@ public class ReportsByExpiredSpecialtyView {
 	public void OnExportXlsxButtonClicked() {
     	try {
     		anagraphicService.exportReportsBySpecialtyExpired("xlsx");
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialtyExpired_XLSX.xlsx exported to C:/exports"));
+    		String fileName = "ReportsBySpecialtyExpired_XLSX.xlsx";
+    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
+    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
     	} catch (Exception e) {
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsBySpecialtyExpired_XLSX.xlsx"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsBySpecialtyExpired_XLSX.xlsx"));
+    		LogManager.getLogger().info("Error in export ReportByExpiredSpecialty PDF: " + e);
     	}
     }
     
     public void OnExportPdfButtonClicked() {
     	try {
 	    	anagraphicService.exportReportsBySpecialtyExpired("pdf");
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialtyExpired_PDF.pdf exported to C:/exports"));
+	    	String fileName = "ReportsBySpecialtyExpired_PDF.pdf";
+	    	String basePath = "C:/anagraficavvf_config/exports/" + fileName;
+    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
 	    } catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsBySpecialtyExpired_PDF.pdf"));
-		}
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsBySpecialtyExpired_PDF.pdf"));
+			LogManager.getLogger().info("Error in export ReportByExpiredSpecialty PDF: " + e);
+	    }
     }	
 }

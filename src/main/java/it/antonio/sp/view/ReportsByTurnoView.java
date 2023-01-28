@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import it.antonio.sp.entity.AnagraphicEntity;
@@ -91,18 +92,37 @@ public class ReportsByTurnoView {
 	public void OnExportXlsxButtonClicked() {
     	try {
     		anagraphicService.exportReportsByTurno("xlsx");
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsByTurno_XLSX.xlsx exported to C:/exports"));
+    		String fileName = "ReportsByTurno_XLSX.xlsx";
+    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
+    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
     	} catch (Exception e) {
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsByTurno_XLSX.xlsx"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsByTurno_XLSX.xlsx"));
+			LogManager.getLogger().error("Error in export ReportByTurno PDF: " + e);
     	}
     }
     
     public void OnExportPdfButtonClicked() {
     	try {
 	    	anagraphicService.exportReportsByTurno("pdf");
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsByTurno_PDF.pdf exported to C:/exports"));
+	    	String fileName = "ReportsByTurno_PDF.pdf";
+    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
+    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
 	    } catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/exports/ReportsByTurno_PDF.pdf"));
-		}
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsByTurno_PDF.pdf"));
+			LogManager.getLogger().error("Error in export ReportByTurno PDF: " + e);
+	    }
     }
+    
+    public void wsrest() {
+    	try {
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "TEST"));
+			LogManager.getLogger().info("Download ReportByTurno PDF");
+    	} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "TEST"));
+			LogManager.getLogger().error("Error in export ReportByTurno PDF: " + e);
+	    }
+    }
+    
 }

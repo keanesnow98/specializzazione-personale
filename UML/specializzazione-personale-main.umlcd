@@ -3116,7 +3116,7 @@
       <modelElement href="specializzazione-personale-main.uml#_xdV4IX_QEe2Gp_9EwCiU5Q"/>
     </stereotypes>
     <visibility xmi:id="_htT4fX_REe2Gp_9EwCiU5Q" label="+"/>
-    <attributes xmi:id="_htT4fn_REe2Gp_9EwCiU5Q" defaultValue="&quot;[A-Za-z]+[0-9]*\\.[A-Za-z]+[0-9]*@gmail\\.com&quot;" name="EMAIL_PATTERN" staticAttribute="true">
+    <attributes xmi:id="_htT4fn_REe2Gp_9EwCiU5Q" defaultValue="&quot;[A-Za-z]+[0-9]*\\.[A-Za-z]+[0-9]*@gmail\\.it&quot;" name="EMAIL_PATTERN" staticAttribute="true">
       <modelElement href="specializzazione-personale-main.uml#_xjBCU3_QEe2Gp_9EwCiU5Q"/>
       <stereotypes xmi:id="_htT4f3_REe2Gp_9EwCiU5Q" name="StyledElement">
         <modelElement href="specializzazione-personale-main.uml#_xjBCVX_QEe2Gp_9EwCiU5Q"/>

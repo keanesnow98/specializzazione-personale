@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="anagraphic" pageWidth="1292" pageHeight="595" orientation="Landscape" columnWidth="1252" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cde55ae3-e971-44f7-a788-a99392b4d2b0">
+<!-- Created with Jaspersoft Studio version 6.20.0.final utlizzo versione della libreria JasperReports6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="anagraphic" pageWidth="1700" pageHeight="1000" orientation="Landscape" columnWidth="1660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cde55ae3-e971-44f7-a788-a99392b4d2b0">
 	<subDataset name="Dataset1" uuid="10d902cf-201e-492d-b0fe-e37887f7c5ef">
-		<field name="lastName" class="java.lang.String"></field>
-		<field name="firstName" class="java.lang.String"></field>
-		<field name="qualification" class="java.lang.String"></field>
-		<field name="turno" class="java.lang.String"></field>
-		<field name="ruolo" class="java.lang.Integer"></field>
-		<field name="fiscalCode" class="java.lang.String"></field>
-		<field name="phoneNumber" class="java.lang.String"></field>
-		<field name="contactEmail" class="java.lang.String"></field>
-		<field name="specialty" class="java.lang.String"></field>
-		<field name="expiredDate" class="java.lang.String"></field>
+		<field name="lastName" class="java.lang.String"/>
+		<field name="firstName" class="java.lang.String"/>
+		<field name="qualification" class="java.lang.String"/>
+		<field name="turno" class="java.lang.String"/>
+		<field name="ruolo" class="java.lang.Integer"/>
+		<field name="fiscalCode" class="java.lang.String"/>
+		<field name="phoneNumber" class="java.lang.String"/>
+		<field name="contactEmail" class="java.lang.String"/>
+		<field name="specialty" class="java.lang.String"/>
+		<field name="expiredDate" class="java.lang.String"/>
 	</subDataset>
-	<field name="lastName" class="java.lang.String"></field>
-	<field name="firstName" class="java.lang.String"></field>
-	<field name="qualification" class="java.lang.String"></field>
-	<field name="turno" class="java.lang.String"></field>
-	<field name="ruolo" class="java.lang.Integer"></field>
-	<field name="fiscalCode" class="java.lang.String"></field>
-	<field name="phoneNumber" class="java.lang.String"></field>
-	<field name="contactEmail" class="java.lang.String"></field>
-	<field name="photo" class="java.lang.String"></field>
-	<field name="specialty" class="java.lang.String"></field>
-	<field name="expiredDate" class="java.lang.String"></field>
+	<field name="lastName" class="java.lang.String"/>
+	<field name="firstName" class="java.lang.String"/>
+	<field name="qualification" class="java.lang.String"/>
+	<field name="turno" class="java.lang.String"/>
+	<field name="ruolo" class="java.lang.Integer"/>
+	<field name="fiscalCode" class="java.lang.String"/>
+	<field name="phoneNumber" class="java.lang.String"/>
+	<field name="contactEmail" class="java.lang.String"/>
+	<field name="photo" class="java.lang.String"/>
+	<field name="specialty" class="java.lang.String"/>
+	<field name="expiredDate" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="53" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="1250" height="79" forecolor="#FF05EA" uuid="ad06e338-8d36-4ae2-b542-675e2c81ce51"/>
+				<reportElement x="180" y="0" width="1300" height="53" forecolor="#FF0D15" uuid="ad06e338-8d36-4ae2-b542-675e2c81ce51"/>
+				<box>
+					<pen lineColor="#FF0D0D"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Colonna MT" size="41"/>
+					<font fontName="Times New Roman" size="41"/>
 				</textElement>
-				<text><![CDATA[Anagraphic VVF Reports]]></text>
+				<text><![CDATA[Specializzazioni Scadute Comando]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="180" height="53" uuid="4777c922-b15b-4416-9c56-5c74b5f591a2"/>
+				<imageExpression><![CDATA["C:/anagraficavvf_config/loghigradi/logo-black.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="1480" y="0" width="180" height="53" uuid="cf719faa-5ea6-4c1a-8424-9151eb9bd002"/>
+				<imageExpression><![CDATA["C:/anagraficavvf_config/loghigradi/logo-black.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<columnHeader>
@@ -43,7 +54,7 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<property name="com.jaspersoft.studio.layout"/>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="0" y="0" width="80" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="96cceac5-9496-4e82-bec3-dc93b19acb07"/>
+				<reportElement key="" mode="Opaque" x="150" y="0" width="170" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="96cceac5-9496-4e82-bec3-dc93b19acb07"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -53,17 +64,17 @@
 				<text><![CDATA[Nome]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="80" y="0" width="80" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="eb0eed6a-c1b3-4ded-944e-e62eae111eb6"/>
+				<reportElement key="" mode="Opaque" x="0" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="eb0eed6a-c1b3-4ded-944e-e62eae111eb6"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Cogname]]></text>
+				<text><![CDATA[Cognome]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="160" y="0" width="140" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="eaba5916-e044-412a-a234-d2ae2f6096e2"/>
+				<reportElement key="" mode="Opaque" x="320" y="0" width="220" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="eaba5916-e044-412a-a234-d2ae2f6096e2"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -73,7 +84,7 @@
 				<text><![CDATA[Qualifica]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="300" y="0" width="60" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="405fd038-2584-4dfc-bbd7-993097c03cd4"/>
+				<reportElement key="" mode="Opaque" x="540" y="0" width="60" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="405fd038-2584-4dfc-bbd7-993097c03cd4"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -83,7 +94,7 @@
 				<text><![CDATA[Turno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="360" y="0" width="60" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="f96e9864-ed40-4cc1-9c1a-124b93e357e1"/>
+				<reportElement key="" mode="Opaque" x="600" y="0" width="60" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="f96e9864-ed40-4cc1-9c1a-124b93e357e1"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -93,7 +104,7 @@
 				<text><![CDATA[Ruolo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="420" y="0" width="110" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="0b261077-15f9-4212-85a3-77d363230fa2"/>
+				<reportElement key="" mode="Opaque" x="660" y="0" width="140" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="0b261077-15f9-4212-85a3-77d363230fa2"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -103,17 +114,17 @@
 				<text><![CDATA[Codice Fiscale]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="530" y="0" width="120" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="73d092bc-debf-4fe6-99fe-9fa3c86600b7"/>
+				<reportElement key="" mode="Opaque" x="800" y="0" width="190" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="73d092bc-debf-4fe6-99fe-9fa3c86600b7"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Numero Telefonica]]></text>
+				<text><![CDATA[Numero Telefonico]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="650" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a"/>
+				<reportElement key="" mode="Opaque" x="990" y="0" width="210" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -123,7 +134,7 @@
 				<text><![CDATA[Email]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="800" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="1ad68f8f-91bd-4af8-bc7a-f8c1927cb75e"/>
+				<reportElement key="" mode="Opaque" x="1200" y="0" width="100" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="1ad68f8f-91bd-4af8-bc7a-f8c1927cb75e"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
@@ -133,24 +144,24 @@
 				<text><![CDATA[Foto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="950" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a"/>
+				<reportElement key="" mode="Opaque" x="1300" y="0" width="210" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Tipo]]></text>
+				<text><![CDATA[Specializzazione]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" mode="Opaque" x="1100" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a"/>
+				<reportElement key="" mode="Opaque" x="1510" y="0" width="150" height="48" forecolor="#495057" backcolor="#F8F9FA" uuid="2831aa8b-45db-4931-b825-d99973f7b40a"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Expired Date]]></text>
+				<text><![CDATA[Data di conseguimento]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -158,7 +169,7 @@
 		<band height="30" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="0" y="0" width="80" height="30" forecolor="#495057" uuid="084d5710-596e-4ed9-8a02-3746ebcf1291"/>
+				<reportElement x="150" y="0" width="170" height="30" forecolor="#495057" uuid="084d5710-596e-4ed9-8a02-3746ebcf1291"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -172,7 +183,7 @@
 				<textFieldExpression><![CDATA[$F{firstName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="80" y="0" width="80" height="30" forecolor="#495057" uuid="f4f87fea-7884-44e4-b7c0-02893b87e5cd"/>
+				<reportElement x="0" y="0" width="150" height="30" forecolor="#495057" uuid="f4f87fea-7884-44e4-b7c0-02893b87e5cd"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -186,7 +197,7 @@
 				<textFieldExpression><![CDATA[$F{lastName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="160" y="0" width="140" height="30" forecolor="#495057" uuid="a67b6152-6de5-4718-8f44-42469aa59244"/>
+				<reportElement x="320" y="0" width="220" height="30" forecolor="#495057" uuid="a67b6152-6de5-4718-8f44-42469aa59244"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -200,7 +211,7 @@
 				<textFieldExpression><![CDATA[$F{qualification}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="300" y="0" width="60" height="30" forecolor="#495057" uuid="4a0924b1-5701-4d16-8b01-2abf732c640f"/>
+				<reportElement x="540" y="0" width="60" height="30" forecolor="#495057" uuid="4a0924b1-5701-4d16-8b01-2abf732c640f"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -214,7 +225,7 @@
 				<textFieldExpression><![CDATA[$F{turno}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="360" y="0" width="60" height="30" forecolor="#495057" uuid="0e85677f-5528-44ee-8150-d5df0fe68e39"/>
+				<reportElement x="600" y="0" width="60" height="30" forecolor="#495057" uuid="0e85677f-5528-44ee-8150-d5df0fe68e39"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -228,7 +239,7 @@
 				<textFieldExpression><![CDATA[$F{ruolo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="420" y="0" width="110" height="30" forecolor="#495057" uuid="f22c8d8c-a377-4af3-a93a-3ca210728928"/>
+				<reportElement x="660" y="0" width="140" height="30" forecolor="#495057" uuid="f22c8d8c-a377-4af3-a93a-3ca210728928"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -242,7 +253,7 @@
 				<textFieldExpression><![CDATA[$F{fiscalCode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="530" y="0" width="120" height="30" forecolor="#495057" uuid="ce593d2b-04ce-4503-8ea3-bdc9c49398dc"/>
+				<reportElement x="800" y="0" width="190" height="30" forecolor="#495057" uuid="ce593d2b-04ce-4503-8ea3-bdc9c49398dc"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -256,7 +267,7 @@
 				<textFieldExpression><![CDATA[$F{phoneNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="650" y="0" width="150" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
+				<reportElement x="990" y="0" width="210" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -270,7 +281,7 @@
 				<textFieldExpression><![CDATA[$F{contactEmail}]]></textFieldExpression>
 			</textField>
 			<image hAlign="Center" vAlign="Middle">
-				<reportElement x="800" y="0" width="150" height="30" uuid="2784c12a-bec2-403c-a249-57ee4cc62479"/>
+				<reportElement x="1200" y="0" width="100" height="30" uuid="2784c12a-bec2-403c-a249-57ee4cc62479"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -278,10 +289,10 @@
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<imageExpression><![CDATA["C:/uploads/photo/" + $F{photo}]]></imageExpression>
+				<imageExpression><![CDATA["C:/anagraficavvf_config/photo/" + $F{photo}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="950" y="0" width="150" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
+				<reportElement x="1300" y="0" width="210" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>
@@ -295,7 +306,7 @@
 				<textFieldExpression><![CDATA[$F{specialty}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1100" y="0" width="150" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
+				<reportElement x="1510" y="0" width="150" height="30" forecolor="#495057" uuid="61ff6794-7642-4855-a511-2545a92c9beb"/>
 				<box>
 					<pen lineColor="#E9ECEF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E9ECEF"/>

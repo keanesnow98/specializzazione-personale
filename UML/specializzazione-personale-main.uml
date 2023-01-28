@@ -43,7 +43,7 @@
                 <language>java</language>
                 <body>String photoName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(&quot;photo-name&quot;);
  	
- 	if (Files.notExists(Paths.get(photoName.startsWith(&quot;sp-temp-&quot;) ? &quot;C:/uploads/temp&quot; : &quot;C:/uploads/photo&quot;, photoName)))
+ 	if (Files.notExists(Paths.get(photoName.startsWith(&quot;sp-temp-&quot;) ? &quot;C:/anagraficavvf_config/temp&quot; : &quot;C:/anagraficavvf_config/photo&quot;, photoName)))
  		photoName = &quot;default.png&quot;;
  	
  	final String finalPhotoName = photoName;
@@ -52,7 +52,7 @@
 	        .contentType(&quot;image/png&quot;)
 	        .stream(() -> {
 	            try {
-	            	return new FileInputStream(new File(finalPhotoName.startsWith(&quot;sp-temp-&quot;) ? &quot;C:/uploads/temp&quot; : &quot;C:/uploads/photo&quot;, finalPhotoName));
+	            	return new FileInputStream(new File(finalPhotoName.startsWith(&quot;sp-temp-&quot;) ? &quot;C:/anagraficavvf_config/temp&quot; : &quot;C:/anagraficavvf_config/photo&quot;, finalPhotoName));
 	            } catch (Exception e) {
 	                e.printStackTrace();
 	                return null;
@@ -866,7 +866,7 @@
             <packagedElement xmi:type="uml:Class" xmi:id="_xdS00H_QEe2Gp_9EwCiU5Q" name="UserService">
               <ownedAttribute xmi:id="_xjBCU3_QEe2Gp_9EwCiU5Q" name="EMAIL_PATTERN" visibility="private" isLeaf="true" isStatic="true" isReadOnly="true">
                 <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-                <defaultValue xmi:type="uml:LiteralString" xmi:id="_xjBCVH_QEe2Gp_9EwCiU5Q" value="&quot;[A-Za-z]+[0-9]*\\.[A-Za-z]+[0-9]*@gmail\\.com&quot;"/>
+                <defaultValue xmi:type="uml:LiteralString" xmi:id="_xjBCVH_QEe2Gp_9EwCiU5Q" value="&quot;[A-Za-z]+[0-9]*\\.[A-Za-z]+[0-9]*@gmail\\.it&quot;"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_xjBCVn_QEe2Gp_9EwCiU5Q" name="emailPattern" visibility="private" isLeaf="true" isStatic="true" type="_xiA8wX_QEe2Gp_9EwCiU5Q" isReadOnly="true" association="_xjrwtH_QEe2Gp_9EwCiU5Q">
                 <defaultValue xmi:type="uml:LiteralString" xmi:id="_xjBpYH_QEe2Gp_9EwCiU5Q" value="Pattern.compile(EMAIL_PATTERN)"/>
@@ -944,7 +944,7 @@
      
      //MAIL VALIDATION
      if (!isValidMail(email)) {
-     	return Flux.just(Response.Error(&quot;L'indirizzo email deve essere nel seguente formato: nome.cognome@gmail.com&quot;)); 
+     	return Flux.just(Response.Error(&quot;L'indirizzo email deve essere nel seguente formato: nome.cognome@gmail.it&quot;)); 
      }
      
      //PASSWORD VALIDATION
@@ -2387,12 +2387,12 @@
      }
      
      String photoName = selectedAnagraphic.getPhoto(), newPhotoName = photoName;
-		if (Files.notExists(Paths.get(photoName.startsWith(&quot;sp-temp-&quot;) ? &quot;C:/uploads/temp&quot; : &quot;C:/uploads/photo&quot;, photoName)))
+		if (Files.notExists(Paths.get(photoName.startsWith(&quot;sp-temp-&quot;) ? &quot;C:/anagraficavvf_config/temp&quot; : &quot;C:/anagraficavvf_config/photo&quot;, photoName)))
 			newPhotoName = &quot;default.png&quot;;
 		if (photoName.startsWith(&quot;sp-temp-&quot;)) {
 	        try {
 	        	newPhotoName = UUID.randomUUID().toString().replace(&quot;-&quot;, &quot;&quot;) + &quot;.png&quot;;
-	        	Files.move(Paths.get(&quot;C:/uploads/temp/&quot;, photoName), Paths.get(&quot;C:/uploads/photo/&quot;, newPhotoName));
+	        	Files.move(Paths.get(&quot;C:/anagraficavvf_config/log/&quot;, photoName), Paths.get(&quot;C:/anagraficavvf_config/photo/&quot;, newPhotoName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -2495,7 +2495,7 @@
          BufferedImage dest = ImageIO.read(new ByteArrayInputStream(imageFile.getContent()));
 
          String filename = &quot;sp-temp&quot;;
-         Path file = Files.createFile(Paths.get(&quot;C:/uploads/temp&quot;, filename + &quot;-&quot; + UUID.randomUUID().toString().replace(&quot;-&quot;, &quot;&quot;) + &quot;.png&quot;));
+         Path file = Files.createFile(Paths.get(&quot;C:/anagraficavvf_config/log&quot;, filename + &quot;-&quot; + UUID.randomUUID().toString().replace(&quot;-&quot;, &quot;&quot;) + &quot;.png&quot;));
          ImageIO.write(dest, &quot;png&quot;, file.toFile());
          
          if (selectedAnagraphic.getPhoto().equals(&quot;default.png&quot;))

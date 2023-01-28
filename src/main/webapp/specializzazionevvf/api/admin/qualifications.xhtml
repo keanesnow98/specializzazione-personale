@@ -10,6 +10,14 @@
     </ui:define>
 
 	<ui:define name="implementation">
+	
+	  	<style>
+		 	.grade-image {
+		  		width: 209px;
+			    height: 140px;
+		  	}
+	  	</style>
+	  	
 		<h:form id="form">
 			<p:toolbar styleClass="mb-3">
 	            <p:toolbarGroup>
@@ -35,6 +43,19 @@
 		                    </f:facet>
 		                </p:cellEditor>
 		            </p:column>
+		            
+		            <p:column>
+		            	<p:graphicImage id="anagraphic-photo2" value="#{imageBean.gradeImage}" styleClass="grade-image">
+		            		<f:param id="grade-photo" name="grade-photo" value="#{qualification.qualificationName}" />
+		            	</p:graphicImage>
+		        	</p:column>
+		        	
+		        	<p:column>
+		            	<p:graphicImage id="anagraphic-photo3" value="#{imageBean.patchImage}" styleClass="grade-image">
+		            		<f:param id="patch-photo" name="patch-photo" value="#{qualification.qualificationName}" />
+		            	</p:graphicImage>
+		        	</p:column>
+		        	
 		        </p:dataTable>
 		    </div>
 		</h:form>
