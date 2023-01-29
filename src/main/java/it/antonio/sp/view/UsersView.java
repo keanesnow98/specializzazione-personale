@@ -59,7 +59,8 @@ public class UsersView {
 	}
 	
 	public void setSelectedUserRoles(List<String> rolesTarget) {
-		List<String> rolesSource = this.rolesSource;
+		List<String> rolesSource = new ArrayList<String>();
+		this.rolesSource.forEach(t -> rolesSource.add(t));
 		rolesSource.removeAll(rolesTarget);
 		selectedUserRoles = new DualListModel<String>(rolesSource, rolesTarget);
 	}

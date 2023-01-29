@@ -11,6 +11,8 @@ public class WelcomePageRedirectConfig implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/")
 			.setViewName("forward:/specializzazionevvf/landing.xhtml");
+		registry.addViewController("/specializzazionevvf")
+		.setViewName("forward:/specializzazionevvf/landing.xhtml");
 		registry.addViewController("/specializzazionevvf/")
 			.setViewName("forward:/specializzazionevvf/landing.xhtml");
 		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);

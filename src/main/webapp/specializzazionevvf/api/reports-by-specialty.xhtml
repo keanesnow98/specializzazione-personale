@@ -21,8 +21,8 @@
 	                </p:selectOneMenu>
 			    </div>
 			    <div>
-			    	<p:commandButton value="XLSX" icon="pi pi-file-excel" styleClass="ui-button ui-button-info mr-2 mb-2" update=":form:messages" actionListener="#{reportsBySpecialtyView.OnExportXlsxButtonClicked}" />
-					<p:commandButton value="PDF" icon="pi pi-file-pdf" styleClass="ui-button ui-button-info mr-2 mb-2" update=":form:messages" actionListener="#{reportsBySpecialtyView.OnExportPdfButtonClicked}" />
+			    	<p:commandButton value="XLSX" icon="pi pi-file-excel" styleClass="ui-button ui-button-info mr-2 mb-2" update=":form:messages" actionListener="#{reportsBySpecialtyView.OnExportXlsxButtonClicked}" ajax="false" />
+					<p:commandButton value="PDF" icon="pi pi-file-pdf" styleClass="ui-button ui-button-info mr-2 mb-2" update=":form:messages" actionListener="#{reportsBySpecialtyView.OnExportPdfButtonClicked}" ajax="false" />
 			    </div>
 			</div>
 			

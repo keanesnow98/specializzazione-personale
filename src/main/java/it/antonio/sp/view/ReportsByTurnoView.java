@@ -1,10 +1,15 @@
 package it.antonio.sp.view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
@@ -14,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import it.antonio.sp.entity.AnagraphicEntity;
 import it.antonio.sp.service.AnagraphicService;
 import it.antonio.sp.service.SpecialtyService;
+import it.antonio.sp.util.Constants;
 
 @ManagedBean
 @ViewScoped
@@ -91,38 +97,75 @@ public class ReportsByTurnoView {
 	
 	public void OnExportXlsxButtonClicked() {
     	try {
-    		anagraphicService.exportReportsByTurno("xlsx");
-    		String fileName = "ReportsByTurno_XLSX.xlsx";
-    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
-    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
+    		File file = anagraphicService.exportReportsByTurno("xlsx");
+    		
+    		FacesContext facesContext = FacesContext.getCurrentInstance();
+    	    ExternalContext ec = facesContext.getExternalContext();
+
+    	    ec.responseReset();
+    	    ec.setResponseContentType(Constants.CONTENT_TYPE_EXCEL);
+    	    ec.setResponseContentLength((int) file.length());
+    	    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"ReportsByTurno_XLSX.xlsx\"");
+
+    	    OutputStream responseOutputStream = ec.getResponseOutputStream();
+    	    
+    	    InputStream fileInputStream = new FileInputStream(file);
+    	    
+    	    byte[] bytesBuffer = new byte[2048];
+    	    int bytesRead;
+    	    while ((bytesRead = fileInputStream.read(bytesBuffer)) > 0)
+    	        responseOutputStream.write(bytesBuffer, 0, bytesRead);
+
+    	    responseOutputStream.flush();
+
+    	    fileInputStream.close();
+    	    responseOutputStream.close();
+
+    	    facesContext.responseComplete();
+    	    
+    	    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsByTurno_XLSX.xlsx exported"));
     	} catch (Exception e) {
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsByTurno_XLSX.xlsx"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while downloading ReportsByTurno_XLSX.xlsx"));
 			LogManager.getLogger().error("Error in export ReportByTurno PDF: " + e);
     	}
     }
     
     public void OnExportPdfButtonClicked() {
     	try {
-	    	anagraphicService.exportReportsByTurno("pdf");
-	    	String fileName = "ReportsByTurno_PDF.pdf";
-    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
-    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
+	    	File file = anagraphicService.exportReportsByTurno("pdf");
+	    	
+	    	FacesContext facesContext = FacesContext.getCurrentInstance();
+    	    ExternalContext ec = facesContext.getExternalContext();
+
+    	    ec.responseReset();
+    	    ec.setResponseContentType(Constants.CONTENT_TYPE_PDF);
+    	    ec.setResponseContentLength((int) file.length());
+    	    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"ReportsByTurno_PDF.pdf\"");
+
+    	    OutputStream responseOutputStream = ec.getResponseOutputStream();
+    	    
+    	    InputStream fileInputStream = new FileInputStream(file);
+    	    
+    	    byte[] bytesBuffer = new byte[2048];
+    	    int bytesRead;
+    	    while ((bytesRead = fileInputStream.read(bytesBuffer)) > 0)
+    	        responseOutputStream.write(bytesBuffer, 0, bytesRead);
+
+    	    responseOutputStream.flush();
+
+    	    fileInputStream.close();
+    	    responseOutputStream.close();
+
+    	    facesContext.responseComplete();
+    	    
+    	    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsByTurno_PDF.pdf exported"));
 	    } catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsByTurno_PDF.pdf"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while downloading ReportsByTurno_PDF.pdf"));
 			LogManager.getLogger().error("Error in export ReportByTurno PDF: " + e);
 	    }
     }
     
     public void wsrest() {
-    	try {
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "TEST"));
-			LogManager.getLogger().info("Download ReportByTurno PDF");
-    	} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "TEST"));
-			LogManager.getLogger().error("Error in export ReportByTurno PDF: " + e);
-	    }
+	    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "TEST"));
     }
-    
 }

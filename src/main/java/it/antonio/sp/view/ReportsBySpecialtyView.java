@@ -1,10 +1,15 @@
 package it.antonio.sp.view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
@@ -15,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import it.antonio.sp.entity.AnagraphicEntity;
 import it.antonio.sp.service.AnagraphicService;
 import it.antonio.sp.service.SpecialtyService;
+import it.antonio.sp.util.Constants;
+
 import org.apache.logging.log4j.LogManager;
 
 @ManagedBean
@@ -114,28 +121,75 @@ public class ReportsBySpecialtyView {
 	}
 	
 	public void OnExportXlsxButtonClicked() {
+		final String filename = "ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx";
+		
     	try {
-    		anagraphicService.exportReportsBySpecialty("xlsx", selectedSpecialty);
-    		String fileName = "ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx";
-    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
-    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
-    		//FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx exported to C:/anagraficavvf_config/exports"));
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
+    		File file = anagraphicService.exportReportsBySpecialty("xlsx", selectedSpecialty);
+    		
+    		FacesContext facesContext = FacesContext.getCurrentInstance();
+    	    ExternalContext ec = facesContext.getExternalContext();
+
+    	    ec.responseReset();
+    	    ec.setResponseContentType(Constants.CONTENT_TYPE_EXCEL);
+    	    ec.setResponseContentLength((int) file.length());
+    	    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+
+    	    OutputStream responseOutputStream = ec.getResponseOutputStream();
+    	    
+    	    InputStream fileInputStream = new FileInputStream(file);
+    	    
+    	    byte[] bytesBuffer = new byte[2048];
+    	    int bytesRead;
+    	    while ((bytesRead = fileInputStream.read(bytesBuffer)) > 0)
+    	        responseOutputStream.write(bytesBuffer, 0, bytesRead);
+
+    	    responseOutputStream.flush();
+
+    	    fileInputStream.close();
+    	    responseOutputStream.close();
+
+    	    facesContext.responseComplete();
+    	    
+    	    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", filename + " exported"));
     	} catch (Exception e) {
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsBySpecialty(" + selectedSpecialty + ")_XLSX.xlsx"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while downloading " + filename));
 			LogManager.getLogger().info("Error in export ReportBySpecialty XLSX: " + e);
     	}
     }
 	
 	public void OnExportPdfButtonClicked() {
+		final String filename = "ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf";
+		
     	try {
-	    	anagraphicService.exportReportsBySpecialty("pdf", selectedSpecialty);
-	    	String fileName = "ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf";
-    		String basePath = "C:/anagraficavvf_config/exports/" + fileName;
-    		String basePathURL ="<a href=\"" + basePath + "\">" + fileName + "</a>";
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", basePathURL));
+	    	File file = anagraphicService.exportReportsBySpecialty("pdf", selectedSpecialty);
+	    	
+	    	FacesContext facesContext = FacesContext.getCurrentInstance();
+    	    ExternalContext ec = facesContext.getExternalContext();
+
+    	    ec.responseReset();
+    	    ec.setResponseContentType(Constants.CONTENT_TYPE_PDF);
+    	    ec.setResponseContentLength((int) file.length());
+    	    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+
+    	    OutputStream responseOutputStream = ec.getResponseOutputStream();
+    	    
+    	    InputStream fileInputStream = new FileInputStream(file);
+    	    
+    	    byte[] bytesBuffer = new byte[2048];
+    	    int bytesRead;
+    	    while ((bytesRead = fileInputStream.read(bytesBuffer)) > 0)
+    	        responseOutputStream.write(bytesBuffer, 0, bytesRead);
+
+    	    responseOutputStream.flush();
+
+    	    fileInputStream.close();
+    	    responseOutputStream.close();
+
+    	    facesContext.responseComplete();
+    	    
+    	    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", filename + " exported"));
 	    } catch (Exception e) {
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/ReportsBySpecialty(" + selectedSpecialty + ")_PDF.pdf"));
+	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while downloading " + filename));
 			LogManager.getLogger().info("Error in export ReportBySpecialty PDF: " + e);
 	    }
     }

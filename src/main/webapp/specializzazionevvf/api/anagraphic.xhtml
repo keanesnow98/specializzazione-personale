@@ -81,7 +81,7 @@
   			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
 	  			<p:panelGrid columns="3" columnClasses="ui-grid-col-2, ui-grid-col-6, ui-grid-col-4" layout="grid">
 	  				<p:column>
-	  					<p:graphicImage id="anagraphic-photo" value="#{imageBean.image}" cache="false" styleClass="anagraphic-image">
+	  					<p:graphicImage id="anagraphic-photo" value="#{imageBean.image}" styleClass="anagraphic-image">
 		            		<f:param id="photo-name" name="photo-name" value="#{anagraphicView.selectedAnagraphic.photo}" />
 		            	</p:graphicImage>
 		            	
@@ -342,14 +342,14 @@
 						        	<p:commandButton value="Salva" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3 dt-specialty-expirations" />
 					                </p:commandButton>
 					            </sec:authorize>
 					            <sec:authorize access="not hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
 					            	<p:commandButton value="Salva" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content dt-specialty-expirations" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3 dt-specialty-expirations" />
 					                </p:commandButton>
 					            </sec:authorize>
 			                </sec:authorize>
@@ -358,14 +358,14 @@
 						        	<p:commandButton value="Submit" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content delete-anagraphic-button" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3" />
 					                </p:commandButton>
 					            </sec:authorize>
 					            <sec:authorize access="not hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
 					            	<p:commandButton value="Salva" icon="pi pi-check" actionListener="#{anagraphicView.saveAnagraphic}"
 					                    update="manage-anagraphic-content" process="manage-anagraphic-content @this"
 					                    styleClass="ui-button ui-button-success">
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3" />
 					                </p:commandButton>
 					            </sec:authorize>
 			                </sec:authorize>
@@ -376,14 +376,14 @@
 					                <p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
 					                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
 					                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3 dt-specialty-expirations" />
 					                </p:commandButton>
 					            </sec:authorize>
 					            <sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 					            	<p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
 					                    update="manage-anagraphic-content dt-specialty-expirations delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
 					                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo dt-specialty-expirations" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3 dt-specialty-expirations" />
 					                </p:commandButton>
 					            </sec:authorize>
 				            </sec:authorize>
@@ -392,14 +392,14 @@
 					            	<p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
 					                    update="manage-anagraphic-content delete-anagraphic-button :form @this" styleClass="ui-button ui-button-primary">
 					                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3" />
 					                </p:commandButton>
 					            </sec:authorize>
 					            <sec:authorize access="not hasRole('ROLE_USER_ANAGRAPHICVVF_DELETE')">
 					            	<p:commandButton value="Reset" icon="pi pi-refresh" actionListener="#{anagraphicView.clearSelection}" immediate="true"
 					                    update="manage-anagraphic-content :form @this" styleClass="ui-button ui-button-primary">
 					                    <p:confirm header="Confirmation" message="Reset the input content?" icon="pi pi-exclamation-triangle" />
-					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo" />
+					                    <p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3" />
 					                </p:commandButton>
 					            </sec:authorize>
 				            </sec:authorize>
@@ -433,8 +433,8 @@
 							</span>
 							
 							<span>
-								<p:commandButton value="XLSX" icon="pi pi-file-excel" styleClass="ui-button ui-button-info" update=":form:messages" actionListener="#{anagraphicView.OnExportXlsxButtonClicked}" />
-								<p:commandButton value="PDF" icon="pi pi-file-pdf" styleClass="ui-button ui-button-info" update=":form:messages" actionListener="#{anagraphicView.OnExportPdfButtonClicked}" />
+								<p:commandButton value="XLSX" icon="pi pi-file-excel" styleClass="ui-button ui-button-info" update=":form:messages" actionListener="#{anagraphicView.OnExportXlsxButtonClicked}" ajax="false" />
+								<p:commandButton value="PDF" icon="pi pi-file-pdf" styleClass="ui-button ui-button-info" update=":form:messages" actionListener="#{anagraphicView.OnExportPdfButtonClicked}" ajax="false" />
 
 			                    <p:commandButton id="toggler" type="button" value="Colonne" icon="pi pi-align-justify"/>
 			                    <p:columnToggler datasource="dt-anagraphics" trigger="toggler">
@@ -448,7 +448,7 @@
 		            	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_SUBMIT')">
 		            		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 		            			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
-		            				<p:ajax event="rowSelect" listener="#{anagraphicView.OnAnagraphicSelect}" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations :inputs:anagraphic-photo2 :inputs:anagraphic-photo3" />
+		            				<p:ajax event="rowSelect" listener="#{anagraphicView.OnAnagraphicSelect}" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:anagraphic-photo2 :inputs:anagraphic-photo3 :inputs:manage-anagraphic-content :inputs:dt-specialty-expirations" />
 		            			</sec:authorize>
 		            			<sec:authorize access="not hasAnyRole('ROLE_ADMIN', 'ROLE_USER_SPECIALTY_VIEW')">
 		            				<p:ajax event="rowSelect" update=":inputs:delete-anagraphic-button :inputs:anagraphic-photo :inputs:anagraphic-photo2 :inputs:anagraphic-photo3 :inputs:manage-anagraphic-content" />
@@ -496,7 +496,7 @@
 		                <h:outputText value="#{anagraphic.note}" />
 		            </p:column>
 		            <p:column headerText="Foto" width="5%" exportable="false">
-		            	<p:graphicImage value="#{imageBean.image}" cache="false" styleClass="product-image">
+		            	<p:graphicImage value="#{imageBean.image}" styleClass="product-image">
 		            		<f:param id="photo-name" name="photo-name" value="#{anagraphic.photo}" />
 		            	</p:graphicImage>
 		            </p:column>
@@ -553,6 +553,12 @@
 		        	message="You must fill both specialty and achieved date field!" header="Require" severity="warn">
 		        	<p:commandButton value="OK" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"
 		        		onclick="PF('requireSpecialtyExpirationPopup').hide()" />
+		        </p:confirmDialog>
+		        
+		        <p:confirmDialog widgetVar="requireFiscalCodeChangePopup" showEffect="fade" width="300"
+		        	message="Your fiscal code is duplicated. Please, enter another one!" header="Require" severity="warn">
+		        	<p:commandButton value="OK" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"
+		        		onclick="PF('requireFiscalCodeChangePopup').hide()" />
 		        </p:confirmDialog>
 		
 		        <p:confirmDialog global="true" showEffect="fade" width="300">

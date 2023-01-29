@@ -21,4 +21,8 @@ public class Constants {
 	public static final String ROLE_USER_SPECIALTY_INSERT = "ROLE_USER_SPECIALTY_INSERT";
 	public static final String ROLE_USER_SPECIALTY_EDIT = "ROLE_USER_SPECIALTY_EDIT";
 	public static final String ROLE_USER_SPECIALTY_DELETE = "ROLE_USER_SPECIALTY_DELETE";
+	
+	// Content Types
+	public static final String CONTENT_TYPE_EXCEL = "application/vnd.ms-excel";
+	public static final String CONTENT_TYPE_PDF = "application/pdf";
 }

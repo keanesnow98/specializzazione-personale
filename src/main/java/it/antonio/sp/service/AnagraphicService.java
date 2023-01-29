@@ -1,6 +1,7 @@
 package it.antonio.sp.service;
 
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -396,7 +397,13 @@ public class AnagraphicService {
 				.defaultIfEmpty(new AnagraphicEntity());
 	}
 	
-	public void exportAnagraphicVVF(String reportFormat) throws FileNotFoundException, JRException {
+	public Mono<Boolean> hasFiscalCode(String fascalCode, ObjectId selfId) {
+		return anagraphicRepository
+				.findByFiscalCode(fascalCode).map(t -> {return !t.getId().equals(selfId);})
+				.defaultIfEmpty(false);
+	}
+	
+	public File exportAnagraphicVVF(String reportFormat) throws JRException, IOException {
 		ClassLoader cl = this.getClass().getClassLoader();
 		InputStream file = cl.getResourceAsStream("reports/anagraphicvvf.jrxml");
 
@@ -408,17 +415,24 @@ public class AnagraphicService {
 		Map<String, Object> parameters = new HashMap<>();
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 		
+		
 		if (reportFormat.equalsIgnoreCase("xlsx")) {
 			JRXlsxExporter exporter = new JRXlsxExporter();
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:/anagraficavvf_config/exports/AnagraphicVVF_XLSX.xlsx"));
+			File newFile = File.createTempFile("temp_", ".tmp");
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(newFile.getAbsolutePath()));
 			
 			exporter.exportReport();
-		} else if (reportFormat.equalsIgnoreCase("pdf"))
-			JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/anagraficavvf_config/exports/AnagraphicVVF_PDF.pdf");
+			return newFile;
+		} else if (reportFormat.equalsIgnoreCase("pdf")) {
+			File newFile = File.createTempFile("temp_", ".tmp");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, newFile.getAbsolutePath());
+			return newFile;
+		}
+		return null;
 	}
 	
-	public void exportReportsByTurno(String reportFormat) throws FileNotFoundException, JRException {
+	public File exportReportsByTurno(String reportFormat) throws JRException, IOException {
 		ClassLoader cl = this.getClass().getClassLoader();
 		InputStream file = cl.getResourceAsStream("reports/turnvvf.jrxml");
 		
@@ -432,15 +446,20 @@ public class AnagraphicService {
 		if (reportFormat.equalsIgnoreCase("xlsx")) {
 			JRXlsxExporter exporter = new JRXlsxExporter();
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:/anagraficavvf_config/exports/ReportsByTurno_XLSX.xlsx"));
+			File newFile = File.createTempFile("temp_", ".tmp");
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(newFile.getAbsolutePath()));
 			
 			exporter.exportReport();
-		} else if (reportFormat.equalsIgnoreCase("pdf"))
-			//JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());//send the pdfstream to the browser
-			JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/anagraficavvf_config/exports/ReportsByTurno_PDF.pdf");
+			return newFile;
+		} else if (reportFormat.equalsIgnoreCase("pdf")) {
+			File newFile = File.createTempFile("temp_", ".tmp");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, newFile.getAbsolutePath());
+			return newFile;
+		}
+		return null;
 	}
 	
-	public void exportReportsBySpecialty(String reportFormat, String specialty) throws FileNotFoundException, JRException {
+	public File exportReportsBySpecialty(String reportFormat, String specialty) throws JRException, IOException {
 		List<AnagraphicEntity> filteredResult = new ArrayList<>();
 		safeGetOrderedByTurno().forEach(result -> {
 			if (!result.getSpecialtyExpirations().stream().filter(t -> t.getSpecialty().equals(specialty)).collect(Collectors.toList()).isEmpty())
@@ -460,14 +479,20 @@ public class AnagraphicService {
 		if (reportFormat.equalsIgnoreCase("xlsx")) {
 			JRXlsxExporter exporter = new JRXlsxExporter();
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:/anagraficavvf_config/exports/ReportsBySpecialty(" + specialty + ")_XLSX.xlsx"));
+			File newFile = File.createTempFile("temp_", ".tmp");
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(newFile.getAbsolutePath()));
 			
 			exporter.exportReport();
-		} else if (reportFormat.equalsIgnoreCase("pdf"))
-			JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/anagraficavvf_config/exports/ReportsBySpecialty(" + specialty + ")_PDF.pdf");
+			return newFile;
+		} else if (reportFormat.equalsIgnoreCase("pdf")) {
+			File newFile = File.createTempFile("temp_", ".tmp");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, newFile.getAbsolutePath());
+			return newFile;
+		}
+		return null;
 	}
 	
-	public void exportReportsBySpecialtyExpired(String reportFormat) throws FileNotFoundException, JRException {
+	public File exportReportsBySpecialtyExpired(String reportFormat) throws JRException, IOException {
 		List<AnagraphicExport> exportResult = new ArrayList<>();
 		safeFindAllSpecialtyExpired().forEach(result -> {
 			result.getSpecialtyExpirations().forEach(t -> {
@@ -500,10 +525,16 @@ public class AnagraphicService {
 		if (reportFormat.equalsIgnoreCase("xlsx")) {
 			JRXlsxExporter exporter = new JRXlsxExporter();
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("C:/anagraficavvf_config/exports/ReportsBySpecialtyExpired_XLSX.xlsx"));
+			File newFile = File.createTempFile("temp_", ".tmp");
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(newFile.getAbsolutePath()));
 			
 			exporter.exportReport();
-		} else if (reportFormat.equalsIgnoreCase("pdf"))
-			JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/anagraficavvf_config/exports/ReportsBySpecialtyExpired_PDF.pdf");
+			return newFile;
+		} else if (reportFormat.equalsIgnoreCase("pdf")) {
+			File newFile = File.createTempFile("temp_", ".tmp");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, newFile.getAbsolutePath());
+			return newFile;
+		}
+		return null;
 	}
 }

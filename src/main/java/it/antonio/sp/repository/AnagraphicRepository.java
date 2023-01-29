@@ -5,6 +5,7 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
 import it.antonio.sp.entity.AnagraphicEntity;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface AnagraphicRepository extends ReactiveCrudRepository<AnagraphicEntity, ObjectId> {
 	Flux<AnagraphicEntity> findAllByDeletedOrderByLastName(Boolean deleted);
@@ -12,4 +13,5 @@ public interface AnagraphicRepository extends ReactiveCrudRepository<AnagraphicE
 	Flux<AnagraphicEntity> findAllByTurnoAndDeleted(String turno, Boolean deleted);
 	Flux<AnagraphicEntity> findAllByTurnoStartsWithAndDeleted(String turno, Boolean deleted);
 	Flux<AnagraphicEntity> findAllByContactEmail(String contactEmail);
+	Mono<AnagraphicEntity> findByFiscalCode(String fiscalCode);
 }

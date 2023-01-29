@@ -2,7 +2,11 @@ package it.antonio.sp.view;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +18,7 @@ import java.util.UUID;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
@@ -30,6 +35,8 @@ import it.antonio.sp.entity.AnagraphicEntity.SpecialtyExpiration;
 import it.antonio.sp.service.AnagraphicService;
 import it.antonio.sp.service.QualificationService;
 import it.antonio.sp.service.SpecialtyService;
+import it.antonio.sp.util.Constants;
+
 import org.apache.logging.log4j.LogManager;
 
 @ManagedBean
@@ -89,7 +96,8 @@ public class AnagraphicView {
 	
 	public List<String> getSpecialtyNames() {
 		List<String> hasSpecialtyNames = new ArrayList<>();
-		List<String> newSpecialtyNames = specialtyNames;
+		List<String> newSpecialtyNames = new ArrayList<>();
+		specialtyNames.forEach(t -> newSpecialtyNames.add(t));
 		List<SpecialtyExpiration> specialtyExpirations =  selectedAnagraphic.getSpecialtyExpirations();
 		specialtyExpirations.forEach(t -> hasSpecialtyNames.add(t.getSpecialty()));
 		newSpecialtyNames.removeAll(hasSpecialtyNames);
@@ -129,6 +137,10 @@ public class AnagraphicView {
 			PrimeFaces.current().executeScript("PF('requireSpecialtyExpirationPopup').show()");
 			return;
 		}
+		if (anagraphicService.hasFiscalCode(selectedAnagraphic.getFiscalCode(), selectedAnagraphic.getId()).block()) {
+			PrimeFaces.current().executeScript("PF('requireFiscalCodeChangePopup').show()");
+			return;
+		}
         if (selectedAnagraphic.getId() == null) {
         	anagraphics.add(selectedAnagraphic);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anagraphic Added"));
@@ -162,7 +174,7 @@ public class AnagraphicView {
         anagraphics = anagraphicService.findAll();
         selectedSpecialtyExpiration = null;
         clearImageFile();
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics", "inputs:anagraphic-photo");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics", "inputs:anagraphic-photo", "inputs:anagraphic-photo2", "inputs:anagraphic-photo3");
     }
 
     public void deleteAnagraphic() {
@@ -172,14 +184,14 @@ public class AnagraphicView {
 	        selectedAnagraphic = new AnagraphicEntity();
 	        selectedSpecialtyExpiration = null;
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Anagraphic Removed"));
-	        PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics", "inputs:anagraphic-photo");
+	        PrimeFaces.current().ajax().update("form:messages", "form:dt-anagraphics", "inputs:anagraphic-photo", "inputs:anagraphic-photo2", "inputs:anagraphic-photo3");
     	}
     }
     
     public void clearSelection() {
     	selectedAnagraphic = new AnagraphicEntity();
     	clearImageFile();
-    	PrimeFaces.current().ajax().update("inputs:anagraphic-photo");
+    	PrimeFaces.current().ajax().update("inputs:anagraphic-photo", "inputs:anagraphic-photo2", "inputs:anagraphic-photo3");
     }
     
     public void addNewSpecialtyExp() {
@@ -255,21 +267,75 @@ public class AnagraphicView {
     }
     
     public void OnExportXlsxButtonClicked() {
+    	final String filename = "AnagraphicVVF_XLSX.xlsx";
+    	
     	try {
-    		anagraphicService.exportAnagraphicVVF("xlsx");
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "AnagraphicVVF_XLSX.xlsx exported to C:/anagraficavvf_config/exports"));
+    		File file = anagraphicService.exportAnagraphicVVF("xlsx");
+    		
+    		FacesContext facesContext = FacesContext.getCurrentInstance();
+    	    ExternalContext ec = facesContext.getExternalContext();
+
+    	    ec.responseReset();
+    	    ec.setResponseContentType(Constants.CONTENT_TYPE_EXCEL);
+    	    ec.setResponseContentLength((int) file.length());
+    	    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+
+    	    OutputStream responseOutputStream = ec.getResponseOutputStream();
+    	    
+    	    InputStream fileInputStream = new FileInputStream(file);
+    	    
+    	    byte[] bytesBuffer = new byte[2048];
+    	    int bytesRead;
+    	    while ((bytesRead = fileInputStream.read(bytesBuffer)) > 0)
+    	        responseOutputStream.write(bytesBuffer, 0, bytesRead);
+
+    	    responseOutputStream.flush();
+
+    	    fileInputStream.close();
+    	    responseOutputStream.close();
+
+    	    facesContext.responseComplete();
+    	    
+    	    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", filename + " exported"));
     	} catch (Exception e) {
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/AnagraphicVVF_XLSX.xlsx"));
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while downloading " + filename));
     		LogManager.getLogger().error("Error in print .XLSX file for anagraphic VVF: " + e);
     	}
     }
     
     public void OnExportPdfButtonClicked() {
+    	final String filename = "AnagraphicVVF_PDF.pdf";
+    	
     	try {
-	    	anagraphicService.exportAnagraphicVVF("pdf");
-	    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "AnagraphicVVF_PDF.pdf exported to C:/anagraficavvf_config/exports"));
+    		File file = anagraphicService.exportAnagraphicVVF("pdf");
+    		
+    		FacesContext facesContext = FacesContext.getCurrentInstance();
+    	    ExternalContext ec = facesContext.getExternalContext();
+
+    	    ec.responseReset();
+    	    ec.setResponseContentType(Constants.CONTENT_TYPE_PDF);
+    	    ec.setResponseContentLength((int) file.length());
+    	    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+
+    	    OutputStream responseOutputStream = ec.getResponseOutputStream();
+    	    
+    	    InputStream fileInputStream = new FileInputStream(file);
+    	    
+    	    byte[] bytesBuffer = new byte[2048];
+    	    int bytesRead;
+    	    while ((bytesRead = fileInputStream.read(bytesBuffer)) > 0)
+    	        responseOutputStream.write(bytesBuffer, 0, bytesRead);
+
+    	    responseOutputStream.flush();
+
+    	    fileInputStream.close();
+    	    responseOutputStream.close();
+
+    	    facesContext.responseComplete();
+    	    
+    	    facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", filename + " exported"));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while saving C:/anagraficavvf_config/exports/AnagraphicVVF_PDF.pdf"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failure", "Error while downloading " + filename));
     		LogManager.getLogger().error("Error in print .PDF file for anagraphic VVF: " + e);
 		}
     }
