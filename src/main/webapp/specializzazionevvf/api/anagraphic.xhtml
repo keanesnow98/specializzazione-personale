@@ -406,9 +406,10 @@
 		                </sec:authorize>
 		                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 			                <p:commandButton id="delete-anagraphic-button" value="Cancella" icon="pi pi-trash"
-			                	actionListener="#{anagraphicView.deleteAnagraphic}" update="@this" immediate="true"
+			                	actionListener="#{anagraphicView.deleteAnagraphic}" update="manage-anagraphic-content dt-specialty-expirations :form @this" immediate="true"
 			                	disabled="#{anagraphicView.selectedAnagraphic.id eq null}" styleClass="ui-button ui-button-danger">
 			                	<p:confirm header="Confirmation" message="Delete the selected anagraphic?" icon="pi pi-exclamation-triangle" />
+			                	<p:resetInput target="manage-anagraphic-content anagraphic-photo anagraphic-photo2 anagraphic-photo3 dt-specialty-expirations" />
 			                </p:commandButton>
 		                </sec:authorize>
 		            </p:toolbarGroup>
