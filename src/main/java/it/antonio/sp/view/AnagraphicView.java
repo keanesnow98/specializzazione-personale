@@ -179,7 +179,7 @@ public class AnagraphicView {
 
     public void deleteAnagraphic() {
     	if (selectedAnagraphic.getId() != null) {
-	        anagraphics.remove(selectedAnagraphic);
+	        anagraphics.removeIf(t -> t.getId().equals(selectedAnagraphic.getId()));
 	        anagraphicService.deleteAnagraphic(selectedAnagraphic);
 	        selectedAnagraphic = new AnagraphicEntity();
 	        selectedSpecialtyExpiration = null;
