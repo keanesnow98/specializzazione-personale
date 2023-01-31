@@ -504,7 +504,7 @@
 		            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER_ANAGRAPHICVVF_DELETE')">
 			            <p:column width="5%" exportable="false">
 			                <p:commandButton styleClass="ui-button-warning rounded-button" icon="pi pi-trash" update=":inputs :form @this"
-			                                 process="@this" oncomplete="PF('deleteAnagraphicDialog').show()">
+			                                 immediate="true" oncomplete="PF('deleteAnagraphicDialog').show()">
 			                    <f:setPropertyActionListener value="#{anagraphic}" target="#{anagraphicView.selectedAnagraphic}" />
 			                    <p:resetInput target=":inputs" />
 			                </p:commandButton>
@@ -538,7 +538,7 @@
 		        <p:confirmDialog widgetVar="deleteAnagraphicDialog" showEffect="fade" width="300"
 		            message="Delete the anagraphic?" header="Confirm" severity="warn">
 		            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{anagraphicView.deleteAnagraphic}"
-		                process="@this" oncomplete="PF('deleteAnagraphicDialog').hide()" />
+		                process="@this" oncomplete="PF('deleteAnagraphicDialog').hide()" update=":inputs @this" />
 		            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
 		                onclick="PF('deleteAnagraphicDialog').hide()" />
 		        </p:confirmDialog>
