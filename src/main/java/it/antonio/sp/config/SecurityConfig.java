@@ -63,7 +63,7 @@ public class SecurityConfig {
 				.antMatchers("/specializzazionevvf/api/anagraphic.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_ANAGRAPHICVVF_VIEW)
 				.antMatchers("/specializzazionevvf/api/reports-by-turno.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_REPORTS_BY_TURNO_ALL)
 				.antMatchers("/specializzazionevvf/api/reports-by-specialty.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_REPORTS_BY_SPECIALTY_ALL)
-				.antMatchers("/specializzazionevvf/api/reports-by-detail.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_REPORTS_BY_EXPIRED_SPECIALTY_ALL)
+				.antMatchers("/specializzazionevvf/api/reports-by-expired-specialty.xhtml").hasAnyAuthority(Constants.ROLE_ADMIN, Constants.ROLE_USER_REPORTS_BY_EXPIRED_SPECIALTY_ALL)
 				.anyRequest().authenticated()
 				.and()
 				.formLogin()
